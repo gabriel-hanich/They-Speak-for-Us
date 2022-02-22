@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx ts-node-dev --respawn src/app.ts",
-    "dev": "npx nodemon --exec ts-node src/app.ts",
+    "start": "npx ts-node-dev --respawn src/scraper.ts",
+    "upload": "npx nodemon --exec ts-node src/uploader.ts",
     "build": "tsc"
   },
   "keywords": [],
