@@ -6,30 +6,13 @@ import path, { resolve } from "path";
 import dotenv from "dotenv";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
+// Local interfaces
+import { article, mediaOutlet } from "../@types/media";
+
+
 // Constants
 const dataVersion: number = 2;
 dotenv.config({path: path.resolve(__dirname, '../.env')});
-
-interface article{
-  outletName: string
-  headline:string,
-  description: string,
-  author: string,
-  publishDate: Date,
-  isLegacy: boolean,
-  sentimentScore: number,
-  // Modern article data points below, legacy and modern data points above
-  linkToArticle?: string,
-  imageURL?: string
-  catergories?: string[],
-}
-
-
-interface mediaOutlet{
-  name: string,
-  rssLink:string,
-  articleList: article[]
-}
 
 
 const getOutletList = async (): Promise<mediaOutlet[]> => { // Gets list containing all media outlets present in the 'Media Outlets.csv' File
@@ -96,7 +79,7 @@ const getArticles = async (outletName:string): Promise<article[]> => { // Get al
         articleCount += 1;
       }
     }
-    console.log(`Began uploading ${articleCount} articles`)
+    console.log(`Began uploading ${articleCount} articles`);
   })
 })();
 
