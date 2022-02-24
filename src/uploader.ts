@@ -68,8 +68,8 @@ const getArticles = async (outletName:string): Promise<article[]> => { // Get al
   // Upload data to db
   console.log("CONNECTING TO DATABASE");
   dbClient.connect(err =>{
-    const articleCollection = dbClient.db("test").collection("newsData");
-    const outletCollection = dbClient.db("test").collection("outletsList");
+    const articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData");
+    const outletCollection = dbClient.db(process.env.DB_NAME as string).collection("outletsList");
     var articleCount: number = 0; // Track how many articles are uploaded
     for(var i:number=0; i<outletList.length; i++){
       console.log(`Starting ${i + 1} of ${outletList.length}`)

@@ -2,9 +2,9 @@ outletName,RSSLink
 ABC News,https://www.abc.net.au/news/feed/51120/rss.xml
 9 News,https://www.9news.com.au/rss
 Syndey Morning Herald,https://www.smh.com.au/rss/feed.xml
-The Australian,https://www.theaustralian.com.au/feed/
+South China Morning Post,https://www.scmp.com/rss/91/feed,
 News.com.au,https://www.news.com.au/content-feeds/latest-news-world/
-SBS Australia,https://www.sbs.com.au/news/feed
+Crikey,https://www.crikey.com.au/feed/
 Independent Australia,http://feeds.feedburner.com/IndependentAustralia
 Daily Telegraph,https://www.dailytelegraph.com.au/feed
 The Age,https://www.theage.com.au/rss/feed.xml
@@ -25,3 +25,7 @@ BuzzFeed,https://www.buzzfeed.com/au/index.xml
 Amercian ABC,https://abcnews.go.com/abcnews/topstories
 The Economist,https://www.economist.com/the-world-this-week/rss.xml
 Sky News,https://feeds.skynews.com/feeds/rss/world.xml
+CBS News,https://www.cbsnews.com/latest/rss/main
+Alja Zeera,https://www.aljazeera.com/xml/rss/all.xml
+USA Today,http://rssfeeds.usatoday.com/usatoday-NewsTopStories
+Herald Sun,https://www.heraldsun.com.au/rss
