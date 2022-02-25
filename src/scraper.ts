@@ -8,6 +8,7 @@ import { article, mediaOutlet } from "../@types/media";
 
 dotenv.config({ path: path.resolve(__dirname, "../.env")});
 
+
 type CustomFeed = {foo: string};
 type CustomItem = {bar: number};
 
