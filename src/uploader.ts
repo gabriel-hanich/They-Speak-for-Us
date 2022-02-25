@@ -21,7 +21,7 @@ const getOutletList = async (): Promise<mediaOutlet[]> => { // Gets list contain
     fs.createReadStream(path.resolve(__dirname, `../data/${dataVersion}/Media Outlets.csv`))
     .pipe(CsvParser())
     .on('data', function(data){
-        outletList.push({name: data.outletName, rssLink: data.RSSLink, articleList: []}); // Add each line to the array 
+        outletList.push({name: data.outletName, rssLink: data.RSSLink, articleList: [], existingArticleList: []}); // Add each line to the array 
     })
     .on('end',function(){
         resolve(outletList);
@@ -67,7 +67,7 @@ const getArticles = async (outletName:string): Promise<article[]> => { // Get al
   }
   // Upload data to db
   console.log("CONNECTING TO DATABASE");
-  dbClient.connect(err =>{
+  dbClient.connect(async err =>{
     const articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData");
     const outletCollection = dbClient.db(process.env.DB_NAME as string).collection("outletsList");
     var articleCount: number = 0; // Track how many articles are uploaded
@@ -75,11 +75,12 @@ const getArticles = async (outletName:string): Promise<article[]> => { // Get al
       console.log(`Starting ${i + 1} of ${outletList.length}`)
       outletCollection.insertOne({"outletName": outletList[i]["name"], "rssLink": outletList[i]["rssLink"]})
       for(var aI: number = 0; aI<outletList[i]["articleList"].length; aI++){
-        var a = articleCollection.insertOne(outletList[i]["articleList"][aI])
+        var a = await articleCollection.insertOne(outletList[i]["articleList"][aI])
         articleCount += 1;
       }
     }
-    console.log(`Began uploading ${articleCount} articles`);
+    console.log(`Uploaded ${articleCount} articles`);
   })
+  console.log("FINISHED UPLOADING")
 })();
 
