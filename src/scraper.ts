@@ -1,23 +1,25 @@
 /// <reference path="../@types/vader-sentiment.d.ts" />
-import vaderSentiment from "vader-sentiment";
+import * as vaderSentiment from "vader-sentiment";
 import Parser from 'rss-parser';
 import { MongoClient, ServerApiVersion } from "mongodb";
-import path, { resolve } from 'path';
-import dotenv from "dotenv";
-
+import * as path from 'path';
+import * as dotenv from "dotenv";
+import * as fs from "fs";
 
 // Local interfaces
-import { article, mediaOutlet, rssReply, existingArticle } from "../@types/media";
+import { article, mediaOutlet, rssReply } from "../@types/media";
+
 
 dotenv.config({ path: path.resolve(__dirname, "../.env")});
 
 type CustomFeed = {foo: string};
 
-const rssParser: Parser<CustomFeed, rssReply> = new Parser();
-const dbClient = new MongoClient(process.env.DB_URI as string);
+
+const rssParser: Parser<CustomFeed, rssReply> = new Parser(); // Used to get rss feed data
+const dbClient = new MongoClient(process.env.DB_URI as string); // Used to connect to database
 
 (async () => {
-    // Get list off outlets to search
+    // Get list of outlets to search
     const outletList: mediaOutlet[] = await dbClient.connect().then(async response=>{
       var outletCollection = dbClient.db(process.env.DB_NAME as string).collection("outletsList");
       var articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData")
@@ -33,55 +35,21 @@ const dbClient = new MongoClient(process.env.DB_URI as string);
       await outletAggregate.forEach((obj)=>{
         innerOutletList.push({"name": obj.outletName as string,
                         "rssLink": obj.RSSLink as string,
-                        "articleList": [],
-                        "existingArticleList": []});
+                        "articleList": []});
       });
-      /*
-      Using Articles found above, find all the articles
-      published between x days ago and now, to make sure 
-      the same article isn't written multiple times
-      */
-      var oldDate: Date = new Date();
-      oldDate.setDate(oldDate.getDate() - (process.env.SCAN_BACK_DAYS as unknown as number));
-      // TODO Delete line below
-      oldDate = new Date("01 Jan 1970 00:00:00 GMT")
-      for(var i:number = 0; i<innerOutletList.length; i++){
-        var thisArticleAggregate = await articleCollection.aggregate([
-          {
-            '$match': {
-              'outletName': innerOutletList[i]["name"], 
-              'publishDate': {
-                '$gte': oldDate
-              }
-            }
-          }, {
-            '$project': {
-              'headline': 1,
-              'author': 1
-            }
-          }
-        ]);
-        await thisArticleAggregate.forEach((art)=>{
-          innerOutletList[i]["existingArticleList"]?.push({
-            headline: art.headline as string,
-            author: art.author as string
-          })
-        });
-      }
-
       dbClient.close();
       return innerOutletList
     });
     console.log("DONE")
     
-    // Iterate through each media outlet and get current article data
+    // Iterate through each media outlet and get current article data from rss feed
     var aCount: number = 0;
     for(var i:number=0; i<outletList.length; i++){
       console.log(`${i+1}/${outletList.length}`)
       var thisArticleList = await rssParser.parseURL(outletList[i].rssLink);
       thisArticleList.items.forEach(rs =>{
         aCount += 1;
-        var thisScore: number = vaderSentiment.SentimentIntensityAnalyzer.polarity_scores(rs.title)["compound"];
+        var thisScore: number = vaderSentiment.SentimentIntensityAnalyzer.polarity_scores(rs.title)["compound"]; // Generate sentiment score
         outletList[i]["articleList"].push({
           "outletName": outletList[i]["name"],
           "headline": rs.title,
@@ -96,26 +64,28 @@ const dbClient = new MongoClient(process.env.DB_URI as string);
       });
     };
     console.log(`Total articles counted = ${aCount}`)
+    console.log("Beginning to upload articles")
     
-  
     /*
     And finally, upload the unique articles to MongoDB
     */
   var uploadCount:number = 0; 
-  dbClient.connect().then(async response =>{
+  await dbClient.connect().then(async response =>{
     const articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData");
     for(var i:number = 0; i<outletList.length; i++){
       for(var k:number = 0; k<outletList[i]["articleList"].length; k++){
-        var a = await articleCollection.find({outletName: { $exists: true, $eq: outletList[i]["name"] }, headline:{ $exists: true, $eq: outletList[i]["articleList"][k]["headline"]}});
-        if ((await a.toArray()).length == 0){
-          await articleCollection.insertOne(outletList[i]["articleList"][k]);
+        var articleObj = await articleCollection.find({outletName: { $exists: true, $eq: outletList[i]["name"] }, headline:{ $exists: true, $eq: outletList[i]["articleList"][k]["headline"]}});
+        var articleArray = await articleObj.toArray()
+        if (articleArray.length == 0){ // Check to see if any articles exists with the same headline and outlet
+          await articleCollection.insertOne(outletList[i]["articleList"][k]); // If article is unique, upload it to the db
           uploadCount += 1
         }
       }
     }
-  
+    console.log(`Finished Uploading ${uploadCount} articles, have a great day`)
   });
-  
 
-  console.log(`Finished Uploading ${uploadCount} articles, have a great day`)
+  // Write date to a runlog file
+  var file = await fs.appendFileSync("runlog.txt", `${new Date().toISOString()} articles written to DB = ${uploadCount}, total articles found = ${aCount}\n`, "utf8");
+  console.log("Written to file")
 })();

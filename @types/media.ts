@@ -12,17 +12,10 @@ export interface article{ // Article object
     catergories?: string[]
 }
 
-export interface existingArticle{
-    headline: string,
-    author: string
-}
-
-
 export interface mediaOutlet{
     name: string,
     rssLink:string,
-    articleList: article[],
-    existingArticleList : existingArticle[];
+    articleList: article[]
 }
 
 export interface rssReply{
