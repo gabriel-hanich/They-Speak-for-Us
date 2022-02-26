@@ -43,7 +43,7 @@ var mongodb_1 = require("mongodb");
 var path = require("path");
 var dotenv = require("dotenv");
 var fs = require("fs");
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+dotenv.config({ path: path.resolve(__dirname, "../settings.env") });
 var rssParser = new Parser(); // Used to get rss feed data
 var dbClient = new mongodb_1.MongoClient(process.env.DB_URI); // Used to connect to database
 (function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -160,6 +160,7 @@ var dbClient = new mongodb_1.MongoClient(process.env.DB_URI); // Used to connect
             case 7:
                 file = _a.sent();
                 console.log("Written to file");
+                process.exit();
                 return [2 /*return*/];
         }
     });

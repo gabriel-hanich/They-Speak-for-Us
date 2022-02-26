@@ -12,7 +12,7 @@ import { article, mediaOutlet } from "../@types/media";
 
 // Constants
 const dataVersion: number = 2;
-dotenv.config({path: path.resolve(__dirname, '../.env')});
+dotenv.config({path: path.resolve(__dirname, '../settings.env')});
 
 
 const getOutletList = async (): Promise<mediaOutlet[]> => { // Gets list containing all media outlets present in the 'Media Outlets.csv' File
@@ -82,5 +82,6 @@ const getArticles = async (outletName:string): Promise<article[]> => { // Get al
     console.log(`Uploaded ${articleCount} articles`);
   });
   console.log("FINISHED UPLOADING");
+  process.exit();
 })();
 

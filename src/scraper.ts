@@ -10,7 +10,7 @@ import * as fs from "fs";
 import { article, mediaOutlet, rssReply } from "../@types/media";
 
 
-dotenv.config({ path: path.resolve(__dirname, "../.env")});
+dotenv.config({ path: path.resolve(__dirname, "../settings.env")});
 
 type CustomFeed = {foo: string};
 
@@ -87,5 +87,6 @@ const dbClient = new MongoClient(process.env.DB_URI as string); // Used to conne
 
   // Write date to a runlog file
   var file = await fs.appendFileSync("runlog.txt", `${new Date().toISOString()} articles written to DB = ${uploadCount}, total articles found = ${aCount}\n`, "utf8");
-  console.log("Written to file")
+  console.log("Written to file");
+  process.exit();
 })();
