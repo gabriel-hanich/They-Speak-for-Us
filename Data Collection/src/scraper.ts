@@ -1,3 +1,9 @@
+/*
+Reads RSS Data for each outlet present in the data base,
+then uploads unique outlet to the DBE
+*/
+
+
 /// <reference path="../@types/vader-sentiment.d.ts" />
 import * as vaderSentiment from "vader-sentiment";
 import Parser from 'rss-parser';
@@ -22,7 +28,7 @@ const dbClient = new MongoClient(process.env.DB_URI as string); // Used to conne
     // Get list of outlets to search
     const outletList: mediaOutlet[] = await dbClient.connect().then(async response=>{
       var outletCollection = dbClient.db(process.env.DB_NAME as string).collection("outletsList");
-      var articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData")
+      var articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData");
       const innerOutletList: mediaOutlet[] = [];
       const outletAggregate = await outletCollection.aggregate([
         {
@@ -31,7 +37,7 @@ const dbClient = new MongoClient(process.env.DB_URI as string); // Used to conne
             'RSSLink': 1
           }
         }
-      ])
+      ]);
       await outletAggregate.forEach((obj)=>{
         innerOutletList.push({"name": obj.outletName as string,
                         "rssLink": obj.RSSLink as string,
@@ -63,8 +69,8 @@ const dbClient = new MongoClient(process.env.DB_URI as string); // Used to conne
         });
       });
     };
-    console.log(`Total articles counted = ${aCount}`)
-    console.log("Beginning to upload articles")
+    console.log(`Total articles counted = ${aCount}`);
+    console.log("Beginning to upload articles");
     
     /*
     And finally, upload the unique articles to MongoDB
@@ -74,8 +80,11 @@ const dbClient = new MongoClient(process.env.DB_URI as string); // Used to conne
     const articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData");
     for(var i:number = 0; i<outletList.length; i++){
       for(var k:number = 0; k<outletList[i]["articleList"].length; k++){
-        var articleObj = await articleCollection.find({outletName: { $exists: true, $eq: outletList[i]["name"] }, headline:{ $exists: true, $eq: outletList[i]["articleList"][k]["headline"]}});
-        var articleArray = await articleObj.toArray()
+        // Get a ny articles that have the same healine and publisher
+        var articleObj = await articleCollection.find({
+          outletName: { $exists: true, $eq: outletList[i]["name"] },
+          headline:{ $exists: true, $eq: outletList[i]["articleList"][k]["headline"]}});
+        var articleArray = await articleObj.toArray();
         if (articleArray.length == 0){ // Check to see if any articles exists with the same headline and outlet
           await articleCollection.insertOne(outletList[i]["articleList"][k]); // If article is unique, upload it to the db
           uploadCount += 1

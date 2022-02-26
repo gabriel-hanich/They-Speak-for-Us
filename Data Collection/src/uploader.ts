@@ -1,3 +1,9 @@
+/*
+Reads CSV data present in the 'data' folder and uploads to DB
+DOES NOT CHECK FOR DUPLICATES
+'Modernises' existing data
+*/
+
 /// <reference path="../@types/vader-sentiment.d.ts" />
 import vaderSentiment from "vader-sentiment";
 import fs from "fs";
@@ -11,7 +17,7 @@ import { article, mediaOutlet } from "../@types/media";
 
 
 // Constants
-const dataVersion: number = 2;
+const dataVersion: number = 3;
 dotenv.config({path: path.resolve(__dirname, '../settings.env')});
 
 
@@ -62,8 +68,8 @@ const getArticles = async (outletName:string): Promise<article[]> => { // Get al
   const outletList: mediaOutlet[] = await getOutletList();
   // Get array with each article for each outlet
   for(var i:number=0; i<outletList.length; i++){
-    outletList[i]["articleList"] = await getArticles(outletList[i]["name"])
-    console.log(`${i+ 1}/${outletList.length}`)
+    outletList[i]["articleList"] = await getArticles(outletList[i]["name"]);
+    console.log(`${i+ 1}/${outletList.length}`); // Used as a loading 'bar' to show read progress
   }
   // Upload data to db
   console.log("CONNECTING TO DATABASE");
@@ -72,10 +78,10 @@ const getArticles = async (outletName:string): Promise<article[]> => { // Get al
     const articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData");
     const outletCollection = dbClient.db(process.env.DB_NAME as string).collection("outletsList");
     for(var i:number=0; i<outletList.length; i++){
-      console.log(`Starting ${i + 1} of ${outletList.length}`)
-      await outletCollection.insertOne({"outletName": outletList[i]["name"], "rssLink": outletList[i]["rssLink"]})
+      console.log(`Starting ${i + 1} of ${outletList.length}`);
+      await outletCollection.insertOne({"outletName": outletList[i]["name"], "rssLink": outletList[i]["rssLink"]});
       for(var aI: number = 0; aI<outletList[i]["articleList"].length; aI++){
-        var a = await articleCollection.insertOne(outletList[i]["articleList"][aI])
+        var a = await articleCollection.insertOne(outletList[i]["articleList"][aI]); // Upload article
         articleCount += 1;
       }
     }
