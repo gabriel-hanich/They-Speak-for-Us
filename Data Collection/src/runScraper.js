@@ -42,7 +42,6 @@ then uploads unique outlet to the DB
 /// <reference path="../@types/vader-sentiment.d.ts" />
 const vaderSentiment = __importStar(require("vader-sentiment"));
 const rss_parser_1 = __importDefault(require("rss-parser"));
-const cron_1 = __importDefault(require("cron"));
 const mongodb_1 = require("mongodb");
 const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
@@ -125,10 +124,4 @@ function getWriteData() {
         console.log("Written to file");
     });
 }
-// Get code to r
-var job = new cron_1.default.CronJob('0 6,18 * * *', function () {
-    console.log("STARTING RUNNING");
-    getWriteData();
-}, null, true, 'Australia/Sydney');
-console.log("CRONJOB INIT DONE");
-job.start();
+getWriteData();
