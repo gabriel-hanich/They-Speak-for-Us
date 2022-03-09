@@ -1,5 +1,5 @@
 """
-Nukes specific field givenm by field variable
+Nukes specific field given by field variable
 """
 
 import json
