@@ -18,7 +18,16 @@ class Outlet:
             self.dayDict[date] = [article]
 
     def setVals(self, xVals, yVals, zVals):
-        self.xVals, self.yVals, self.zVals = xVals, yVals, zVals
+        self.xVals.append(xVals)
+        self.yVals.append(yVals)
+        self.zVals.append(zVals)
+    
+    def resetVals(self):
+        self.xVals = []
+        self.yVals = []
+        self.zVals = []
+
+    
 
 
 
