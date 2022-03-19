@@ -1,0 +1,128 @@
+*{
+    transition: all 0.75s ease;
+}
+
+.search{
+    position: fixed;
+    width: 100%;
+    z-index: 4;
+
+    top: 0px;
+    left: 0px;
+
+    display: flex;
+    flex-direction: row;
+
+    background-color: #c9cad9;
+
+}
+
+.large-container{
+    height: 10%;
+}
+.small-container{
+    height: 5%;
+
+    *{
+        margin-top: 0px;
+        .logo{
+            &-text{
+                font-size: 2.5rem;
+                
+            }
+        }
+        .form{
+            &-input, &-btn{
+                height: 30px;
+                font-size: 1rem;
+                margin-top: 2%;
+            }
+        }
+    }
+}
+
+.logo{
+    &-container{
+        width: fit-content;
+        height: 100%;
+        margin-top: 0px;
+    }
+    
+    &-text{
+        margin-top: 5%;
+        margin-left: 10px;
+
+        text-align: center;
+        font-size: 3rem;
+        font-weight: 400;
+
+        cursor: pointer;
+
+
+        background: #8E2DE2;
+        background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);
+        background: linear-gradient(to right, #4A00E0, #8E2DE2);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+.form{
+    margin-top: 5%;    
+    &-container{
+        width: fit-content;
+        height: 100%;
+        margin-left: 30px;
+    }
+
+    &-input{
+        margin-top: 0px;
+        height: 50px;
+        width: 300px;
+
+        font-size: 1rem;
+        border-radius: 15px;
+
+        background-color: #A3BCF9;
+        border: none;
+    }
+
+    &-btn{
+        margin-left: 30px;
+        height: 40px;
+        width: 100px;
+        background-color: #80ffdb;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        &:hover{
+            box-shadow: #A3BCF9 10px 10px 5px;
+            transform: translate(-5px, -5px);
+
+        }
+    }
+}
+
+
+@media screen and (max-width: 885px){
+    .logo{
+        &-text{
+            font-size: 1.25rem;
+            margin-top: 10%;
+        }
+    }
+
+    .form{
+        &-container{
+            margin: 0px;
+        }
+        &-input{
+            width: 35%;
+            margin: 0px;
+        }
+        &-button{
+            width: 30px;
+        }
+    }
+}
