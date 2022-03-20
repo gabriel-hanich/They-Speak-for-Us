@@ -1,6 +1,126 @@
 .home{
     position: absolute;
     top: 10%;
-    width: 90%;
-    height: 1500px;
+    width: 100%;
+    height: 90%;
+    
 }
+
+.heading{
+    &-container{
+        width: fit-content;
+        text-align: center;
+        margin: auto;
+        margin-top: 25px;
+    }
+
+    &-text{
+        animation:scale-in-center 2s cubic-bezier(.25,.46,.45,.94) both;
+        text-align: center;
+        
+        font-size: 6rem;
+        letter-spacing: 2px;
+
+        background: #8E2DE2;
+        background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);
+        background: linear-gradient(to right, #4A00E0, #8E2DE2);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        
+        transition: all 0.75s ease;
+        box-shadow: #A3BCF9 10px 10px 5px;
+
+    }
+}
+
+.explore{
+    &-container{
+        width: 70%;
+        height: 7%;
+
+        margin: auto;
+        margin-top: 75px;
+
+        display: flex;
+        flex-direction: row;
+        vertical-align: super;
+
+        background-color: #4361ee;
+        border-radius: 45px;
+        //border: 1px red solid;
+    }
+    &-text{
+        font-size: 1.5rem;
+        margin-top: 15%;
+        color: #001845;
+        
+        &-container{
+            margin-right: 1%;
+            margin-left: 1%;
+        }
+    }
+
+    &-categories{
+        &-container{
+            height: 50%;
+            width: 18%;
+            margin-top: 0.99%;
+            background-color: #6a82ee;
+            
+            padding: 5px;
+            display: flex;
+            flex-direction: row;
+            
+        }
+        
+        &-dropdown{
+            height: 100%;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            overflow: hidden;
+            scroll-padding-block: none;
+            transition: all 0.75s ease;
+
+
+            &:hover{
+                cursor: pointer;
+                height: 400%;
+    
+            }
+        }
+        &-list{
+            list-style: none;
+            margin-left: 0px;
+        }
+
+
+        &-category{
+            &-text{
+                background-color: #A3BCF9;
+                width: 90%;
+                height: fit-content;
+                padding-bottom: 7px;
+                text-align: center;
+                transition: all 0.75s ease;
+
+                font-size: 1rem;
+                padding-top: 3%;
+                
+                &:hover{
+                    cursor: pointer;
+                    background-color: #bccdf8;
+    
+                }
+            }
+
+        }
+    }
+}
+
+
+
+
+@keyframes scale-in-center{0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:1}}

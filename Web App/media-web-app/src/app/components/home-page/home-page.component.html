@@ -1,3 +1,22 @@
 <div class="home">
-    <p>Home works</p>
+    <div class="heading-container">
+        <h1 class="heading-text">{{ displayArticleCount | number}}<br>Articles<br>Analysed</h1>
+    </div>
+
+    <div class="explore-container">
+        <div class="explore-text-container">
+            <h2 class="explore-text">Explore</h2>
+        </div>
+        <div class="explore-categories-container">
+            <div class="explore-categories-dropdown">
+                <ol class="explore-categories-list" *ngFor="let category of categoriesList">
+                    <li class="explore-categories-category-text">{{ category }}</li>
+                </ol>
+                <!-- <div class="explore-categories-category" *ngFor="let category of categoriesList">
+                    <p >{{ category }}</p>
+                </div> -->
+            </div>
+            <mat-icon>arrow_drop_down</mat-icon>
+        </div>
+    </div>
 </div>
