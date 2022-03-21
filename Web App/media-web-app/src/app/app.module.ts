@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ConnectionErrorScreenComponent } from './components/connection-error-screen/connection-error-screen.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     AppComponent,
     SearchBarComponent,
     HomePageComponent,
-    ExploreBarComponent
+    ExploreBarComponent,
+    ConnectionErrorScreenComponent
   ],
   imports: [
     BrowserModule,

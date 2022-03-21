@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GetDbDataService } from 'src/app/services/get-db-data.service';
 
@@ -14,11 +15,12 @@ export class HomePageComponent implements OnInit {
   public displayArticleCount: number;
 
 
-  constructor(private getDBData: GetDbDataService) { }
+  constructor(private getDBData: GetDbDataService,
+              private route: Router) { }
 
   async ngOnInit(): Promise<void> {
     this.articleSub = this.getDBData.getArticleCount().subscribe(async (res: string)=>{
-      this.articleCount = parseInt(res)
+      this.articleCount = parseInt(res);
 
       this.displayArticleCount = 0
       // Count up the number of articles
@@ -29,6 +31,8 @@ export class HomePageComponent implements OnInit {
           break
         }
       }
+    }, (error)=>{
+      this.route.navigate(["connection_error"])
     });
 
   }

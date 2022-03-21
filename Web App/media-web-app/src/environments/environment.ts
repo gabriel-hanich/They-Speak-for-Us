@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  backEndURL: "http://localhost:3000",
   categories: ["Average Sentiment", "Article Count"]
 };
 
