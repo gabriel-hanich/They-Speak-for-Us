@@ -1,0 +1,68 @@
+.explore{
+    &-container{
+        z-index: 2;
+        //animation:slide-in-elliptic-top-fwd 1s 2s both;
+        width: 45%;
+        height: 7%;
+
+        margin: auto;
+        margin-top: 75px;
+
+        display: flex;
+        flex-direction: row;
+        vertical-align: super;
+
+        background-color: #4361ee;
+        border-radius: 45px;
+    }
+    &-text{
+        font-size: 1.5rem;
+        margin-top: 15%;
+        color: #001845;
+        
+        &-container{
+            margin-right: 1%;
+            margin-left: 2%;
+        }
+    }
+
+    &-date{
+        &-container{
+            width: 20%;
+        }
+        &-field{
+            width: 100%;
+        }
+    }
+
+    &-go{
+        &-container{
+            margin-left: 5%;
+            height: 100%;
+        }
+        &-button{
+            margin-top: 14%;
+            border: none;
+            background-color: #80ffdb;
+            height: 50%;
+            width: 100px;
+            transition: all 0.75s ease;
+            border-radius: 10px;
+            &:hover{
+                cursor: pointer;
+                transform: translate(-5px, -5px);
+                box-shadow:  #8092e2 10px 10px 5px;
+            }
+        }
+    }
+
+}
+
+mat-datepicker{
+    accent-color: black;
+}
+
+.forText{
+    margin-top: 30%;
+    
+}

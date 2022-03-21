@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { GetDbDataService } from 'src/app/services/get-db-data.service';
-import { environment as env } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-home-page',
@@ -9,24 +10,26 @@ import { environment as env } from 'src/environments/environment';
 })
 export class HomePageComponent implements OnInit {
   private articleCount: number;
+  private articleSub: Subscription = new Subscription();
   public displayArticleCount: number;
-  public categoriesList: Array<string>;
 
 
   constructor(private getDBData: GetDbDataService) { }
 
   async ngOnInit(): Promise<void> {
-    this.articleCount = this.getDBData.getArticleCount();
-    this.displayArticleCount = 0
-    this.categoriesList = env.categories;
-    // Count up the number of articles
-    for(var i:number = 0; i<this.articleCount; i++){
-      this.displayArticleCount += await this.wait(10, i*7);
-      if(this.displayArticleCount - i >= this.articleCount){
-        this.displayArticleCount += await this.wait(10, this.articleCount - this.displayArticleCount)
-        break
+    this.articleSub = this.getDBData.getArticleCount().subscribe(async (res: string)=>{
+      this.articleCount = parseInt(res)
+
+      this.displayArticleCount = 0
+      // Count up the number of articles
+      for(var i:number = 0; i<this.articleCount; i++){
+        this.displayArticleCount += await this.wait(10, i*7);
+        if(this.displayArticleCount - i >= this.articleCount){
+          this.displayArticleCount += await this.wait(10, this.articleCount - this.displayArticleCount)
+          break
+        }
       }
-    }
+    });
 
   }
 
@@ -37,5 +40,6 @@ export class HomePageComponent implements OnInit {
       }, time);
     })
   }
+
 
 }
