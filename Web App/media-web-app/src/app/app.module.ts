@@ -7,15 +7,18 @@ import { AppComponent } from './app.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ExploreBarComponent } from './components/explore-bar/explore-bar.component'
+import { GraphScreenComponent } from './components/graph-screen/graph-screen.component'
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ConnectionErrorScreenComponent } from './components/connection-error-screen/connection-error-screen.component';
-
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,8 @@ import { ConnectionErrorScreenComponent } from './components/connection-error-sc
     SearchBarComponent,
     HomePageComponent,
     ExploreBarComponent,
-    ConnectionErrorScreenComponent
+    ConnectionErrorScreenComponent,
+    GraphScreenComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +37,10 @@ import { ConnectionErrorScreenComponent } from './components/connection-error-sc
     MatSelectModule,
     MatNativeDateModule,
     HttpClientModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    FormsModule,
+    NgChartsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

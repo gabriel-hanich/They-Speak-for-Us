@@ -19,6 +19,8 @@ export class HomePageComponent implements OnInit {
               private route: Router) { }
 
   async ngOnInit(): Promise<void> {
+    // TODO remove line below
+    this.route.navigate(["details", "average sentiment", "09.15.2021", "03.01.2022"])
     this.articleSub = this.getDBData.getArticleCount().subscribe(async (res: string)=>{
       this.articleCount = parseInt(res);
 

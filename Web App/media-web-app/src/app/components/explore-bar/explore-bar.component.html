@@ -4,7 +4,7 @@
     </div>
     <div class="explore-categories-container">
         <mat-form-field class="explore-categories-form">
-            <mat-select class="explore-categories-select">
+            <mat-select class="explore-categories-select" [(value)]="selectedCategory">
                 <mat-option *ngFor="let category of categoriesList" value = "{{ category }}">{{ category }}</mat-option>
             </mat-select>
         </mat-form-field>
@@ -17,16 +17,15 @@
     <div class="explore-date-container">
         <mat-form-field class="explore-date-field" color="accent">
             <mat-label>Leave blank for all data</mat-label>
-            <mat-date-range-input class="explore-date-input" [rangePicker]="rangeDialouge">
-                <input matStartDate class="explore-date-input" placeholder="Start Date">
-                <input matEndDate class="explore-date-input" placeholder="End Date">
+            <mat-date-range-input [formGroup]="dateSelector" class="explore-date-input" [rangePicker]="rangeDialouge">
+                <input matStartDate class="explore-date-input" placeholder="Start Date" formControlName="startDate">
+                <input matEndDate class="explore-date-input" placeholder="End Date" formControlName="endDate">
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="rangeDialouge"></mat-datepicker-toggle>
             <mat-date-range-picker #rangeDialouge class="explore-date-dialouge"></mat-date-range-picker>
         </mat-form-field>        
     </div>
     <div class="explore-go-container">
-        <button class="explore-go-button">Go</button>
+        <button class="explore-go-button" (click)="clickExplore()">Go</button>
     </div>
-    
 </div>

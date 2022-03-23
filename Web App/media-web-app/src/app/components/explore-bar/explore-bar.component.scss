@@ -2,11 +2,10 @@
     &-container{
         z-index: 2;
         //animation:slide-in-elliptic-top-fwd 1s 2s both;
-        width: 45%;
+        width: 100%;
         height: 7%;
 
         margin: auto;
-        margin-top: 75px;
 
         display: flex;
         flex-direction: row;
@@ -41,10 +40,10 @@
             height: 100%;
         }
         &-button{
-            margin-top: 14%;
+            margin-top: 10%;
             border: none;
             background-color: #80ffdb;
-            height: 50%;
+            height: 40px;
             width: 100px;
             transition: all 0.75s ease;
             border-radius: 10px;
