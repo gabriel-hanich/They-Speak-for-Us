@@ -4,14 +4,14 @@
     </div>
     
     <div class="graph-title-container">
-        <h1 class="graph-title-text">Average daily sentiment for all outlets</h1>
+        <h1 class="graph-title-text">{{ category }} for all outlets</h1>
     </div>
     
     <div class="graph-display-container">
-        <!-- <canvas baseChart width="100%" height="30"
-                [data]="lineChartData"
-                [options]="lineChartOptions"
-                [type]="lineChartType"> -->
-        <!-- </canvas> -->
+        <canvas baseChart width="100%" height="30"
+                [data]="chartData"
+                [options]="chartConfig"
+                [type]="chartType">
+        </canvas>
     </div>
 </div>

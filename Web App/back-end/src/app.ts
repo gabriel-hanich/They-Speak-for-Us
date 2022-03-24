@@ -8,7 +8,7 @@ const { MongoClient } = require('mongodb');
 export class datePeriod{
   public date: string;
   private totalVal: number;
-  private valCount: number;
+  public valCount: number;
 
   constructor(date: string){
       this.date = date;
@@ -78,7 +78,7 @@ app.get('/article_count', async (req,res) => {
     res.send(dbData.toString())
 });
 
-app.get("/avg_sentiment/:startDate/:endDate", async (req, res)=>{ // Get average daily sentiment per day between two dates
+app.get("/data/:startDate/:endDate", async (req, res)=>{ // Get average daily sentiment per day between two dates
   if(!isNaN(new Date(req.params.startDate).getTime()) && !isNaN(new Date(req.params.endDate).getTime())){ // Check both dates are valid
     var thisAggregate = getAggregationData(new Date(req.params.startDate), new Date(req.params.endDate));
     var sentimentCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
@@ -94,7 +94,7 @@ app.get("/avg_sentiment/:startDate/:endDate", async (req, res)=>{ // Get average
         }
         var avgSentimentList: Array<Object> = [] 
         for(var i:number=0; i<Object.values(dayDict).length; i++){
-          avgSentimentList.push({"date": Object.keys(dayDict)[i], "val": Object.values(dayDict)[i].calcAvg()})
+          avgSentimentList.push({"date": Object.keys(dayDict)[i], "score": Object.values(dayDict)[i].calcAvg(), "count": Object.values(dayDict)[i].valCount})
         }
         res.send(avgSentimentList)
     });

@@ -16,10 +16,15 @@ export class GetDbDataService {
   }
 
   getAvgSentiment(startDate: Date, endDate: Date): Observable<Array<apiRespone>>{
-    var startString = this.dateService.dateToString(startDate);
-    var endString = this.dateService.dateToString(endDate);
+    if(!startDate.getTime() || !endDate.getTime()){
+      var startString = "09.15.2021"
+      var endString = this.dateService.dateToString(new Date())
+    }else{
+      var startString = this.dateService.dateToString(startDate);
+      var endString = this.dateService.dateToString(endDate);
+    }
 
-    return this.httpService.get<Array<apiRespone>>(environment.backEndURL + "/avg_sentiment/" + startString + "/" + endString)
+    return this.httpService.get<Array<apiRespone>>(environment.backEndURL + "/data/" + startString + "/" + endString)
   }
 
   getOutletList(): Array<any>{

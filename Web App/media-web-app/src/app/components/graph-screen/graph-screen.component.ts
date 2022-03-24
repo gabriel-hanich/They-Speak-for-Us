@@ -12,8 +12,12 @@ import { apiRespone } from 'src/model';
   styleUrls: ['./graph-screen.component.scss']
 })
 export class GraphScreenComponent implements OnInit {
+  public category: string;
   public startDate: Date;
   public endDate: Date;
+  public chartData: ChartConfiguration["data"];
+  public chartConfig: ChartConfiguration["options"];
+  public chartType: ChartType = 'line';
 
   constructor(private route: ActivatedRoute, private dateService: DateConverterService, private getDBService: GetDbDataService) { 
   }
@@ -23,8 +27,7 @@ export class GraphScreenComponent implements OnInit {
       console.log(params)
       this.startDate = this.dateService.stringToDate(params["startDate"]);
       this.endDate = this.dateService.stringToDate(params["endDate"]);
-      console.log(this.startDate);
-      console.log(this.endDate);
+      this.category = params["category"]
       this.getDBService.getAvgSentiment(this.startDate, this.endDate).subscribe((res:  Array<apiRespone>)=>{
         this.processData(res)
       })
@@ -34,10 +37,62 @@ export class GraphScreenComponent implements OnInit {
 
   processData(data:  Array<apiRespone>):void{
     console.log(data);
-    const yData: Array<any> = [];
+    const yData: Array<number> = [];
+    const xData: Array<string> = [];
     for(var i:number = 0; i<data.length; i++){
-      yData.push(data[i]["val"]);
+      if(this.category == "Article Count"){
+        yData.push(data[i]["count"]);
+      }else if(this.category == "Average Sentiment"){
+        yData.push(data[i]["score"]);
+      }
+      xData.push(this.dateService.dateToString(new Date(data[i]["date"])));
     }
+    this.chartData = {
+      datasets: [ {
+        data: yData,
+        label: 'Average Sentiment',
+        borderColor: '#4361ee',
+        pointBackgroundColor: '#4361ee',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#4361ee'
+      }],
+      labels: xData
+    }
+    if(this.category == "Average Sentiment"){
+      this.chartConfig = {
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          x: {},
+          'y-axis-0':
+            {
+              position: 'left',
+              min: -1,
+              max: 1
+            }
+        }
+      };
+    }else{
+      this.chartConfig = {
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          x: {},
+          'y-axis-0':
+            {
+              position: 'left',
+              min: 0,
+            }
+        }
+      };
+    }
+
   }
 
 }

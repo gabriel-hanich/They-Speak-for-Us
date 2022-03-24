@@ -1,4 +1,5 @@
 export interface apiRespone{
     date: string;
-    val: number
+    score: number;
+    count: number;
 }

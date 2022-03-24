@@ -14,6 +14,10 @@ const routes: Routes = [
     component: GraphScreenComponent
   },
   {
+    path: "details/:category",
+    component: GraphScreenComponent
+  },
+  {
     path: "connection_error",
     component: ConnectionErrorScreenComponent
   }
