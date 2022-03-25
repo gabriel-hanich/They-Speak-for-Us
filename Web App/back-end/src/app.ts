@@ -78,11 +78,17 @@ app.get('/article_count', async (req,res) => {
     res.send(dbData.toString())
 });
 
+app.get("/outlet_list",async (req,res) => {
+  var outletCollection = dbClient.db(process.env.DB_NAME).collection("outletsList");
+  var outletData = await outletCollection.aggregate([{'$project': {'outletName': 1}}]).toArray();
+  res.send(outletData)
+})
+
 app.get("/data/:startDate/:endDate", async (req, res)=>{ // Get average daily sentiment per day between two dates
   if(!isNaN(new Date(req.params.startDate).getTime()) && !isNaN(new Date(req.params.endDate).getTime())){ // Check both dates are valid
     var thisAggregate = getAggregationData(new Date(req.params.startDate), new Date(req.params.endDate));
     var sentimentCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
-    var sentimentData = await sentimentCollection.aggregate(thisAggregate).toArray((err, results)=>{
+    await sentimentCollection.aggregate(thisAggregate).toArray((err, results)=>{
         var dayDict: Object = {}
         for(var i:number=0; i<results.length; i++){
           if(dayDict[results[i]["publishDate"].toDateString()]){

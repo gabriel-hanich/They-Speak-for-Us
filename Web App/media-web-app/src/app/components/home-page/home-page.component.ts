@@ -20,7 +20,8 @@ export class HomePageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // TODO remove line below
-    //this.route.navigate(["details", "average sentiment", "09.15.2021", "03.01.2022"])
+    //this.route.navigate(["details", "Average Sentiment", "09.15.2021", "03.01.2022"])
+
     this.articleSub = this.getDBData.getArticleCount().subscribe(async (res: string)=>{
       this.articleCount = parseInt(res);
 
@@ -28,13 +29,13 @@ export class HomePageComponent implements OnInit {
       // Count up the number of articles
       for(var i:number = 0; i<this.articleCount; i++){
         this.displayArticleCount += await this.wait(10, i*7);
-        if(this.displayArticleCount - i >= this.articleCount){
+        if(this.displayArticleCount - i >= this.articleCount){ // When the next loop will exceed the value, set the value manually
           this.displayArticleCount += await this.wait(10, this.articleCount - this.displayArticleCount)
           break
         }
       }
     }, (error)=>{
-      this.route.navigate(["connection_error"])
+      this.route.navigate(["connection_error"]) // If the database cannot be found, show error
     });
 
   }

@@ -4,7 +4,7 @@ import { ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DateConverterService } from 'src/app/services/date-converter.service';
 import { GetDbDataService } from 'src/app/services/get-db-data.service';
-import { apiRespone } from 'src/model';
+import { apiDataResponse } from 'src/model';
 
 @Component({
   selector: 'app-graph-screen',
@@ -23,19 +23,18 @@ export class GraphScreenComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.route.params.subscribe((params)=>{
-      console.log(params)
-      this.startDate = this.dateService.stringToDate(params["startDate"]);
+    this.route.params.subscribe((params)=>{ 
+      this.startDate = this.dateService.stringToDate(params["startDate"]); // Get URL Params
       this.endDate = this.dateService.stringToDate(params["endDate"]);
       this.category = params["category"]
-      this.getDBService.getAvgSentiment(this.startDate, this.endDate).subscribe((res:  Array<apiRespone>)=>{
-        this.processData(res)
+      this.getDBService.getGraphData(this.startDate, this.endDate).subscribe((res:  Array<apiDataResponse>)=>{ // Get DB Data for params
+        this.processData(res);
       })
     });
 
   }
 
-  processData(data:  Array<apiRespone>):void{
+  processData(data:  Array<apiDataResponse>):void{ // Process the DB data and display it
     console.log(data);
     const yData: Array<number> = [];
     const xData: Array<string> = [];
@@ -47,10 +46,14 @@ export class GraphScreenComponent implements OnInit {
       }
       xData.push(this.dateService.dateToString(new Date(data[i]["date"])));
     }
+    // Hide loading bar
+    document.getElementById("loadWheel")?.classList.add("hidden")
+    
+    // Data for graph
     this.chartData = {
       datasets: [ {
         data: yData,
-        label: 'Average Sentiment',
+        label: this.category,
         borderColor: '#4361ee',
         pointBackgroundColor: '#4361ee',
         pointBorderColor: '#fff',

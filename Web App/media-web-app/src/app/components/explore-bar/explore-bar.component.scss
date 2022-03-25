@@ -3,16 +3,25 @@
         z-index: 2;
         //animation:slide-in-elliptic-top-fwd 1s 2s both;
         width: 100%;
-        height: 7%;
+        height: 57px;
+
+        overflow-y: hidden;
 
         margin: auto;
 
-        display: flex;
-        flex-direction: row;
-        vertical-align: super;
-
+        
+        transition: all 0.75s ease;
+        
         background-color: #4361ee;
         border-radius: 45px;
+    }
+    
+    &-large{
+        &-container{
+            display: flex;
+            flex-direction: row;
+            vertical-align: super;            
+        }
     }
     &-text{
         font-size: 1.5rem;
@@ -55,6 +64,46 @@
         }
     }
 
+    &-expand{
+        &-container{
+            margin-left: 30px;
+            margin-top: 20px;
+        }
+        &-icon{
+            cursor: pointer;
+            transform: scale(1.5);
+        }
+    }
+
+    // Advanced options CSS
+    &-lower-container{
+        height: 100%;
+        width: 90%;
+        margin-top: 0px;
+    }
+    
+    &-title{
+        &-container{
+            margin-left: 2%;
+        }
+    }
+    
+    &-topic{
+        &-container{
+            display: flex;
+            flex-direction: row;
+            margin-left: 2%;
+        }
+    }
+
+    &-outlet{
+        &-selector{
+            margin-left: 10px;
+            margin-top: -13px;
+        }
+    }
+
+
 }
 
 mat-datepicker{
@@ -62,6 +111,9 @@ mat-datepicker{
 }
 
 .forText{
-    margin-top: 30%;
-    
+    margin-top: 30%;   
+}
+
+.expand{
+    height: 300px;
 }

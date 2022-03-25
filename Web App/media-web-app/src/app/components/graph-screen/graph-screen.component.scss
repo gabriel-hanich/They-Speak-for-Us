@@ -34,6 +34,18 @@
             margin: auto;
             margin-top: 20px;
         }
-    }
 
+        &-loading{
+            &-container{
+                width: 100px;
+                height: 100px;
+                margin: auto;
+                margin-top: 40px;
+            }
+        }
+    }
+}
+
+.hidden{
+    display: none;
 }

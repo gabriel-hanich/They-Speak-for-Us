@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-bar',
@@ -7,7 +8,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class SearchBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -22,6 +23,10 @@ export class SearchBarComponent implements OnInit {
       searchBar?.classList.add("large-container")
       searchBar?.classList.remove("small-container")
     }
-
   }
+
+  clickLogo(): void{ // Return user to home page when the logo is clicked
+    this.router.navigate(["/"]);
+  }
+
 }

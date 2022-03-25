@@ -1,31 +1,57 @@
-<div class="explore-container">
-    <div class="explore-text-container">
-        <h2 class="explore-text">Explore</h2>
-    </div>
-    <div class="explore-categories-container">
-        <mat-form-field class="explore-categories-form">
-            <mat-select class="explore-categories-select" [(value)]="selectedCategory">
-                <mat-option *ngFor="let category of categoriesList" value = "{{ category }}">{{ category }}</mat-option>
-            </mat-select>
-        </mat-form-field>
+<div class="explore-container expand" id="exploreContainer">
+    <div class="explore-upper-container explore-large-container">
+        <div class="explore-text-container">
+            <h2 class="explore-text">Explore</h2>
+        </div>
+        <div class="explore-categories-container">
+            <mat-form-field class="explore-categories-form">
+                <mat-select class="explore-categories-select" [(value)]="selectedCategory">
+                    <mat-option *ngFor="let category of categoriesList" value = "{{ category }}">{{ category }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    
+        <div class="explore-text-container">
+            <h2 class="explore-text">Between</h2>
+        </div>
+        
+        <div class="explore-date-container">
+            <mat-form-field class="explore-date-field" color="accent">
+                <mat-label>Leave blank for all data</mat-label>
+                <mat-date-range-input [formGroup]="dateSelector" class="explore-date-input" [rangePicker]="rangeDialouge">
+                    <input matStartDate class="explore-date-input" placeholder="Start Date" formControlName="startDate">
+                    <input matEndDate class="explore-date-inputs" placeholder="End Date" formControlName="endDate">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="rangeDialouge"></mat-datepicker-toggle>
+                <mat-date-range-picker #rangeDialouge class="explore-date-dialouge"></mat-date-range-picker>
+            </mat-form-field>        
+        </div>
+        <div class="explore-go-container">
+            <button class="explore-go-button" (click)="clickExplore()">Go</button>
+        </div>
+        <div class="explore-expand-container">
+            <mat-icon class="explore-expand-icon" (click)="expandContainer()">{{ expandIconName }}</mat-icon>
+        </div>
     </div>
 
-    <div class="explore-text-container">
-        <h2 class="explore-text">Between</h2>
+    <div class="explore-lower-container">
+        <div class="explore-title-container">
+            <h1 class="explore-title-text">Advanced Options</h1>
+        </div>
+        <div class="explore-topic-container">
+            <div class="explore-outlet-title-container explore-title-container">
+                <h2 class="explore-outlet-title-text">Outlet:</h2>
+            </div>
+            <mat-form-field class="explore-outlet-selector">
+                <mat-label>Outlet</mat-label>
+                <mat-select [(value)]="selectedTopic">
+                    <mat-option *ngFor="let outlet of outletList" [value]="outlet['outletName']">{{ outlet["outletName"] }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+        </div>
+
     </div>
     
-    <div class="explore-date-container">
-        <mat-form-field class="explore-date-field" color="accent">
-            <mat-label>Leave blank for all data</mat-label>
-            <mat-date-range-input [formGroup]="dateSelector" class="explore-date-input" [rangePicker]="rangeDialouge">
-                <input matStartDate class="explore-date-input" placeholder="Start Date" formControlName="startDate">
-                <input matEndDate class="explore-date-input" placeholder="End Date" formControlName="endDate">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="rangeDialouge"></mat-datepicker-toggle>
-            <mat-date-range-picker #rangeDialouge class="explore-date-dialouge"></mat-date-range-picker>
-        </mat-form-field>        
-    </div>
-    <div class="explore-go-container">
-        <button class="explore-go-button" (click)="clickExplore()">Go</button>
-    </div>
 </div>

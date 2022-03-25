@@ -19,6 +19,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ConnectionErrorScreenComponent } from './components/connection-error-screen/connection-error-screen.component';
 import { NgChartsModule } from 'ng2-charts';
+import { LoadingWheelComponent } from './components/loading-wheel/loading-wheel.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { NgChartsModule } from 'ng2-charts';
     ExploreBarComponent,
     ConnectionErrorScreenComponent,
     GraphScreenComponent,
+    LoadingWheelComponent,
   ],
   imports: [
     BrowserModule,
