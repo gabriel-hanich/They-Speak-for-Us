@@ -15,16 +15,16 @@ export class GetDbDataService {
     return this.httpService.get<string>(environment.backEndURL + "/article_count")
   }
 
-  getGraphData(startDate: Date, endDate: Date): Observable<Array<apiDataResponse>>{
-    if(!startDate.getTime() || !endDate.getTime()){
-      var startString = "09.15.2021"
-      var endString = this.dateService.dateToString(new Date())
-    }else{
-      var startString = this.dateService.dateToString(startDate);
-      var endString = this.dateService.dateToString(endDate);
-    }
-
+  getBasicGraphData(startDate: Date, endDate: Date): Observable<Array<apiDataResponse>>{
+    var startString = this.dateService.dateToString(startDate);
+    var endString = this.dateService.dateToString(endDate);
     return this.httpService.get<Array<apiDataResponse>>(environment.backEndURL + "/data/" + startString + "/" + endString)
+  }
+  
+  getAdvancedGraphData(startDate: Date, endDate: Date, outlet: string, headlineList: Array<string>): Observable<Array<apiDataResponse>>{
+    var startString = this.dateService.dateToString(startDate);
+    var endString = this.dateService.dateToString(endDate);
+    return this.httpService.get<Array<apiDataResponse>>(environment.backEndURL + "/data/advanced/" + startString + "/" + endString)
   }
 
   getOutletList(): Observable<Array<apiOutletResponse>>{

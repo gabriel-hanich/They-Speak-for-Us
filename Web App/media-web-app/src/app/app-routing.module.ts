@@ -10,7 +10,7 @@ const routes: Routes = [
     component: HomePageComponent
   },
   {
-    path: "details/:category/:startDate/:endDate",
+    path: "details/:category/:startDate/:endDate/:advancedSearch",
     component: GraphScreenComponent
   },
   {

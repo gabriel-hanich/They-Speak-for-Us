@@ -110,6 +110,11 @@ app.get("/data/:startDate/:endDate", async (req, res)=>{ // Get average daily se
 
 });
 
+
+app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList", async(req, res)=>{
+  res.send("HI")
+})
+
 app.listen(port, () => {
     console.log(`Server listening on the port: ${port}`);
 });

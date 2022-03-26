@@ -19,7 +19,8 @@ export class ExploreBarComponent implements OnInit {
   public expandIconName: string = "expand_more";
   public outletList: Array<apiOutletResponse>;
   public topicList: Array<topic> = [];
-  public selectedTopic: string = "Any"
+
+  private doAdvancedSearch: boolean = false;
 
   constructor(private router: Router, 
     private dateConverter: DateConverterService,
@@ -40,29 +41,71 @@ export class ExploreBarComponent implements OnInit {
       for(var i:number=0; i < res.length; i++){
         this.outletList.push(res[i]);
       }
-      console.log(this.outletList)
     })
   }
 
   clickExplore():void{
-    var startDateString: string = this.dateConverter.dateToString(this.dateSelector.value.startDate)
-    var endDateString: string = this.dateConverter.dateToString(this.dateSelector.value.endDate)
+    console.log(this.dateSelector.value.startDate)
+    if(this.dateSelector.value.startDate == null || this.dateSelector.value.endDate == null){
+      var startDateString: string = "09.15.2021"
+      var endDateString: string = this.dateConverter.dateToString(new Date()); 
+    }else{
+      var startDateString: string = this.dateConverter.dateToString(this.dateSelector.value.startDate);
+      var endDateString: string = this.dateConverter.dateToString(this.dateSelector.value.endDate); 
+    }
 
-    this.router.navigate(["details", this.selectedCategory, startDateString, endDateString])
+    if(this.doAdvancedSearch){
+      console.log("DOING THE THING")
+      localStorage.setItem("advanced_settings",JSON.stringify(this.topicList));
+      this.router.navigate(["details", this.selectedCategory, startDateString, endDateString, true]);
+      console.log(this.topicList)
+    }else{
+      this.router.navigate(["details", this.selectedCategory, startDateString, endDateString, false]);
+    }
+
   }
 
   expandContainer(): void{
     if(this.expandIconName == "expand_more"){ // If the box is being expanded
       document.getElementById("exploreContainer")?.classList.add("expand");
       this.expandIconName = "expand_less";
+      this.doAdvancedSearch = true;
       if(this.topicList.length == 0){
-        this.topicList.push({selectedOutletName: "Any", selectedHeadlineTerms: []})
+        this.topicList.push({topicNumber: 0, selectedOutletName: "Any", selectedHeadlineTerms: [], topicName: "Any"});
       }
-
+      
     }else{
       document.getElementById("exploreContainer")?.classList.remove("expand");
-      this.expandIconName = "expand_more"
+      this.doAdvancedSearch = false;
+      this.expandIconName = "expand_more";
     }
+  }
+
+  addNewTopic():void{
+    this.topicList.push({topicNumber: this.topicList.length, selectedOutletName: "Any", selectedHeadlineTerms: [], topicName: "Any"});
+    if(this.topicList.length > 3){
+      document.getElementById("exploreContainer")?.classList.add("addScroll");
+    }
+  }
+
+  reOrderTopicList():void{
+    for(var i:number=0; i<this.topicList.length; i++){
+      this.topicList[i]["topicNumber"] = i;
+    }
+  }
+
+  inputChange(referenceClass: topic, val: any, valType: string){
+    if(valType == "topicName"){
+      this.topicList[referenceClass["topicNumber"]]["topicName"] = val.value 
+    }else{
+      this.topicList[referenceClass["topicNumber"]]["selectedHeadlineTerms"].push(val.value);
+      console.log(val.value)
+    }
+  }
+
+  removeTopic(event: Event): void{
+    this.topicList.splice(parseInt((event.target as Element).id[0]), 1);
+    this.reOrderTopicList();
   }
     
 }

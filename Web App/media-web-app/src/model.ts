@@ -9,6 +9,8 @@ export interface apiOutletResponse{
 }
 
 export interface topic{
+    topicNumber: number;
     selectedOutletName: string;
     selectedHeadlineTerms: Array<string>;
+    topicName: string;
 }

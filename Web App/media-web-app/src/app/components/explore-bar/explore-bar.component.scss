@@ -23,6 +23,16 @@
             vertical-align: super;            
         }
     }
+
+    &-input{
+        width: 100%;
+        height: 30px;
+        margin-left: 2%;
+        background-color: #A3BCF9;
+        border: none;
+        border-radius: 5px;
+    }
+
     &-text{
         font-size: 1.5rem;
         margin-top: 15%;
@@ -78,7 +88,7 @@
     // Advanced options CSS
     &-lower-container{
         height: 100%;
-        width: 90%;
+        width: 100%;
         margin-top: 0px;
     }
     
@@ -90,9 +100,15 @@
     
     &-topic{
         &-container{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: 3%;
+        }
+        &-item{
+            width: 100%;
             display: flex;
             flex-direction: row;
-            margin-left: 2%;
         }
     }
 
@@ -103,6 +119,40 @@
         }
     }
 
+    &-headline{
+        &-container{
+            margin-left: 2%;
+            width: 37%;
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+    &-name{
+        &-container{
+            margin-left: 2px;
+            width: 300px; 
+            display: flex;
+            flex-direction: row;
+        }
+        &-input{
+            width: 40%;
+        }
+    }
+
+    &-add, &-delete{
+        &-button{
+            margin-left: 1%;
+            border: none;
+            background-color: #4361ee;
+            height: 35px;
+            width: fit-content;
+            cursor: pointer;
+        }
+    }
+    &-add-button{
+        margin-right: 4%;
+    }
 
 }
 
@@ -116,4 +166,36 @@ mat-datepicker{
 
 .expand{
     height: 300px;
+}
+
+.addScroll{
+    height: 400px;
+    overflow-y: scroll;
+}
+
+@media screen and (max-width: 1000px){
+    .explore{
+        &-outlet{
+            &-selector{
+                width: 10%;
+            }
+        }
+    }
+}
+@media screen and (max-width: 750px){
+    .explore{
+        &-container{
+            *{
+                margin-left: 0px;
+            }
+        }
+        &-outlet{
+            &-selector{
+                width: 10%;
+            }
+        }
+        &-add-button{
+            margin-right: 0px;
+        }
+    }
 }

@@ -4,7 +4,7 @@ import { ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DateConverterService } from 'src/app/services/date-converter.service';
 import { GetDbDataService } from 'src/app/services/get-db-data.service';
-import { apiDataResponse } from 'src/model';
+import { apiDataResponse, topic } from 'src/model';
 
 @Component({
   selector: 'app-graph-screen',
@@ -18,6 +18,9 @@ export class GraphScreenComponent implements OnInit {
   public chartData: ChartConfiguration["data"];
   public chartConfig: ChartConfiguration["options"];
   public chartType: ChartType = 'line';
+  
+  private doAdvanced: boolean;
+  private topicList: Array<topic>;
 
   constructor(private route: ActivatedRoute, private dateService: DateConverterService, private getDBService: GetDbDataService) { 
   }
@@ -26,10 +29,18 @@ export class GraphScreenComponent implements OnInit {
     this.route.params.subscribe((params)=>{ 
       this.startDate = this.dateService.stringToDate(params["startDate"]); // Get URL Params
       this.endDate = this.dateService.stringToDate(params["endDate"]);
-      this.category = params["category"]
-      this.getDBService.getGraphData(this.startDate, this.endDate).subscribe((res:  Array<apiDataResponse>)=>{ // Get DB Data for params
-        this.processData(res);
-      })
+      this.category = params["category"];
+      this.doAdvanced = params["advancedSearch"];
+      if(this.doAdvanced){
+        this.topicList = JSON.parse(localStorage.getItem("advanced_settings") as string);
+        for(var i:number=0; i<this.topicList.length; i++){
+
+        }
+      }else{
+        this.getDBService.getBasicGraphData(this.startDate, this.endDate).subscribe((res:  Array<apiDataResponse>)=>{ // Get DB Data for params
+          this.processData(res);
+        });
+      }
     });
 
   }

@@ -46,4 +46,29 @@
     }
 }
 
+@media screen and (max-width: 1670px){
+    .explore-bar{
+        &-container{
+            width: 65%;
+            margin: auto;
+        }
+    }
+}
+@media screen and (max-width: 1200px){
+    .explore-bar{
+        &-container{
+            width: 75%;
+            margin: auto;
+        }
+    }
+}
+@media screen and (max-width: 1000px){
+    .explore-bar{
+        &-container{
+            width: 100%;
+            margin: auto;
+        }
+    }
+}
+
 
