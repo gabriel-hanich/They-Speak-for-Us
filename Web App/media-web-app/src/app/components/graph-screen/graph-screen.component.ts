@@ -19,7 +19,7 @@ export class GraphScreenComponent implements OnInit {
   public chartConfig: ChartConfiguration["options"];
   public chartType: ChartType = 'line';
   
-  private doAdvanced: boolean;
+  private doAdvanced: string;
   private topicList: Array<topic>;
 
   constructor(private route: ActivatedRoute, private dateService: DateConverterService, private getDBService: GetDbDataService) { 
@@ -31,7 +31,7 @@ export class GraphScreenComponent implements OnInit {
       this.endDate = this.dateService.stringToDate(params["endDate"]);
       this.category = params["category"];
       this.doAdvanced = params["advancedSearch"];
-      if(this.doAdvanced){
+      if(this.doAdvanced == "true"){
         this.topicList = JSON.parse(localStorage.getItem("advanced_settings") as string);
         for(var i:number=0; i<this.topicList.length; i++){
 
