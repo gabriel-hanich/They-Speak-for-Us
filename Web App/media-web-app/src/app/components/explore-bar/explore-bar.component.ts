@@ -26,7 +26,7 @@ export class ExploreBarComponent implements OnInit {
     private dateConverter: DateConverterService,
     private dataService: GetDbDataService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { // Allows exploration of data
     this.categoriesList = env.categories;
     this.selectedCategory = this.categoriesList[0];
 
@@ -45,7 +45,6 @@ export class ExploreBarComponent implements OnInit {
   }
 
   clickExplore():void{
-    console.log(this.dateSelector.value.startDate)
     if(this.dateSelector.value.startDate == null || this.dateSelector.value.endDate == null){
       var startDateString: string = "09.15.2021"
       var endDateString: string = this.dateConverter.dateToString(new Date()); 
@@ -53,14 +52,12 @@ export class ExploreBarComponent implements OnInit {
       var startDateString: string = this.dateConverter.dateToString(this.dateSelector.value.startDate);
       var endDateString: string = this.dateConverter.dateToString(this.dateSelector.value.endDate); 
     }
-
+    localStorage.clear();
     if(this.doAdvancedSearch){
-      console.log("DOING THE THING")
       localStorage.setItem("advanced_settings",JSON.stringify(this.topicList));
-      this.router.navigate(["details", this.selectedCategory, startDateString, endDateString, true]);
-      console.log(this.topicList)
+      this.router.navigate(["search", this.selectedCategory, startDateString, endDateString, true]);
     }else{
-      this.router.navigate(["details", this.selectedCategory, startDateString, endDateString, false]);
+      this.router.navigate(["search", this.selectedCategory, startDateString, endDateString, false]);
     }
 
   }
@@ -95,11 +92,11 @@ export class ExploreBarComponent implements OnInit {
   }
 
   inputChange(referenceClass: topic, val: any, valType: string){
+    console.log(val.value)
     if(valType == "topicName"){
       this.topicList[referenceClass["topicNumber"]]["topicName"] = val.value 
     }else{
       this.topicList[referenceClass["topicNumber"]]["selectedHeadlineTerms"].push(val.value);
-      console.log(val.value)
     }
   }
 

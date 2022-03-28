@@ -20,6 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ConnectionErrorScreenComponent } from './components/connection-error-screen/connection-error-screen.component';
 import { NgChartsModule } from 'ng2-charts';
 import { LoadingWheelComponent } from './components/loading-wheel/loading-wheel.component';
+import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { LoadingWheelComponent } from './components/loading-wheel/loading-wheel.
     ConnectionErrorScreenComponent,
     GraphScreenComponent,
     LoadingWheelComponent,
+    LoadingPageComponent,
   ],
   imports: [
     BrowserModule,

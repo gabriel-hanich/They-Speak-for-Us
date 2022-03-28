@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http"
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DateConverterService } from './date-converter.service';
 import { apiDataResponse, apiOutletResponse } from 'src/model';
@@ -21,10 +21,19 @@ export class GetDbDataService {
     return this.httpService.get<Array<apiDataResponse>>(environment.backEndURL + "/data/" + startString + "/" + endString)
   }
   
-  getAdvancedGraphData(startDate: Date, endDate: Date, outlet: string, headlineList: Array<string>): Observable<Array<apiDataResponse>>{
+  getAdvancedGraphData(startDate: Date, endDate: Date, outlet: string, headlineList: Array<string>, name: string): Observable<Array<apiDataResponse>>{
     var startString = this.dateService.dateToString(startDate);
     var endString = this.dateService.dateToString(endDate);
-    return this.httpService.get<Array<apiDataResponse>>(environment.backEndURL + "/data/advanced/" + startString + "/" + endString)
+    var headlineString: string = "";
+    if(headlineList.length == 0){
+      headlineString = "$none"
+    }else{
+      for(var i:number=0; i<headlineList.length; i++){
+        headlineString += headlineList[i] + ","
+      }
+    }
+    console.log(environment.backEndURL + "/data/advanced/" + startString + "/" + endString + "/" + outlet + "/" + headlineString + "/" + name)
+    return this.httpService.get<Array<apiDataResponse>>(environment.backEndURL + "/data/advanced/" + startString + "/" + endString + "/" + outlet + "/" + headlineString+ "/" + name)
   }
 
   getOutletList(): Observable<Array<apiOutletResponse>>{

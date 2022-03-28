@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ConnectionErrorScreenComponent } from './components/connection-error-screen/connection-error-screen.component';
 import { GraphScreenComponent } from './components/graph-screen/graph-screen.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 
 const routes: Routes = [
   {
@@ -14,8 +15,8 @@ const routes: Routes = [
     component: GraphScreenComponent
   },
   {
-    path: "details/:category",
-    component: GraphScreenComponent
+    path: "search/:category/:startDate/:endDate/:advancedSearch",
+    component: LoadingPageComponent
   },
   {
     path: "connection_error",

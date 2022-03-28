@@ -1,3 +1,4 @@
+import { prepareEventListenerParameters } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
@@ -15,17 +16,20 @@ export class GraphScreenComponent implements OnInit {
   public category: string;
   public startDate: Date;
   public endDate: Date;
-  public chartData: ChartConfiguration["data"];
+  public finalChartData: ChartConfiguration["data"];
+  private earlyChartData: ChartConfiguration["data"] = {"datasets": [], "labels": []};
   public chartConfig: ChartConfiguration["options"];
   public chartType: ChartType = 'line';
   
   private doAdvanced: string;
   private topicList: Array<topic>;
+  private topicName: string;
 
   constructor(private route: ActivatedRoute, private dateService: DateConverterService, private getDBService: GetDbDataService) { 
   }
   
-  ngOnInit(): void {
+  ngOnInit(): void { // Show graph
+    this.finalChartData = {"datasets": [], "labels": []};
     this.route.params.subscribe((params)=>{ 
       this.startDate = this.dateService.stringToDate(params["startDate"]); // Get URL Params
       this.endDate = this.dateService.stringToDate(params["endDate"]);
@@ -33,8 +37,15 @@ export class GraphScreenComponent implements OnInit {
       this.doAdvanced = params["advancedSearch"];
       if(this.doAdvanced == "true"){
         this.topicList = JSON.parse(localStorage.getItem("advanced_settings") as string);
+        console.log(this.topicList)
         for(var i:number=0; i<this.topicList.length; i++){
-
+          this.getDBService.getAdvancedGraphData(this.startDate, 
+            this.endDate, 
+            this.topicList[i]["selectedOutletName"], 
+            this.topicList[i]["selectedHeadlineTerms"],
+            this.topicList[i]["topicName"]).subscribe((res: Array<apiDataResponse>)=>{
+              this.processData(res);
+            })
         }
       }else{
         this.getDBService.getBasicGraphData(this.startDate, this.endDate).subscribe((res:  Array<apiDataResponse>)=>{ // Get DB Data for params
@@ -42,14 +53,14 @@ export class GraphScreenComponent implements OnInit {
         });
       }
     });
-
   }
 
   processData(data:  Array<apiDataResponse>):void{ // Process the DB data and display it
-    console.log(data);
     const yData: Array<number> = [];
     const xData: Array<string> = [];
+    var topicName: string = "";
     for(var i:number = 0; i<data.length; i++){
+      topicName = data[i]["name"]
       if(this.category == "Article Count"){
         yData.push(data[i]["count"]);
       }else if(this.category == "Average Sentiment"){
@@ -57,21 +68,36 @@ export class GraphScreenComponent implements OnInit {
       }
       xData.push(this.dateService.dateToString(new Date(data[i]["date"])));
     }
+
     // Hide loading bar
     document.getElementById("loadWheel")?.classList.add("hidden")
     
-    // Data for graph
-    this.chartData = {
-      datasets: [ {
+    if(this.earlyChartData.datasets.length == 0){
+      this.earlyChartData = {
+        "datasets": [{
+          data: yData,
+          label: topicName
+        }],
+        "labels": xData
+      }
+    }else{
+      this.earlyChartData.datasets.push({
         data: yData,
-        label: this.category,
-        borderColor: '#4361ee',
-        pointBackgroundColor: '#4361ee',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#4361ee'
-      }],
-      labels: xData
+        label: topicName
+      });
     }
+
+    
+
+    if(this.doAdvanced == "true"){
+      console.log(this.earlyChartData)
+      if(this.topicList.length == this.earlyChartData.datasets.length){
+        this.finalChartData = this.earlyChartData;
+        console.log(this.finalChartData)
+      }
+    }
+
+
     if(this.category == "Average Sentiment"){
       this.chartConfig = {
         elements: {
@@ -105,6 +131,9 @@ export class GraphScreenComponent implements OnInit {
             }
         }
       };
+    }
+    if(this.doAdvanced != "true"){
+      this.finalChartData = this.earlyChartData
     }
 
   }

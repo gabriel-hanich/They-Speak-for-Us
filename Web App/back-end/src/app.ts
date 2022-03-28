@@ -70,82 +70,149 @@ function getBasicAggregationPipeline(startDate: Date, endDate: Date): Array<Obje
     ]
 };
 
-function getAdvancedAggrgationPipeline(startDate: Date, endDate: Date, outletName: string, headlineList: Array<string>){
-  if(outletName == "Any"){ // If there is no user-specified outlet
-    return [
-      {
-        '$match': {
-          'publishDate': {
-            '$gt': startDate
-          },
-          headline: headlineList.join("|")
-        }
-      }, {
-        '$match': {
-          'publishDate': {
-            '$lt': endDate
+function getAdvancedAggrgationPipeline(startDate: Date, endDate: Date, outletName: string, headlineString: string): Array<Object>{
+  if(headlineString != "$none"){
+    if(outletName == "Any"){ // If there is no user-specified outlet
+      return [
+        {
+          '$match': {
+            'publishDate': {
+              '$gt': startDate
+            },
+          }
+        },{
+          '$match': { 
+              'headline': {
+                  '$regex': "(?i)" + headlineString
+              }
+          }
+        },{
+          '$match': {
+            'publishDate': {
+              '$lt': endDate
+            }
+          }
+        }, {
+          '$sort': {
+            'publishDate': 1
+          }
+        }, {
+          '$project': {
+            'sentimentScore': 1, 
+            'publishDate': 1, 
+            'outletName': 1
           }
         }
-      }, {
-        '$sort': {
-          'publishDate': 1
+      ]
+    }else{
+      return [
+        {
+          '$match': {
+            'publishDate': {
+              '$gt': startDate
+            },
+            outletName: outletName,
+          }
+        },{
+          '$match': {
+              'headline': {
+                  '$regex': "(?i)" + headlineString
+              }
+          }
+        },{
+          '$match': {
+            'publishDate': {
+              '$lt': endDate
+            }
+          }
+        }, {
+          '$sort': {
+            'publishDate': 1
+          }
+        }, {
+          '$project': {
+            'sentimentScore': 1, 
+            'publishDate': 1, 
+            'outletName': 1
+          }
         }
-      }, {
-        '$project': {
-          'sentimentScore': 1, 
-          'publishDate': 1, 
-          'outletName': 1
-        }
-      }
-    ]
+      ]
+    }
   }else{
-    return [
-      {
-        '$match': {
-          'publishDate': {
-            '$gt': startDate
-          },
-          outletName: outletName,
-          headline: headlineList.join("|")
-        }
-      }, {
-        '$match': {
-          'publishDate': {
-            '$lt': endDate
+    if(outletName == "Any"){ // If there is no user-specified outlet
+      return [
+        {
+          '$match': {
+            'publishDate': {
+              '$gt': startDate
+            },
+          }
+        }, {
+          '$match': {
+            'publishDate': {
+              '$lt': endDate
+            }
+          }
+        }, {
+          '$sort': {
+            'publishDate': 1
+          }
+        }, {
+          '$project': {
+            'sentimentScore': 1, 
+            'publishDate': 1, 
+            'outletName': 1
           }
         }
-      }, {
-        '$sort': {
-          'publishDate': 1
+      ]
+    }else{
+      return [
+        {
+          '$match': {
+            'publishDate': {
+              '$gt': startDate
+            },
+            outletName: outletName,
+          }
+        }, {
+          '$match': {
+            'publishDate': {
+              '$lt': endDate
+            }
+          }
+        }, {
+          '$sort': {
+            'publishDate': 1
+          }
+        }, {
+          '$project': {
+            'sentimentScore': 1, 
+            'publishDate': 1, 
+            'outletName': 1
+          }
         }
-      }, {
-        '$project': {
-          'sentimentScore': 1, 
-          'publishDate': 1, 
-          'outletName': 1
-        }
-      }
-    ]
-  }
+      ]
+    }
+  } 
   
 }
 
-async function getDBData(aggrgationArray: Array<Object>) {
+async function getDBData(aggrgationArray: Array<Object>, name: string) {
   return new Promise(async (resolve, reject) => {
     var dataCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
     await dataCollection.aggregate(aggrgationArray).toArray((err, results)=>{
       var dayDict: Object = {}
       for(var i:number=0; i<results.length; i++){
         if(dayDict[results[i]["publishDate"].toDateString()]){
-          dayDict[results[i]["publishDate"].toDateString()].addToDataList(results[i]["sentimentScore"])
+          dayDict[results[i]["publishDate"].toDateString()].addToDataList(results[i]["sentimentScore"]);
         }else{
-          dayDict[results[i]["publishDate"].toDateString()] = new datePeriod(results[i]["publishDate"].toDateString())
-          dayDict[results[i]["publishDate"].toDateString()].addToDataList(results[i]["sentimentScore"])
+          dayDict[results[i]["publishDate"].toDateString()] = new datePeriod(results[i]["publishDate"].toDateString());
+          dayDict[results[i]["publishDate"].toDateString()].addToDataList(results[i]["sentimentScore"]);
         }
       }
       var dataList: Array<Object> = [] 
       for(var i:number=0; i<Object.values(dayDict).length; i++){
-        dataList.push({"date": Object.keys(dayDict)[i], "score": Object.values(dayDict)[i].calcAvg(), "count": Object.values(dayDict)[i].valCount})
+        dataList.push({"date": Object.keys(dayDict)[i], "score": Object.values(dayDict)[i].calcAvg(), "count": Object.values(dayDict)[i].valCount, "name": name})
       }
       resolve(dataList)
     });
@@ -166,10 +233,9 @@ app.get("/outlet_list",async (req,res) => {
 })
 
 app.get("/data/:startDate/:endDate", async (req, res)=>{ // Get average daily sentiment per day between two dates
-  console.log("NEW CONNECTIOn")
   if(!isNaN(new Date(req.params.startDate).getTime()) && !isNaN(new Date(req.params.endDate).getTime())){ // Check both dates are valid
     var thisAggrgate = getBasicAggregationPipeline(new Date(req.params.startDate), new Date(req.params.endDate));
-    getDBData(thisAggrgate).then((data)=>{
+    getDBData(thisAggrgate, "Any").then((data)=>{
       res.send(data)
     });
 
@@ -179,13 +245,21 @@ app.get("/data/:startDate/:endDate", async (req, res)=>{ // Get average daily se
 });
 
 
-app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList", async(req, res)=>{
+app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", async(req, res)=>{
   var startDate = new Date(req.params.startDate);
   var endDate = new Date(req.params.endDate);
-
-  var dar
-
-  res.send([startDate, endDate]);
+  var headlineString: string;
+  if(req.params.headlineList != "$none"){
+    headlineString = req.params.headlineList.replace(",", " | ");
+    headlineString = headlineString.slice(0, -2)
+  }else{
+    headlineString = "$none"
+  }
+  var aggrgetionPipeLine: Array<Object> = getAdvancedAggrgationPipeline(startDate, endDate, req.params.outletName, headlineString);
+  getDBData(aggrgetionPipeLine, req.params.name).then((data)=>{
+    res.send(data);
+  })
+ 
 })
 
 app.listen(port, () => {

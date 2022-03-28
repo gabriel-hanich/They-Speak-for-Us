@@ -2,6 +2,7 @@ export interface apiDataResponse{
     date: string;
     score: number;
     count: number;
+    name: string;
 }
 
 export interface apiOutletResponse{
