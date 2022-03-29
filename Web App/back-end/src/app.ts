@@ -197,7 +197,7 @@ function getAdvancedAggrgationPipeline(startDate: Date, endDate: Date, outletNam
   
 }
 
-async function getDBData(aggrgationArray: Array<Object>, name: string) {
+async function getDBData(aggrgationArray: Array<Object>, name: string, startDate: Date, endDate: Date) {
   return new Promise(async (resolve, reject) => {
     var dataCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
     await dataCollection.aggregate(aggrgationArray).toArray((err, results)=>{
@@ -210,9 +210,18 @@ async function getDBData(aggrgationArray: Array<Object>, name: string) {
           dayDict[results[i]["publishDate"].toDateString()].addToDataList(results[i]["sentimentScore"]);
         }
       }
-      var dataList: Array<Object> = [] 
-      for(var i:number=0; i<Object.values(dayDict).length; i++){
-        dataList.push({"date": Object.keys(dayDict)[i], "score": Object.values(dayDict)[i].calcAvg(), "count": Object.values(dayDict)[i].valCount, "name": name})
+      var dataList: Array<Object> = [];
+      var currentDate = new Date(startDate.getTime());
+      var dateString: string;
+      while(currentDate <= endDate){
+        dateString = currentDate.toDateString()
+        try{
+          dataList.push({"date":dateString, "score":dayDict[dateString].calcAvg(), "count": dayDict[dateString].valCount, "name": name})
+        }catch(IndexError){
+          dataList.push({"date":dateString, "score":0, "count": 0, "name": name})
+        }
+        currentDate.setDate(currentDate.getDate() + 1)
+
       }
       resolve(dataList)
     });
@@ -235,7 +244,7 @@ app.get("/outlet_list",async (req,res) => {
 app.get("/data/:startDate/:endDate", async (req, res)=>{ // Get average daily sentiment per day between two dates
   if(!isNaN(new Date(req.params.startDate).getTime()) && !isNaN(new Date(req.params.endDate).getTime())){ // Check both dates are valid
     var thisAggrgate = getBasicAggregationPipeline(new Date(req.params.startDate), new Date(req.params.endDate));
-    getDBData(thisAggrgate, "Any").then((data)=>{
+    getDBData(thisAggrgate, "Any", new Date(req.params.startDate), new Date(req.params.endDate)).then((data)=>{
       res.send(data)
     });
 
@@ -256,7 +265,7 @@ app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", as
     headlineString = "$none"
   }
   var aggrgetionPipeLine: Array<Object> = getAdvancedAggrgationPipeline(startDate, endDate, req.params.outletName, headlineString);
-  getDBData(aggrgetionPipeLine, req.params.name).then((data)=>{
+  getDBData(aggrgetionPipeLine, req.params.name, startDate, endDate).then((data)=>{
     res.send(data);
   })
  

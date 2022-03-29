@@ -1,14 +1,14 @@
-<div class="graph-container">
-    <div class="graph-explore-container">
+<div class="container">
+    <div class="explore-container">
         <app-explore-bar></app-explore-bar>
     </div>
     
-    <div class="graph-title-container">
-        <h1 class="graph-title-text">{{ category }}</h1>
+    <div class="title-container">
+        <h1 class="title-text">{{ category }}</h1>
     </div>
     
-    <div class="graph-display-container">
-        <div class="graph-display-loading-container" id="loadWheel">
+    <div class="display-container">
+        <div class="display-loading-container" id="loadWheel">
             <app-loading-wheel></app-loading-wheel>
         </div>
         <canvas baseChart width="100%" height="30"
@@ -16,5 +16,48 @@
                 [options]="chartConfig"
                 [type]="chartType">
         </canvas>
+    </div>
+
+    <div class="text-container">
+        <div class="text-category-container" *ngFor="let topic of textDataArray">
+            <h1 class="text-category-name">{{ topic["name"] }}</h1>
+            <div class="text-items-container">
+                <div class="text-item-container">
+                    <h2 class="text-item-heading">The average sentiment was</h2>
+                    <h1 class="text-item-content">{{ topic["avgSentiment"] }}</h1>
+                </div>
+                <div class="text-item-container">
+                    <h2 class="text-item-heading">The daily article output was</h2>
+                    <h1 class="text-item-content">{{ topic["avgCount"] }}</h1>
+                </div>
+                
+                <div class="text-break"></div>
+
+                <div class="text-item-container">
+                    <h2 class="text-item-heading">The most negative day was</h2>
+                    <h1 class="text-item-content">{{ topic["minScoreDay"] | date}}</h1>
+                    <h2 class="text-item-heading">Scoring</h2>
+                    <h1 class="text-item-content">{{ topic["minScore"] }}</h1>
+                </div>
+                <div class="text-item-container">
+                    <h2 class="text-item-heading">The most positive day was</h2>
+                    <h1 class="text-item-content">{{ topic["maxScoreDay"] | date}}</h1>
+                    <h2 class="text-item-heading">Scoring</h2>
+                    <h1 class="text-item-content">{{ topic["maxScore"] }}</h1>
+                </div>
+                <div class="text-item-container">
+                    <h2 class="text-item-heading">The most publicised day was</h2>
+                    <h1 class="text-item-content">{{ topic["maxCountDay"] | date}}</h1>
+                    <h2 class="text-item-heading">Scoring</h2>
+                    <h1 class="text-item-content">{{ topic["maxCount"] }}</h1>
+                </div>
+                <div class="text-item-container">
+                    <h2 class="text-item-heading">The least publicised day was</h2>
+                    <h1 class="text-item-content">{{ topic["maxCountDay"] | date}}</h1>
+                    <h2 class="text-item-heading">Scoring</h2>
+                    <h1 class="text-item-content">{{ topic["minCount"] }}</h1>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

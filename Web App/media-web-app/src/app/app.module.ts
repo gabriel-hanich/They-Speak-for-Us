@@ -31,7 +31,7 @@ import { LoadingPageComponent } from './components/loading-page/loading-page.com
     ConnectionErrorScreenComponent,
     GraphScreenComponent,
     LoadingWheelComponent,
-    LoadingPageComponent,
+    LoadingPageComponent
   ],
   imports: [
     BrowserModule,
