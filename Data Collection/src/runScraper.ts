@@ -95,6 +95,7 @@ async function getWriteData(){
   // Write date to a runlog file
   var file = await fs.appendFileSync("runlog.txt", `${new Date().toISOString()} articles written to DB = ${uploadCount}, total articles found = ${aCount}\n`, "utf8");
   console.log("Written to file");
+  process.exit();
 
 }
 

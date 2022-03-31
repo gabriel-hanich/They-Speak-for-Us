@@ -1,0 +1,26 @@
+<div class="search-container">
+    <div class="title-container">
+        <h1 class="title-text">Results for "{{ searchString }}"</h1>
+    </div>
+
+    <div class="results-container">
+        <div class="results-item">
+            <h3 class="results-item-outletName">Outlet Name</h3>
+            <div class="results-item-content-container">
+                <h2 class="results-item-headline">Headline</h2>
+                <p class="results-item-author">Author</p>
+                <p class="results-item-descriptio">Description</p>
+                <mwl-gauge 
+                    class="two"
+                    [max] = "1"
+                    [min]="-1"
+                    [dialStartAngle] = "0"
+                    [dialEndAngle] = "180"
+                    [value] = "sentimentVal"
+                    [animated] = "true"
+                    [animationDuration]="2"
+                ></mwl-gauge>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,6 +4,7 @@ import { ConnectionErrorScreenComponent } from './components/connection-error-sc
 import { GraphScreenComponent } from './components/graph-screen/graph-screen.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoadingPageComponent } from './components/loading-page/loading-page.component';
+import { SearchScreenComponent } from './components/search-screen/search-screen.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: "search/:category/:startDate/:endDate/:advancedSearch",
     component: LoadingPageComponent
+  },
+  {
+    path: "search/:searchString",
+    component: SearchScreenComponent
   },
   {
     path: "connection_error",

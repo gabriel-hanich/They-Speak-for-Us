@@ -22,6 +22,7 @@
     "@angular/router": "~13.2.0",
     "@swimlane/ngx-charts": "^20.1.0",
     "@types/angular": "^1.8.4",
+    "angular-gauge": "^4.0.0",
     "chart.js": "^3.7.1",
     "ng2-charts": "^3.0.8",
     "rxjs": "~7.5.0",

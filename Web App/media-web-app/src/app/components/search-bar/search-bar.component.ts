@@ -29,4 +29,9 @@ export class SearchBarComponent implements OnInit {
     this.router.navigate(["/"]);
   }
 
+  searchSubmit(){
+    var searchText =  (<HTMLInputElement>document.getElementById("searchInput")).value;
+    this.router.navigate(["search", searchText])
+  }
+
 }
