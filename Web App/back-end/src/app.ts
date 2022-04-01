@@ -254,7 +254,7 @@ app.get("/data/:startDate/:endDate", async (req, res)=>{ // Get average daily se
 });
 
 
-app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", async(req, res)=>{
+app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", async(req, res)=>{ // Get advanced search data
   var startDate = new Date(req.params.startDate);
   var endDate = new Date(req.params.endDate);
   var headlineString: string;
@@ -268,8 +268,38 @@ app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", as
   getDBData(aggrgetionPipeLine, req.params.name, startDate, endDate).then((data)=>{
     res.send(data);
   })
- 
-})
+});
+
+app.get("/search/:searchText/:sortParam/:sortOrder",async (req, res) => {
+  var searchText: string = req.params.searchText;
+  var sortParam: string = req.params.sortParam;
+  var sortOrder: number = parseInt(req.params.sortOrder);
+  var dataCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
+  var searchAggregate: Array<Object> = [
+    {
+      '$match': {
+        'headline': {
+          '$regex': "(?i)" + searchText
+        }
+      }
+    }, {
+      '$project': {
+        'outletName': 1, 
+        'headline': 1, 
+        'description': 1, 
+        'author': 1, 
+        'publishDate': 1, 
+        'sentimentScore': 1
+      }
+    }];
+  var sortDict = {}
+  sortDict[sortParam] = sortOrder
+  searchAggregate.push({"$sort": sortDict});
+  searchAggregate.push({"$limit": 20});
+  await dataCollection.aggregate(searchAggregate).toArray((err, data)=>{
+    res.send(data);
+  })
+});
 
 app.listen(port, () => {
     console.log(`Server listening on the port: ${port}`);

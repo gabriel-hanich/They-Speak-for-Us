@@ -22,25 +22,81 @@
 
 .results{
     &-container{
-        width: 65%;
-        height: 90%;
+        width: 85%;
+        height: 80%;
         margin: auto;
         margin-top: 150px;
-        background-color: #0466c8;
         display: flex;
         flex-direction: column;
     }
-
+    
     &-item{
         width: 100%;
-        height: 100px;
-        display: flex;
-        flex-direction: column;
-
+        height: 200px;
+        background-color: #0466c8;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        justify-content: flex-start;
+        align-items: flex-start;
+        position: relative;
+        
+        &-outletName{
+            margin-top: 5px;
+            margin-left: 15px;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            width: fit-content;
+            text-align: center;
+        }
+        
+        &-text{
+            margin-left: 15px;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+        
         &-content-container{
+            margin-top: 0px;
             display: flex;
             flex-direction: row;
-            background-color: rebeccapurple;
+            height: 95%;
+        }
+        &-headline{
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 0px;
+            max-width: 45%;
+        }
+
+        &-author{
+            font-weight: 250;
+            font-style: italic;
+            max-width: 10%;
+            margin-top: -10px;
+        }
+
+        &-description{
+            width: 30%;
+            height: 90%;
+            margin-top: -10px;
+        }
+
+        &-sentiment{
+            &-value{
+                font-size: 2rem;
+                font-weight: 500;
+                margin-top: 7px;
+            }
+            
+            &-container{
+                position: absolute;
+                top: 25%;
+                right: 5%;
+                height: 45px;
+                width: fit-content;
+                justify-content: right;
+                text-align: center;
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http"
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DateConverterService } from './date-converter.service';
-import { apiDataResponse, apiOutletResponse } from 'src/model';
+import { apiArticleResponse, apiDataResponse, apiOutletResponse } from 'src/model';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,5 +38,10 @@ export class GetDbDataService {
 
   getOutletList(): Observable<Array<apiOutletResponse>>{
     return this.httpService.get<Array<apiOutletResponse>>(environment.backEndURL + "/outlet_list")
+  }
+
+  getSearchData(searchWord: string, sortField: string, sortDirection: number): Observable<Array<apiArticleResponse>>{
+    console.log(environment.backEndURL + "/search/" + searchWord + "/" + sortField  + "/" + sortDirection)
+    return this.httpService.get<Array<apiArticleResponse>>(environment.backEndURL + "/search/" + searchWord + "/" + sortField  + "/" + sortDirection)
   }
 }

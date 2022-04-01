@@ -4,22 +4,17 @@
     </div>
 
     <div class="results-container">
-        <div class="results-item">
-            <h3 class="results-item-outletName">Outlet Name</h3>
+        <div class="results-item" *ngFor="let article of responseList">
+            <span>
+                <h3 class="results-item-outletName">{{ article["outletName"] }} - {{ article["publishDate"] | date}}</h3>
+            </span>
             <div class="results-item-content-container">
-                <h2 class="results-item-headline">Headline</h2>
-                <p class="results-item-author">Author</p>
-                <p class="results-item-descriptio">Description</p>
-                <mwl-gauge 
-                    class="two"
-                    [max] = "1"
-                    [min]="-1"
-                    [dialStartAngle] = "0"
-                    [dialEndAngle] = "180"
-                    [value] = "sentimentVal"
-                    [animated] = "true"
-                    [animationDuration]="2"
-                ></mwl-gauge>
+                <h2 class="results-item-headline results-item-text">{{ article["headline"] }}</h2>
+                <p class="results-item-author results-item-text" *ngIf="article['author']">{{ article["author"] }}</p>
+                <p class="results-item-description results-item-text" >{{ article["description"]}}</p>
+                <div class="results-item-sentiment-container">
+                    <h1 class="results-item-sentiment-value" style="background-color: {{getDialColor(article['sentimentScore'])}}"> {{ article["sentimentScore"] |number}}</h1>
+                </div>
             </div>
         </div>
     </div>

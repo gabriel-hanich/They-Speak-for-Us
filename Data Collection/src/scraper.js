@@ -38,7 +38,6 @@ then uploads unique outlet to the DB
 /// <reference path="../@types/vader-sentiment.d.ts" />
 const vaderSentiment = __importStar(require("vader-sentiment"));
 const rss_parser_1 = __importDefault(require("rss-parser"));
-const cron_1 = __importDefault(require("cron"));
 const mongodb_1 = require("mongodb");
 const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
@@ -73,23 +72,28 @@ function getWriteData() {
         // Iterate through each media outlet and get current article data from rss feed
         var aCount = 0;
         for (var i = 0; i < outletList.length; i++) {
-            console.log(`${i + 1}/${outletList.length}`);
-            var thisArticleList = yield rssParser.parseURL(outletList[i].rssLink);
-            thisArticleList.items.forEach(rs => {
-                aCount += 1;
-                var thisScore = vaderSentiment.SentimentIntensityAnalyzer.polarity_scores(rs.title)["compound"]; // Generate sentiment score
-                outletList[i]["articleList"].push({
-                    "outletName": outletList[i]["name"],
-                    "headline": rs.title,
-                    "description": rs.contentSnippet,
-                    "author": rs.creator,
-                    "publishDate": new Date(rs.isoDate),
-                    "isLegacy": false,
-                    "sentimentScore": thisScore,
-                    "linkToArticle": rs.link,
-                    "catergories": rs.categories,
+            try {
+                console.log(`${i + 1}/${outletList.length}`);
+                var thisArticleList = yield rssParser.parseURL(outletList[i].rssLink);
+                thisArticleList.items.forEach(rs => {
+                    aCount += 1;
+                    var thisScore = vaderSentiment.SentimentIntensityAnalyzer.polarity_scores(rs.title)["compound"]; // Generate sentiment score
+                    outletList[i]["articleList"].push({
+                        "outletName": outletList[i]["name"],
+                        "headline": rs.title,
+                        "description": rs.contentSnippet,
+                        "author": rs.creator,
+                        "publishDate": new Date(rs.isoDate),
+                        "isLegacy": false,
+                        "sentimentScore": thisScore,
+                        "linkToArticle": rs.link,
+                        "catergories": rs.categories,
+                    });
                 });
-            });
+            }
+            catch (Exception) {
+                console.log(outletList[i]);
+            }
         }
         ;
         console.log(`Total articles counted = ${aCount}`);
@@ -119,12 +123,7 @@ function getWriteData() {
         // Write date to a runlog file
         var file = yield fs.appendFileSync("runlog.txt", `${new Date().toISOString()} articles written to DB = ${uploadCount}, total articles found = ${aCount}\n`, "utf8");
         console.log("Written to file");
+        process.exit();
     });
 }
-// Get code to r
-var job = new cron_1.default.CronJob('0 6,18 * * *', function () {
-    console.log("STARTING RUNNING");
-    getWriteData();
-}, null, true, 'Australia/Sydney');
-console.log("CRONJOB INIT DONE");
-job.start();
+getWriteData();

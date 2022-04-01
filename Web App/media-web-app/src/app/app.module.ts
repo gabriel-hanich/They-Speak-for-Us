@@ -19,10 +19,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ConnectionErrorScreenComponent } from './components/connection-error-screen/connection-error-screen.component';
 import { NgChartsModule } from 'ng2-charts';
-import { GaugeModule } from 'angular-gauge';
 import { LoadingWheelComponent } from './components/loading-wheel/loading-wheel.component';
 import { LoadingPageComponent } from './components/loading-page/loading-page.component';
 import { SearchScreenComponent } from './components/search-screen/search-screen.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +47,6 @@ import { SearchScreenComponent } from './components/search-screen/search-screen.
     FormsModule,
     NgChartsModule,
     ReactiveFormsModule,
-    GaugeModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

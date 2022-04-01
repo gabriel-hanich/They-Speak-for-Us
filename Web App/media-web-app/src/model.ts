@@ -9,6 +9,15 @@ export interface apiOutletResponse{
     outletName: string;
 }
 
+export interface apiArticleResponse{
+    outletName: string;
+    headline: string;
+    description: string;
+    author: string;
+    publishDate: string;
+    sentimentScore: number;
+}
+
 export interface topic{
     topicNumber: number;
     selectedOutletName: string;
