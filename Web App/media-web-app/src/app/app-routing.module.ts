@@ -24,6 +24,10 @@ const routes: Routes = [
     component: SearchScreenComponent
   },
   {
+    path: "search/:searchString/:sortCategory/:sortOrder",
+    component: SearchScreenComponent
+  },
+  {
     path: "connection_error",
     component: ConnectionErrorScreenComponent
   }

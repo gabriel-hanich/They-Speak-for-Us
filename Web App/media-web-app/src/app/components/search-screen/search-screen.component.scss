@@ -16,7 +16,48 @@
     }
     &-text{
         font-size: 5rem;
-        color: #0466c8;
+        color: #4361ee;
+    }
+}
+
+.sort{
+    &-container{
+        background-color: #4361ee;
+        width: 45%;
+        margin: auto;
+        margin-top: 75px;
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+
+        border-radius: 15px;
+        box-shadow: #b8b9ce 10px 10px 5px;
+    }
+    
+    &-text{
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+    &-category{
+        &-container{
+            margin-top: -10px;
+        }
+    }
+    &-submit{
+        margin-left: 30px;
+        margin-top: 17px;
+        height: 40px;
+        width: 100px;
+        background-color: #80ffdb;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.75s ease;
+        &:hover{
+            box-shadow: #2842b8 10px 10px 5px;
+            transform: translate(-5px, -5px);
+
+        }
     }
 }
 
@@ -25,7 +66,7 @@
         width: 85%;
         height: 80%;
         margin: auto;
-        margin-top: 150px;
+        margin-top: 75px;
         display: flex;
         flex-direction: column;
     }
@@ -33,12 +74,13 @@
     &-item{
         width: 100%;
         height: 200px;
-        background-color: #0466c8;
+        background-color: #4361ee;
         border-radius: 15px;
         margin-bottom: 15px;
         justify-content: flex-start;
         align-items: flex-start;
         position: relative;
+        box-shadow: #b8b9ce 10px 10px 5px;
         
         &-outletName{
             margin-top: 5px;
@@ -53,6 +95,12 @@
             margin-left: 15px;
             margin-top: 10px;
             font-size: 1rem;
+        }
+
+        &-link{
+            text-decoration: none;
+            color: #000;
+            cursor: pointer;
         }
         
         &-content-container{
@@ -98,5 +146,28 @@
                 text-align: center;
             }
         }
+        
     }
-}
+    &-more{
+        &-container{
+            width: 25%;
+            margin: auto;
+            margin-top: 50px;
+            padding-bottom: 100px;
+        }
+        &-button{
+            width: 100%;
+            height: 50px;
+            border-radius: 15px;
+            background-color: #80ffdb;
+            border: none;
+            cursor: pointer;
+            transition: all 0.75s ease;
+
+            &:hover{
+                box-shadow: #9797b3 10px 10px 5px;
+                transform: translate(-5px, -5px);
+            }
+        }
+    }
+}  

@@ -16,6 +16,7 @@ export interface apiArticleResponse{
     author: string;
     publishDate: string;
     sentimentScore: number;
+    linkToArticle?: string;
 }
 
 export interface topic{

@@ -40,8 +40,7 @@ export class GetDbDataService {
     return this.httpService.get<Array<apiOutletResponse>>(environment.backEndURL + "/outlet_list")
   }
 
-  getSearchData(searchWord: string, sortField: string, sortDirection: number): Observable<Array<apiArticleResponse>>{
-    console.log(environment.backEndURL + "/search/" + searchWord + "/" + sortField  + "/" + sortDirection)
-    return this.httpService.get<Array<apiArticleResponse>>(environment.backEndURL + "/search/" + searchWord + "/" + sortField  + "/" + sortDirection)
+  getSearchData(searchWord: string, sortField: string, sortDirection: number, toReturnCount: number): Observable<Array<apiArticleResponse>>{
+    return this.httpService.get<Array<apiArticleResponse>>(environment.backEndURL + "/search/" + searchWord + "/" + sortField  + "/" + sortDirection + "/" + toReturnCount)
   }
 }

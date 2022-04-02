@@ -27,7 +27,7 @@
                     <h1 class="text-item-content">{{ topic["avgSentiment"] }}</h1>
                 </div>
                 <div class="text-item-container">
-                    <h2 class="text-item-heading">The daily article output was</h2>
+                    <h2 class="text-item-heading">The daily average article output was</h2>
                     <h1 class="text-item-content">{{ topic["avgCount"] }}</h1>
                 </div>
                 
@@ -53,7 +53,7 @@
                 </div>
                 <div class="text-item-container">
                     <h2 class="text-item-heading">The least publicised day was</h2>
-                    <h1 class="text-item-content">{{ topic["maxCountDay"] | date}}</h1>
+                    <h1 class="text-item-content">{{ topic["minCountDay"] | date}}</h1>
                     <h2 class="text-item-heading">Scoring</h2>
                     <h1 class="text-item-content">{{ topic["minCount"] }}</h1>
                 </div>

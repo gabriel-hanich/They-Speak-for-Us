@@ -270,10 +270,11 @@ app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", as
   })
 });
 
-app.get("/search/:searchText/:sortParam/:sortOrder",async (req, res) => {
+app.get("/search/:searchText/:sortParam/:sortOrder/:retrieveCount",async (req, res) => {
   var searchText: string = req.params.searchText;
   var sortParam: string = req.params.sortParam;
   var sortOrder: number = parseInt(req.params.sortOrder);
+  var retrieveCount: number = parseInt(req.params.retrieveCount)
   var dataCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
   var searchAggregate: Array<Object> = [
     {
@@ -289,13 +290,14 @@ app.get("/search/:searchText/:sortParam/:sortOrder",async (req, res) => {
         'description': 1, 
         'author': 1, 
         'publishDate': 1, 
-        'sentimentScore': 1
+        'sentimentScore': 1,
+        'linkToArticle': 1
       }
     }];
   var sortDict = {}
   sortDict[sortParam] = sortOrder
   searchAggregate.push({"$sort": sortDict});
-  searchAggregate.push({"$limit": 20});
+  searchAggregate.push({"$limit": retrieveCount});
   await dataCollection.aggregate(searchAggregate).toArray((err, data)=>{
     res.send(data);
   })
