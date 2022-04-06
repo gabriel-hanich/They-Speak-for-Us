@@ -47,13 +47,13 @@ function getBasicAggregationPipeline(startDate: Date, endDate: Date): Array<Obje
       {
         '$match': {
           'publishDate': {
-            '$gt': startDate
+            '$gte': startDate
           }
         }
       }, {
         '$match': {
           'publishDate': {
-            '$lt': endDate
+            '$lte': endDate
           }
         }
       }, {
@@ -77,7 +77,7 @@ function getAdvancedAggrgationPipeline(startDate: Date, endDate: Date, outletNam
         {
           '$match': {
             'publishDate': {
-              '$gt': startDate
+              '$gte': startDate
             },
           }
         },{
@@ -89,7 +89,7 @@ function getAdvancedAggrgationPipeline(startDate: Date, endDate: Date, outletNam
         },{
           '$match': {
             'publishDate': {
-              '$lt': endDate
+              '$lte': endDate
             }
           }
         }, {
@@ -144,13 +144,13 @@ function getAdvancedAggrgationPipeline(startDate: Date, endDate: Date, outletNam
         {
           '$match': {
             'publishDate': {
-              '$gt': startDate
+              '$gte': startDate
             },
           }
         }, {
           '$match': {
             'publishDate': {
-              '$lt': endDate
+              '$lte': endDate
             }
           }
         }, {
@@ -170,14 +170,14 @@ function getAdvancedAggrgationPipeline(startDate: Date, endDate: Date, outletNam
         {
           '$match': {
             'publishDate': {
-              '$gt': startDate
+              '$gte': startDate
             },
             outletName: outletName,
           }
         }, {
           '$match': {
             'publishDate': {
-              '$lt': endDate
+              '$lte': endDate
             }
           }
         }, {

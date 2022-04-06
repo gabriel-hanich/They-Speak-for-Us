@@ -215,7 +215,7 @@ export class GraphScreenComponent implements OnInit {
         "maxScore": highestScore.toFixed(2),
         "maxScoreDay": highestScoreDay,
         "minScore": lowestScore.toFixed(2),
-        "minScoreDay": lowestCountDay})
+        "minScoreDay": lowestScoreDay})
     }
   }
 }
