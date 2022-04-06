@@ -32,7 +32,7 @@ dotenv.config({ path: path.resolve(__dirname, "../settings.env")});
 
 const app = express();
 const port = 3000;
-const dbClient = new MongoClient(process.env.DB_URI)
+const dbClient = new MongoClient(process.env.DB_URI);
 dbClient.connect()
 
 app.use(bodyParser.json());
@@ -229,10 +229,15 @@ async function getDBData(aggrgationArray: Array<Object>, name: string, startDate
 }
 
 app.get('/article_count', async (req,res) => {
+    console.log("Connection")
     // Calculate how many articles there are in the DB
-    var countCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
-    var dbData = await countCollection.count();
-    res.send(dbData.toString())
+    try{
+      var countCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
+      var dbData = await countCollection.count();
+      res.send(dbData.toString())
+    }catch (err){
+      console.log(err);
+    }
 });
 
 app.get("/outlet_list",async (req,res) => {
@@ -306,5 +311,3 @@ app.get("/search/:searchText/:sortParam/:sortOrder/:retrieveCount",async (req, r
 app.listen(port, () => {
     console.log(`Server listening on the port: ${port}`);
 });
-
-dbClient.close()
