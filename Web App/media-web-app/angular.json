@@ -74,6 +74,9 @@
           "configurations": {
             "production": {
               "browserTarget": "media-web-app:build:production"
+            },"options": {
+              "sslKey": "../back-end/secrets/key.pem",
+              "sslCert": "../back-end/secrets/ca.crt"
             },
             "development": {
               "browserTarget": "media-web-app:build:development"

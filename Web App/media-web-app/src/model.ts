@@ -46,3 +46,9 @@ export interface topicTextData{
     minScore: string;
     minScoreDay: string;
 }
+
+export interface barRowData{
+    title: string;
+    dateList: Array<String>;
+    valList: Array<number>;
+}

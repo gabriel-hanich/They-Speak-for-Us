@@ -1,11 +1,12 @@
 import { prepareEventListenerParameters } from '@angular/compiler/src/render3/view/template';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { ColorServiceService } from 'src/app/services/color-service.service';
 import { DateConverterService } from 'src/app/services/date-converter.service';
 import { GetDbDataService } from 'src/app/services/get-db-data.service';
-import { apiDataResponse, topic, topicData, topicTextData } from 'src/model';
+import { apiDataResponse, barRowData, topic, topicData, topicTextData } from 'src/model';
 
 @Component({
   selector: 'app-graph-screen',
@@ -21,12 +22,20 @@ export class GraphScreenComponent implements OnInit {
   public chartConfig: ChartConfiguration["options"];
   public chartType: ChartType = 'line';
   public textDataArray: Array<topicTextData> = []
+  public barData: Array<barRowData>;
+  public mutiplierValue: number| null;
+  public minBarVal: number = -1;
+  public maxBarVal: number = 1;
 
   private doAdvanced: string;
   private topicList: Array<topic>;
   private dataArray: Array<topicData> = [];
+  private highestBarCount: number = 0;
 
-  constructor(private route: ActivatedRoute, private dateService: DateConverterService, private getDBService: GetDbDataService) { 
+  constructor(private route: ActivatedRoute, 
+    private dateService: DateConverterService, 
+    private getDBService: GetDbDataService,
+    private colorGenerator: ColorServiceService) { 
   }
   
   ngOnInit(): void { // Show graph
@@ -38,7 +47,6 @@ export class GraphScreenComponent implements OnInit {
       this.doAdvanced = params["advancedSearch"];
       if(this.doAdvanced == "true"){
         this.topicList = JSON.parse(localStorage.getItem("advanced_settings") as string);
-        console.log(this.topicList)
         for(var i:number=0; i<this.topicList.length; i++){
           this.getDBService.getAdvancedGraphData(this.startDate, 
             this.endDate, 
@@ -95,93 +103,59 @@ export class GraphScreenComponent implements OnInit {
     
     if(this.doAdvanced == "true"){
       if(this.topicList.length == this.earlyChartData.datasets.length){ // If this the final topic to be rendered
-        // Hide loading bar
-        document.getElementById("loadWheel")?.classList.add("hidden");
-        this.loadTextStats();
-        this.finalChartData = this.earlyChartData;
-        if(this.category == "Average Sentiment"){
-          this.chartConfig = {
-            elements: {
-              line: {
-                tension: 0
-              }
-            },
-            scales: {
-              x: {},
-              'y-axis-0':
-                {
-                  position: 'left',
-                  min: -1,
-                  max: 1
-                }
-            }
-          };
-        }else{
-          this.chartConfig = {
-            elements: {
-              line: {
-                tension: 0
-              }
-            },
-            scales: {
-              x: {},
-              'y-axis-0':
-                {
-                  position: 'left',
-                  min: 0,
-                }
-            }
-          };
-        }
+        this.displayData()
       }
-    }else{
-      document.getElementById("loadWheel")?.classList.add("hidden"); 
-      this.loadTextStats();
-      this.finalChartData = this.earlyChartData
-      if(this.category == "Average Sentiment"){
-        this.chartConfig = {
-          elements: {
-            line: {
-              tension: 0
-            }
-          },
-          scales: {
-            x: {},
-            'y-axis-0':
-              {
-                position: 'left',
-                min: -1,
-                max: 1
-              }
-          }
-        };
-      }else{
-        this.chartConfig = {
-          elements: {
-            line: {
-              tension: 0
-            }
-          },
-          scales: {
-            x: {},
-            'y-axis-0':
-              {
-                position: 'left',
-                min: 0,
-              }
-          }
-        };
-      }
-      if(this.doAdvanced != "true"){
-        this.finalChartData = this.earlyChartData
-      }
+    } else{
+      this.displayData()
+    }
+  }
   
+  displayData():void{ // Display main graph data AND get text results 
+    this.loadTextStats(); // Load the text stats
+    this.displayBar(); // Load the bar chart
+    this.renderBoxColors();
+    document.getElementById("loadWheel")?.classList.add("hidden"); 
+    this.finalChartData = this.earlyChartData
+    if(this.category == "Average Sentiment"){
+      this.chartConfig = {
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          x: {},
+          'y-axis-0':
+            {
+              position: 'left',
+              min: -1,
+              max: 1
+            }
+        }
+      };
+    }else{
+      this.chartConfig = {
+        elements: {
+          line: {
+            tension: 0
+          }
+        },
+        scales: {
+          x: {},
+          'y-axis-0':
+            {
+              position: 'left',
+              min: 0,
+            }
+        }
+      };
+    }
+    if(this.doAdvanced != "true"){
+      this.finalChartData = this.earlyChartData
     }
   }
 
-
   loadTextStats():void{
-    console.log(this.dataArray)
     for(var i:number=0; i<this.dataArray.length; i++){
       // Calculate average sentiment
       var objCount = this.dataArray[i]["scores"].length;
@@ -218,5 +192,98 @@ export class GraphScreenComponent implements OnInit {
         "minScoreDay": lowestScoreDay})
     }
   }
+
+  displayBar():void{
+    document.getElementById("barContainer")?.classList.remove("hidden");
+    this.barData = [];
+    if(this.doAdvanced == "true"){
+      for(var i=0; i<this.dataArray.length; i++){
+        if(this.category == "Article Count"){
+          this.barData.push({"title": this.dataArray[i]["name"], "dateList": this.dataArray[i]["dates"], "valList": this.dataArray[i]["counts"]});
+        }else{
+          this.barData.push({"title": this.dataArray[i]["name"], "dateList": this.dataArray[i]["dates"], "valList": this.dataArray[i]["scores"]});
+        }
+      }
+    }else{ // Get sentiment/count data for every outlet
+      // Get list of media outlets
+      this.getDBService.getOutletList().subscribe((res)=>{
+        for(var i:number = 0; i<res.length; i++){
+          // Get daily data for this outlet
+          this.getDBService.getAdvancedGraphData(this.startDate, this.endDate, res[i]["outletName"], [], res[i]["outletName"]).subscribe((outletRes)=>{
+            var dataList: Array<number> = [];
+            for(var k:number=0; k<outletRes.length; k++){
+              if(this.category == "Article Count"){
+                dataList.push(outletRes[k]["count"])
+                if(outletRes[k]["count"] > this.highestBarCount){
+                  this.highestBarCount = outletRes[k]["count"];
+                }
+              }else{
+                dataList.push(outletRes[k]["score"])
+              }
+            }
+            this.barData.push({"title": outletRes[0]["name"], "dateList": this.dataArray[0]["dates"], "valList": dataList});
+          });
+        }
+      })
+    }
+    setTimeout(()=>{
+      this.renderBoxColors();
+    }, 2000)
+
+  }
+
+  round(num: number) {
+    var m = Number((Math.abs(num) * 100).toPrecision(15));
+    return Math.round(m) / 100 * Math.sign(num);
+  }
+
+  renderBoxColors():void{
+    var elemList = document.getElementsByClassName("Databox");
+    for(var i:number=0; i<elemList.length; i++){
+      if(this.category == "Average Sentiment"){
+        document.getElementById("barGradient")?.classList.add("greenRedScale")
+        if(typeof this.mutiplierValue != undefined){
+          this.minBarVal = -this.round((1 / (this.mutiplierValue as number)));
+          this.maxBarVal = this.round(1 / (this.mutiplierValue as number));
+          (elemList[i] as HTMLElement).style.backgroundColor = this.getSentimentBGColor((elemList[i] as HTMLElement).id, this.mutiplierValue as number);
+        }else{
+          this.minBarVal = -1;
+          this.maxBarVal = 1;
+          (elemList[i] as HTMLElement).style.backgroundColor = this.getSentimentBGColor((elemList[i] as HTMLElement).id, 1);
+        }
+      }else{
+        document.getElementById("barGradient")?.classList.add("blackWhiteScale")
+        this.minBarVal = 0;
+        if(typeof this.mutiplierValue != undefined){
+          this.maxBarVal = this.round(this.highestBarCount / (this.mutiplierValue as number));
+          (elemList[i] as HTMLElement).style.backgroundColor = this.getArticleCountBGColor((elemList[i] as HTMLElement).id, this.mutiplierValue as number);
+        }else{
+          this.maxBarVal = this.maxBarVal / (this.mutiplierValue as number);
+          (elemList[i] as HTMLElement).style.backgroundColor = this.getArticleCountBGColor((elemList[i] as HTMLElement).id, 1);
+        }
+      }
+    }
+    
+  }
+
+  getSentimentBGColor(value: string, multiplier: number): string{
+    return this.colorGenerator.getSentimentColor(parseFloat(value) * multiplier);
+  }
+
+  getArticleCountBGColor(value: string, multiplier: number): string{
+    // Get max articleCount 
+    var maxNum: number = 0;
+    if(this.doAdvanced == "true"){
+      for(var i:number=0; i<this.textDataArray.length; i++){
+        if(this.textDataArray[i]["maxCount"] > maxNum){
+          maxNum = this.textDataArray[i]["maxCount"];
+        }
+      }
+    }else{
+      maxNum = this.highestBarCount;
+    }
+    return this.colorGenerator.getCountColor((parseFloat(value) * multiplier) / maxNum)
+  }
+
 }
 

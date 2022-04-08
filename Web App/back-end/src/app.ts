@@ -28,7 +28,7 @@ export class datePeriod{
 
 }
 
-dotenv.config({ path: path.resolve(__dirname, "../settings.env")});
+dotenv.config({ path: path.resolve(__dirname, "../secrets/settings.env")});
 
 const app = express();
 const port = 3000;
@@ -229,7 +229,6 @@ async function getDBData(aggrgationArray: Array<Object>, name: string, startDate
 }
 
 app.get('/article_count', async (req,res) => {
-    console.log("Connection")
     // Calculate how many articles there are in the DB
     try{
       var countCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
