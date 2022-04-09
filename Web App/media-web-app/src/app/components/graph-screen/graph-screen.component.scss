@@ -122,7 +122,7 @@ mat-slider {
         background-color: #C9CAD9;
         padding-top: 10px;
         margin-top: 10px;
-        margin-bottom: 50px;
+        padding-bottom: 100px;
         border-radius: 15px;
     }
     &-multiplier{
@@ -191,8 +191,8 @@ mat-slider {
                 }
             }
             &-info{
-                background-color: #fff;
                 transition: all 0.75s;
+                background-color: #C9CAD9;
                 height: 100%;
                 width: 100%;
                 line-height: 5px;

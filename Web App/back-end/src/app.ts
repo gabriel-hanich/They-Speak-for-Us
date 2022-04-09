@@ -263,8 +263,8 @@ app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", as
   var endDate = new Date(req.params.endDate);
   var headlineString: string;
   if(req.params.headlineList != "$none"){
-    headlineString = req.params.headlineList.replace(",", " | ");
-    headlineString = headlineString.slice(0, -2)
+    headlineString = req.params.headlineList.replace(",", "|");
+    headlineString = headlineString.slice(0, -1)
   }else{
     headlineString = "$none"
   }

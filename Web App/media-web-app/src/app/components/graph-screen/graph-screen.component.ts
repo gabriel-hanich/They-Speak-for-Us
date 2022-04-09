@@ -31,6 +31,7 @@ export class GraphScreenComponent implements OnInit {
   private topicList: Array<topic>;
   private dataArray: Array<topicData> = [];
   private highestBarCount: number = 0;
+  private initRendered = false;
 
   constructor(private route: ActivatedRoute, 
     private dateService: DateConverterService, 
@@ -109,7 +110,7 @@ export class GraphScreenComponent implements OnInit {
       this.displayData()
     }
   }
-  
+
   displayData():void{ // Display main graph data AND get text results 
     this.loadTextStats(); // Load the text stats
     this.displayBar(); // Load the bar chart
@@ -224,11 +225,8 @@ export class GraphScreenComponent implements OnInit {
             this.barData.push({"title": outletRes[0]["name"], "dateList": this.dataArray[0]["dates"], "valList": dataList});
           });
         }
-      })
+      });
     }
-    setTimeout(()=>{
-      this.renderBoxColors();
-    }, 2000)
 
   }
 
