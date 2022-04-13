@@ -299,7 +299,7 @@ app.get("/search/:searchText/:sortParam/:sortOrder/:retrieveCount",async (req, r
       }
     }];
   var sortDict = {}
-  sortDict[sortParam] = sortOrder
+  sortDict[sortParam] = sortOrder 
   searchAggregate.push({"$sort": sortDict});
   searchAggregate.push({"$limit": retrieveCount});
   await dataCollection.aggregate(searchAggregate).toArray((err, data)=>{

@@ -199,6 +199,11 @@ export class GraphScreenComponent implements OnInit {
     this.barData = [];
     if(this.doAdvanced == "true"){
       for(var i=0; i<this.dataArray.length; i++){
+        for(var k=0; k<this.dataArray[i]["counts"].length; k++){
+          if(this.dataArray[i]["counts"][k] > this.highestBarCount){
+            this.highestBarCount = this.dataArray[i]["counts"][k];
+          }
+        }
         if(this.category == "Article Count"){
           this.barData.push({"title": this.dataArray[i]["name"], "dateList": this.dataArray[i]["dates"], "valList": this.dataArray[i]["counts"]});
         }else{
@@ -227,7 +232,6 @@ export class GraphScreenComponent implements OnInit {
         }
       });
     }
-
   }
 
   round(num: number) {
@@ -253,10 +257,10 @@ export class GraphScreenComponent implements OnInit {
         document.getElementById("barGradient")?.classList.add("blackWhiteScale")
         this.minBarVal = 0;
         if(typeof this.mutiplierValue != undefined){
-          this.maxBarVal = this.round(this.highestBarCount / (this.mutiplierValue as number));
+          this.maxBarVal = Math.round(this.highestBarCount / (this.mutiplierValue as number));
           (elemList[i] as HTMLElement).style.backgroundColor = this.getArticleCountBGColor((elemList[i] as HTMLElement).id, this.mutiplierValue as number);
         }else{
-          this.maxBarVal = this.maxBarVal / (this.mutiplierValue as number);
+          this.maxBarVal = this.highestBarCount;
           (elemList[i] as HTMLElement).style.backgroundColor = this.getArticleCountBGColor((elemList[i] as HTMLElement).id, 1);
         }
       }
