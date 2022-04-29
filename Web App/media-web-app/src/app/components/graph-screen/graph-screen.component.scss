@@ -114,3 +114,14 @@
 .hidden{
     display: none;
 }
+
+
+@media screen and (max-width: 1400px){
+    .explore{
+        &-container{
+            width: 60%;
+            margin: auto; 
+            margin-top: 50px;
+        }    
+    }
+}

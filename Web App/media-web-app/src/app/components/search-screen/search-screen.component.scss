@@ -171,3 +171,11 @@
         }
     }
 }  
+
+@media screen and (max-width: 1400px){
+    .sort{
+        &-container{
+            width: 70%;
+        }
+    }
+}

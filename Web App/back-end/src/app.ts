@@ -32,7 +32,7 @@ dotenv.config({ path: path.resolve(__dirname, "../settings.env")});
 
 const app = express();
 const port = 3000;
-const dbClient = new MongoClient(process.env.DB_URI);
+const dbClient = new MongoClient(process.env.DB_URI, { useUnifiedTopology: true}, { useNewUrlParser: true }, { connectTimeoutMS: 30000 }, { keepAlive: 1});
 dbClient.connect()
 
 app.use(bodyParser.json());
