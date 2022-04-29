@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GetDbDataService } from 'src/app/services/get-db-data.service';
 import { apiArticleResponse } from 'src/model';
 import { environment } from 'src/environments/environment';
+import { ColorServiceService } from 'src/app/services/color-service.service';
 
 @Component({
   selector: 'app-search-screen',
@@ -20,7 +21,8 @@ export class SearchScreenComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
      private getDbDataService: GetDbDataService,
-     private router: Router) { }
+     private router: Router,
+     private colorGenerator: ColorServiceService) { }
 
   ngOnInit(): void {
     this.sortCategories = environment['sortCategories'] as unknown as Array<string>;
@@ -74,19 +76,7 @@ export class SearchScreenComponent implements OnInit {
   }
 
   getDialColor(value: number): string{
-    if(value <= -0.5 && value < 1){
-      return "#e62c4e" 
-    }else if(value <= -0.15 && value > -0.5){
-      return "#c75f72"
-    }else if(value <= 0.15 && value > -0.15){
-      return "#ad9ea1"
-    }else if(value <= 0.5 && value > 0.15){
-      return "#75c977"
-    }else if(value > 0.5 && value < 1){
-      return "#3dc441"
-    }else{
-      return "#ad9ea1"
-    }
+    return this.colorGenerator.getSentimentColor(value);
   }
 
   newSearch():void{

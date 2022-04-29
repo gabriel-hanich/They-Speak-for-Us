@@ -28,7 +28,7 @@ export class datePeriod{
 
 }
 
-dotenv.config({ path: path.resolve(__dirname, "../settings.env")});
+dotenv.config({ path: path.resolve(__dirname, "../secrets/settings.env")});
 
 const app = express();
 const port = 3000;
@@ -229,7 +229,6 @@ async function getDBData(aggrgationArray: Array<Object>, name: string, startDate
 }
 
 app.get('/article_count', async (req,res) => {
-    console.log("Connection")
     // Calculate how many articles there are in the DB
     try{
       var countCollection = dbClient.db(process.env.DB_NAME).collection("newsData");
@@ -264,8 +263,8 @@ app.get("/data/advanced/:startDate/:endDate/:outletName/:headlineList/:name", as
   var endDate = new Date(req.params.endDate);
   var headlineString: string;
   if(req.params.headlineList != "$none"){
-    headlineString = req.params.headlineList.replace(",", " | ");
-    headlineString = headlineString.slice(0, -2)
+    headlineString = req.params.headlineList.replace(",", "|");
+    headlineString = headlineString.slice(0, -1)
   }else{
     headlineString = "$none"
   }
@@ -300,7 +299,7 @@ app.get("/search/:searchText/:sortParam/:sortOrder/:retrieveCount",async (req, r
       }
     }];
   var sortDict = {}
-  sortDict[sortParam] = sortOrder
+  sortDict[sortParam] = sortOrder 
   searchAggregate.push({"$sort": sortDict});
   searchAggregate.push({"$limit": retrieveCount});
   await dataCollection.aggregate(searchAggregate).toArray((err, data)=>{

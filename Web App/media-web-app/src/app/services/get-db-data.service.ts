@@ -32,7 +32,6 @@ export class GetDbDataService {
         headlineString += headlineList[i] + ","
       }
     }
-    console.log(environment.backEndURL + "/data/advanced/" + startString + "/" + endString + "/" + outlet + "/" + headlineString + "/" + name)
     return this.httpService.get<Array<apiDataResponse>>(environment.backEndURL + "/data/advanced/" + startString + "/" + endString + "/" + outlet + "/" + headlineString+ "/" + name)
   }
 

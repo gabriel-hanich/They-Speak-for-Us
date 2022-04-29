@@ -17,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSliderModule } from '@angular/material/slider';
 import { ConnectionErrorScreenComponent } from './components/connection-error-screen/connection-error-screen.component';
 import { NgChartsModule } from 'ng2-charts';
 import { LoadingWheelComponent } from './components/loading-wheel/loading-wheel.component';
@@ -44,6 +45,7 @@ import { SearchScreenComponent } from './components/search-screen/search-screen.
     MatNativeDateModule,
     HttpClientModule,
     MatDatepickerModule,
+    MatSliderModule,
     FormsModule,
     NgChartsModule,
     ReactiveFormsModule,
