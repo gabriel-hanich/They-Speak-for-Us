@@ -82,7 +82,7 @@ async function getWriteData(){
   const articleCollection = dbClient.db(process.env.DB_NAME as string).collection("newsData");
   for(var i:number = 0; i<outletList.length; i++){
     for(var k:number = 0; k<outletList[i]["articleList"].length; k++){
-      // Get a ny articles that have the same healine and publisher
+      // Get any articles that have the same healine and publisher
       var articleObj = await articleCollection.find({
         outletName: { $exists: true, $eq: outletList[i]["name"] },
         headline:{ $exists: true, $eq: outletList[i]["articleList"][k]["headline"]}});
