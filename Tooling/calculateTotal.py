@@ -3,11 +3,12 @@ Generates a word cloud from the headlines
 """
 
 import json
+from sqlite3 import Date
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import matplotlib.pyplot as plt
 from regex import E
-
+from datetime import datetime
 
 # Load DB connection strings
 with open("./settings.json", "r") as constantsFile:
@@ -23,6 +24,14 @@ failedCount = 0
 headlinelist = []
 headlinestr = ""
 for articleIndex, article in enumerate(newsCollection.aggregate([
+    
+    {
+        '$match': {
+            'publishDate': {
+                '$gt': datetime(2021, 9, 15)
+            }
+        }
+    },
     {
         '$match': {
             'headline': {
