@@ -1,4 +1,6 @@
 /*
+Written By Gabriel H
+
 Reads RSS Data for each outlet present in the data base,
 then uploads unique outlet to the DB
 */
@@ -13,7 +15,7 @@ import * as fs from "fs";
 // Local interfaces
 import { article, mediaOutlet, rssReply } from "../@types/media";
 
-
+// Read data from local .env files to for MongoDB URL and DB names, etc 
 dotenv.config({ path: path.resolve(__dirname, "../settings.env")});
 
 type CustomFeed = {foo: string};
@@ -35,7 +37,7 @@ async function getWriteData(){
           'RSSLink': 1
         }
       }
-    ]);
+    ]); // Get the name and RSSLink of each news outlet in specified in the DB
     await outletAggregate.forEach((obj)=>{
       innerOutletList.push({"name": obj.outletName as string,
                       "rssLink": obj.RSSLink as string,
@@ -44,16 +46,16 @@ async function getWriteData(){
     dbClient.close();
     return innerOutletList
   });
-  console.log("DONE")
+  console.log("DONE"); 
 
   // Iterate through each media outlet and get current article data from rss feed
     var aCount: number = 0;
     for(var i:number=0; i<outletList.length; i++){
       try{
-        console.log(`${i+1}/${outletList.length}`)
+        console.log(`${i+1}/${outletList.length}`); // Show progress in console
         var thisArticleList = await rssParser.parseURL(outletList[i].rssLink);
         thisArticleList.items.forEach(rs =>{
-          aCount += 1;
+          aCount += 1; // Record how many article's have been downloaded
           var thisScore: number = vaderSentiment.SentimentIntensityAnalyzer.polarity_scores(rs.title)["compound"]; // Generate sentiment score
           outletList[i]["articleList"].push({
             "outletName": outletList[i]["name"],
@@ -67,8 +69,8 @@ async function getWriteData(){
             "catergories": rs.categories,
           });
         });
-      }catch(Exception){
-        console.log(outletList[i])
+      }catch(Exception){ // Incase the returned RSS data doesn't meet requirements for collection
+        console.log(outletList[i]);
       }
     };
     console.log(`Total articles counted = ${aCount}`);
@@ -99,7 +101,7 @@ async function getWriteData(){
   // Write date to a runlog file
   var file = await fs.appendFileSync("runlog.txt", `${new Date().toISOString()} articles written to DB = ${uploadCount}, total articles found = ${aCount}\n`, "utf8");
   console.log("Written to file");
-  process.exit();
+  process.exit(); // Stop the file from running
 
 }
 

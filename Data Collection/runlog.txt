@@ -1,6 +1,0 @@
-2022-02-26T01:09:49.874Z articles written to DB = 1, total articles found = 1323
-2022-02-26T01:11:02.573Z articles written to DB = 2, total articles found = 1323
-2022-02-26T01:12:59.693Z articles written to DB = 2, total articles found = 1323
-2022-02-26T05:29:30.754Z articles written to DB = 431, total articles found = 1327
-2022-03-01T05:34:32.184Z articles written to DB = 98, total articles found = 1318
-2022-04-01T06:48:59.084Z articles written to DB = 960, total articles found = 1236

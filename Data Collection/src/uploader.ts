@@ -2,6 +2,8 @@
 Reads CSV data present in the 'data' folder and uploads to DB
 DOES NOT CHECK FOR DUPLICATES
 'Modernises' existing data
+
+NB: Use ONLY as a dev tool to migrate .csv files to mongo
 */
 
 /// <reference path="../@types/vader-sentiment.d.ts" />
