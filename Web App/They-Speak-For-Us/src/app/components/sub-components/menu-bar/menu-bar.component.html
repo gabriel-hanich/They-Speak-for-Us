@@ -1,0 +1,22 @@
+<div class="menu-container">
+    <div class="logo-container menu-item">
+        <a href="/">
+            <img src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" alt="logo">
+        </a>
+    </div>
+    <div class="menu-item center-children" [ngClass]="{'active': url=='explore'}">
+        <a href="/explore">
+            <h3 class="menu-text underline">Explore</h3>
+        </a>
+    </div>
+    <div class="menu-item center-children" [ngClass]="{'active': url=='about'}">
+        <a href="/explore">
+            <h3 class="menu-text underline">About</h3>
+        </a>
+    </div>
+    <div class="menu-item center-children" [ngClass]="{'active': url=='blog'}">
+        <a href="/blog">
+            <h3 class="menu-text underline">Blog</h3>
+        </a>
+    </div>
+</div>

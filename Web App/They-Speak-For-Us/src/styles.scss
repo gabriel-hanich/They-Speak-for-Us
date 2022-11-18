@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@500&display=swap');
+
+:root{
+    --page-bg: #1d2d44;
+    --highlight: #aeb8fe;
+    --backing-color: 0, 0, 0;
+}
+
+html{
+    background-color: var(--page-bg);
+    margin: 0;
+}
+
+body{
+    margin: 0px;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, p, a {
+    font-family:'Manrope',  'Segoe UI';
+    color: #fff;
+}
+h1{
+    font-size: 3.5rem;
+}
+h2{
+    font-size: 2.15rem;
+}
+h3{
+    font-size: 2rem;
+}
+p{
+    font-size: 1.5rem;
+}
+img{
+    height: 100%;
+    width: auto;
+}
+
+a{
+    text-decoration: none;
+}
+
+strong{
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    padding: 2px 4px;
+    font-weight: 400;
+}
+
+.content-container{
+    background-color: rgba(var(--backing-color), $alpha: 0.35);
+    border-radius: 30px;
+}
+
+.centered{
+    margin: auto;
+}
+
+.center-children{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+// Underline effect when text is hovered
+.underline{
+    position: relative;
+}
+.underline::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(to right, #9bafd9, #103783);
+    bottom: 0;
+    left: 0;
+    transform-origin: right;
+    transform: scaleX(0) translateY(4px);
+    transition: transform .3s ease-in-out;
+}
+.underline:hover::before{
+    transform-origin: left;
+    transform: scaleX(1) translateY(4px);
+}
+
+.card{
+    &-container{
+        width: 80%;
+        margin: auto;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-self: center;
+        gap: 15px;
+    }
+
+    &-title{
+        flex: 0,25;
+    }
+
+    &-icon{
+        &-container{
+            flex: 0.75;
+            width: 80%;
+            height: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        &-img{
+            font-size: 10rem;
+            filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(316deg) brightness(100%) contrast(101%)
+        }
+    }
+
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px  rgba(0, 0, 0, 0.45);
+    max-width: var(--max-width);
+    max-height: var(--max-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}

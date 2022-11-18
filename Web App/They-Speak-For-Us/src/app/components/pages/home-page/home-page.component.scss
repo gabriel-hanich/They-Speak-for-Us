@@ -1,0 +1,58 @@
+.heading{
+    &-container{
+        width: fit-content;
+        padding: 50px;
+        margin-top: 100px;
+
+    }
+    &-text{
+        font-family: 'Zen Old Mincho', serif;
+        animation: blot_in 1s 0.1s backwards;
+    }
+}
+
+.subtext{
+    &-container{
+        width: 60vw;
+        height: fit-content;
+        margin-top: 18vh;
+        padding: 50px 0px;
+        padding-left: 30px;
+    }
+}
+
+.data{
+    &-container{
+        &-inner{
+            margin-left: 10vw;
+            width: 80vw;
+        }
+        
+        border-radius: 0px !important;
+        width: 100vw;
+        margin-top: 100px;
+        padding: 50px 0px;
+        background-color: var(--highlight);
+    }
+    &-text{
+        color: #000;
+    }
+}
+
+.card-container{
+    height: 60vh;
+}
+
+@keyframes blot_in {
+    0%{
+        text-shadow: #fff 3.5px 3.5px,
+        #fff 3.5px -3.5px,
+        #fff -3.5px 3.5px,
+        #fff -3.5px -3.5px;
+        filter: blur(0.15);
+    }
+    100%{
+        text-shadow: none;
+        filter: blur(0);
+    }
+}
