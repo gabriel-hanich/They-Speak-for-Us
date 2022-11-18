@@ -1,16 +1,20 @@
-<div class="content-container centered heading-container">
+<div class="content-container centered heading-container center-children">
     <h1 class="heading-text">They Speak for Us</h1>
+    <a href="/explore">
+        <button class="heading-btn">Explore our data</button>
+    </a>
 </div>
 
 <div class="content-container centered subtext-container">
     <h2>How does the press cover stories that matter to <i>you?</i></h2>
-    <p>The media speaks for the public. It should both tell us reliable information, free from systemic bias and corruption.<i>They Speak for Us</i> is using big data to understand long-term trends in current and historical stories</p>
+    <p>The media speaks for the public. It should both tell us reliable information, free from systemic bias and corruption.<i>They Speak for Us</i> is using big data to understand long-term trends in current and historical coverage of all news stories</p>
 </div>
+
 
 <div class="content-container data-container">
     <div class="data-container-inner centered">
         <h2 class="data-text">How does it work?</h2>
-        <p class="data-text">They Speak for Us allows you access to {{articleCount}} articles from {{publisherCount}} publishers. These publishers are from 5 different countries, and mostly focus on current affairs and politics.</p>
+        <p class="data-text">They Speak for Us allows you to see how media outlets from across the globe cover events, topics and stories. The articles are collected via each outlets' RSS feed, and can be viewed in our <a href="/explore" class="underline"><strong>data explorer</strong></a>. Most of the selected outlets focus on politics, however current affairs and pop culture articles are also present</p>
         <p class="data-text">The database has close to 100% coverage of outlets for articles published between <strong>01/03/2022</strong> and  <strong>now</strong></p>
     </div>
     <div class="card-container">
@@ -18,19 +22,27 @@
             <h1 class="card-title">{{articleCount}} Articles</h1>
             <div class="card-icon-container">
                 <fa-icon class="card-icon-img" [icon]="icoNewspaper"></fa-icon>
-                <fa-icon class="card-icon-img" [icon]="icoNewspaper"></fa-icon>
+            </div>
+            <div class="card-subtext-container">
+                <p>{{articleCount}} articles allows your investigation to properly gauge media attention for any topic</p>
             </div>
         </div>
         <div class="card" style="--max-height: 15vh; --max-width: 30vw; --card-bg: linear-gradient(to right, #67A1FF, #8E79FF)">
             <h1 class="card-title">{{publisherCount}} Publishers</h1>
             <div class="card-icon-container">
-                <fa-icon class="card-icon-img" [icon]="icoNewspaper"></fa-icon>
+                <fa-icon class="card-icon-img" [icon]="icoPublisher"></fa-icon>
+            </div>
+            <div class="card-subtext-container">
+                <p>Our dataset contains {{publisherCount}} publishers covering current affairs, politics and pop culture</p>
             </div>
         </div>
         <div class="card" style="--max-height: 15vh; --max-width: 30vw; --card-bg: linear-gradient(to right, #8E79FF, #E81CFF)">
-            <h1 class="card-title">Days Active</h1>
+            <h1 class="card-title">{{dayCount}} Days Active</h1>
             <div class="card-icon-container">
-                <fa-icon class="card-icon-img" [icon]="icoNewspaper"></fa-icon>
+                <fa-icon class="card-icon-img" [icon]="icoClock"></fa-icon>
+            </div>
+            <div class="card-subtext-container">
+                <p>The database has been collecting data every day for {{dayCount}} days</p>
             </div>
         </div>
     </div>

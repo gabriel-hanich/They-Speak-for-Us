@@ -1,22 +1,39 @@
 .heading{
     &-container{
         width: fit-content;
-        padding: 50px;
-        margin-top: 100px;
+        margin: 100px auto;
+        width: 60vw;
+        flex-direction: column;
 
     }
     &-text{
         font-family: 'Zen Old Mincho', serif;
+        text-shadow: #000 3.5px 3.5px;
         animation: blot_in 1s 0.1s backwards;
     }
+    &-btn{
+        cursor: pointer;
+        background: none;
+        border: 4px #fff solid;
+        color: #fff;
+        width: 150px;
+        aspect-ratio: 3/1;
+        transition: all 0.5s ease;
+
+        &:hover{
+            background-color: #fff;
+            color: #000;
+        }
+    }
 }
+
+
 
 .subtext{
     &-container{
         width: 60vw;
         height: fit-content;
-        margin-top: 18vh;
-        padding: 50px 0px;
+        margin-top: 8vh;
         padding-left: 30px;
     }
 }
@@ -38,6 +55,9 @@
         color: #000;
     }
 }
+a{
+    color: #000;
+}
 
 .card-container{
     height: 60vh;
@@ -52,7 +72,7 @@
         filter: blur(0.15);
     }
     100%{
-        text-shadow: none;
+        text-shadow: #000 3.5px 3.5px;
         filter: blur(0);
     }
 }

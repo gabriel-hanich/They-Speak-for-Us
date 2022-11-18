@@ -42,6 +42,11 @@ a{
     text-decoration: none;
 }
 
+button{
+    border: none;
+    background-color: none;
+}
+
 strong{
     font-size: 1.5rem;
     background-color: rgba(0, 0, 0, 0.15);
@@ -51,6 +56,9 @@ strong{
 }
 
 .content-container{
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
     background-color: rgba(var(--backing-color), $alpha: 0.35);
     border-radius: 30px;
 }
@@ -115,21 +123,56 @@ strong{
             gap: 15px;
             align-items: center;
             justify-content: center;
+            transition: all 0.5s ease;
         }
         &-img{
             font-size: 10rem;
-            filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(316deg) brightness(100%) contrast(101%)
+            filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(316deg) brightness(100%) contrast(101%);
+            transition: all 0.5s ease;
+
         }
     }
 
+    &-subtext-container{
+        width: 80%;
+        margin: auto;
+        height: fit-content;
+        transform: translateY(100%);
+        transition: all 0.5s ease;
+    }
+
     width: 100%;
-    background: var(--card-bg);
-    border-radius: 15px;
-    box-shadow: 5px 5px 5px  rgba(0, 0, 0, 0.45);
     max-width: var(--max-width);
     max-height: var(--max-width);
+    overflow-y: hidden;
+
+    background: var(--card-bg);
+    background-size: 200% 100%;
+    background-position: 0px 0px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px  rgba(0, 0, 0, 0.45);
+
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+
+    transition: all 0.5s ease;
+}
+
+.card:hover{
+    cursor: pointer;
+    background-position: 100% 0;
+
+    .card-icon{
+        &-container{
+            transform: translateY(-50%);
+        }
+        &-img{
+            font-size: 5rem;
+        }
+    }
+    .card-subtext-container{
+        transform: translateY(-50%);
+    }
 }
