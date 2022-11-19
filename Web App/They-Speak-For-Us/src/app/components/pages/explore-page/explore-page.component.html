@@ -1,0 +1,35 @@
+<div class="explore-container">
+    <div class="graph-container">
+        
+    </div>
+    <div class="setup-container">
+        <h1 class="setup-title">Setup</h1>
+        <form action="" class="setup-form">
+            <div class="input-pair">
+                <p class="input-label">Title</p>
+                <input type="text" class="setup-input setup-input-text">
+            </div>
+            <div class="input-pair">
+                <p class="input-label">Dates</p>
+                <div class="setup-input setup-input-date-container">
+                    <mat-form-field appearance="fill" class="setup-input-date">
+                        <mat-date-range-input [rangePicker]="picker">
+                          <input matStartDate placeholder="Start date">
+                          <input matEndDate placeholder="End date" class="setup-input-date-input">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix  [for]="picker" class="setup-input-date-icon"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="series-container" *ngFor="let item of seriesList">
+                <div class="series-heading-container centered">
+                    <fa-icon class="series-heading-item series-dropdown" [icon]="dropdownIco"></fa-icon>
+                    <h2 class="series-heading-item">{{item["name"]}}</h2>
+                    <div class="series-heading-item series-colorIndicator" style="--bg-color: {{item['color']}}"></div>
+                </div>
+                <p>Hello wrold</p>
+            </div>
+        </form>
+    </div>
+</div>

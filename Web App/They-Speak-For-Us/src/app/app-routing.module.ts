@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ExplorePageComponent } from './components/pages/explore-page/explore-page.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
 
 const routes: Routes = [
@@ -9,7 +10,7 @@ const routes: Routes = [
   },
   {
     "path": "explore",
-    component: HomePageComponent
+    component: ExplorePageComponent
   }
 ];
 
