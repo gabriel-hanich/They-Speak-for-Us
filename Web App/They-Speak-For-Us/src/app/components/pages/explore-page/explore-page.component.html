@@ -22,13 +22,67 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="series-container" *ngFor="let item of seriesList">
+            <div class="series-container series-show" *ngFor="let item of seriesList;let i=index;" #series>
                 <div class="series-heading-container centered">
-                    <fa-icon class="series-heading-item series-dropdown" [icon]="dropdownIco"></fa-icon>
+                    <fa-icon class="series-heading-item series-dropdown" [icon]="dropdownIco" (click)="series.classList.toggle('series-show')"></fa-icon>
                     <h2 class="series-heading-item">{{item["name"]}}</h2>
                     <div class="series-heading-item series-colorIndicator" style="--bg-color: {{item['color']}}"></div>
                 </div>
-                <p>Hello wrold</p>
+                <div class="setup-form">
+                    <div class="input-pair">
+                        <p class="input-label">Title</p>
+                        <input type="text" class="setup-input setup-input-text" #titleInput (keyup)="updateSetting('name', titleInput.value, i)">
+                    </div>
+                    <div class="input-pair">
+                        <p class="input-label">Color</p>
+                        <div class="color-selector">
+                            <div class="color-chosen color-swatch highlight" style="--color: {{item['color']}}" #sample (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show');"></div>
+                            <div class="color-options" #options>
+                                <div class="color-swatch" 
+                                    style="--color: #ef233c" 
+                                    [ngClass]="{'highlight': item['color'] == '#ef233c'}" 
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#ef233c', i);">
+                                </div>
+                                <div class="color-swatch" 
+                                    style="--color: #c45ab3" 
+                                    [ngClass]="{'highlight': item['color'] == '#c45ab3'}" 
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#c45ab3', i);">
+                                </div>
+                                <div class="color-swatch" 
+                                    style="--color: #241023" 
+                                    [ngClass]="{'highlight': item['color'] == '#241023'}" 
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#241023', i);">
+                                </div>
+                                <div class="color-swatch" 
+                                    style="--color: #fff9f8" 
+                                    [ngClass]="{'highlight': item['color'] == '#fff9f8'}" 
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#fff9f8', i);">
+                                </div>
+                                <div class="color-swatch" 
+                                    style="--color: #ff5733" 
+                                    [ngClass]="{'highlight': item['color'] == '#ff5733'}" 
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#ff5733', i);">
+                                </div>
+                                <div class="color-swatch" 
+                                    style="--color: #0c44ac" 
+                                    [ngClass]="{'highlight': item['color'] == '#0c44ac'}" 
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#0c44ac', i);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-pair">
+                        <p class="input-label">Outlets</p>
+                        <select class="input-dropdown" name="Outlets" [value]="'all'">
+                            <option class="input-dropdown-option underline" value="all">All Outlets</option>
+                            <option class="input-dropdown-option underline" value="outlet" *ngFor="let outlet of outletList">{{outlet}}</option>
+                        </select>
+                    </div>
+                    <div class="input-pair">
+                        <p class="input-label">Keywords</p>
+                        <textarea type="text" class="setup-input setup-input-text" id="keywordInput" placeholder="Seperate by comma"></textarea>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

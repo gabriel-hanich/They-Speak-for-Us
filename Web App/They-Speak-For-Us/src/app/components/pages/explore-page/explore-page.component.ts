@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Series } from 'src/types';
 
 @Component({
@@ -9,13 +9,21 @@ import { Series } from 'src/types';
 })
 export class ExplorePageComponent implements OnInit {
   public seriesList: Series[] = [];
-
-  public dropdownIco = faCaretDown
+  public outletList: String[] = [];
+  public dropdownIco = faCaretDown;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.seriesList.push({"name": "Series 1", "color": "red", "keywordList": ["deez", "nuts"], "outletList": ["*"]})
+    this.seriesList.push({"name": "Series 1", "color": "#ef233c", "keywordList": ["deez", "nuts"], "outletList": ["*"]})
+    this.seriesList.push({"name": "Series 2", "color": "#ef233c", "keywordList": ["deez", "nuts"], "outletList": ["*"]})
+    this.outletList = ["BBC News", "ABC News", "The Guardian", "Al Jazeera"]
+  }
+
+  updateSetting(key: String, value: any, index: number){
+    console.log(key);
+    // @ts-ignore: Type String
+    this.seriesList[index][key] = value;
   }
 
 }

@@ -18,6 +18,7 @@
         height: 100%;
         width: 100%;
         background-color: rgba($color: #000000, $alpha: 0.5);
+        overflow-y: scroll;
     }
     &-title{
         margin: auto;
@@ -37,8 +38,8 @@
         width: 1;
         border: none;
         min-height: 35px;
-        background-color: rgba($color: #fff, $alpha: 0.25);
-        height: 50px;
+        background-color: rgba($color: #fff, $alpha: 0.15);
+        height: 40px;
         padding: 2px;
         
         &-text{
@@ -75,9 +76,8 @@
     &-pair{
         width: 100%;
         height: fit-content;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 35% 55%;
         gap: 45px;
         >*{
             margin: 0px;
@@ -85,11 +85,22 @@
     }
     &-label{
         flex: 0.2;
-        width: 200px;
         font-size: 1.85rem;
         height: 100%;
         padding-right: 30px;
         border-right: 3px #000 solid;
+    }
+    &-dropdown{
+        background-color: rgba($color: #fff, $alpha: 0.15);
+        color: #fff;
+        font-size: 1.1rem;
+
+        &-option{
+            background: var(--highlight);
+            font-size: 1rem;
+            color: #000;
+            border-bottom: #fff solid 1px;
+        }
     }
 }
 
@@ -97,10 +108,19 @@
     &-container{
         width: 100%;
         height: fit-content;
+        max-height: 50px;
         margin-top: 15px;
         background-color: rgba($color: #000000, $alpha: 0.35);
-        
+        transition: all 1s ease;
+        overflow-y: hidden;
+        overflow-x: hidden;
     }
+    
+    &-show{
+        max-height: 600px;
+        padding-bottom: 150px;
+    }
+
     &-dropdown{
         cursor: pointer;
         font-size: 2rem;
@@ -128,6 +148,43 @@
     }
 }
 
+.color{
+    &-selector{
+        position: relative;
+    }
+
+    &-swatch{
+        height: 35px;
+        aspect-ratio: 1/1;
+        background-color: var(--color);
+        border-radius: 10px;
+        margin: auto;
+        cursor: pointer;
+    }
+
+    &-options{
+        overflow: hidden;
+        height: 0px;
+        width: 0px;
+        background-color: rgba($color: #000000, $alpha: 0.85);
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        &-show{
+            height: 85px;
+            width: 175px;
+        }
+    }
+}
+
+.highlight{
+    border: 2px #000 solid;
+}
+
+.hidden{
+    display: none;
+}
+
 .graph{
     &-container{
         flex: 0.7;
@@ -135,4 +192,12 @@
         width: 100%;
         // background-color: rgba($color: #000000, $alpha: 0.25);
     }
+}
+
+#keywordInput{
+    font-size: 1rem;
+    color: #fff;
+    height: fit-content;
+    min-height: 35px;
+    overflow-y: auto;
 }
