@@ -12,6 +12,24 @@ export class ExplorePageComponent implements OnInit {
   public outletList: String[] = [];
   public dropdownIco = faCaretDown;
 
+  public chartOptions = {
+    theme: "dark1",
+    title: {
+      text: "Basic Column Chart in Angular",
+      fontFamily: "Manrope"
+    },
+    data: [{
+      type: "column",
+      dataPoints: [
+        { label: "Apple",  y: 10  },
+        { label: "Orange", y: 15  },
+        { label: "Banana", y: 25  },
+        { label: "Mango",  y: 30  },
+        { label: "Grape",  y: 28  }
+      ]
+    }]
+  };
+
   constructor() { }
 
   ngOnInit(): void {

@@ -1,6 +1,6 @@
 <div class="explore-container">
     <div class="graph-container">
-        
+        <canvasjs-chart class="graph-main" [options]="chartOptions"></canvasjs-chart>  
     </div>
     <div class="setup-container">
         <h1 class="setup-title">Setup</h1>
@@ -24,7 +24,7 @@
             </div>
             <div class="series-container series-show" *ngFor="let item of seriesList;let i=index;" #series>
                 <div class="series-heading-container centered">
-                    <fa-icon class="series-heading-item series-dropdown" [icon]="dropdownIco" (click)="series.classList.toggle('series-show')"></fa-icon>
+                    <fa-icon class="series-heading-item series-dropdown" [icon]="dropdownIco" #dropdownCaret (click)="series.classList.toggle('series-show');"></fa-icon>
                     <h2 class="series-heading-item">{{item["name"]}}</h2>
                     <div class="series-heading-item series-colorIndicator" style="--bg-color: {{item['color']}}"></div>
                 </div>
