@@ -36,6 +36,10 @@ export class GetDataService {
     })
   }
 
+  public getDBStats(): Observable<any>{
+    return this.httpClient.get(environment.url + "/articleCount");
+  }
+
   public async getOutlets(): Promise<String[]>{
     return new Promise<String[]>((resolve, reject)=>{
       this.httpClient.get(environment.url + "/outlets").subscribe((res: any)=>{

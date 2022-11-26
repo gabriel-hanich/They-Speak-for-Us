@@ -19,12 +19,12 @@
     </div>
     <div class="card-container">
         <div class="card" style="--max-height: 15vh; --max-width: 30vw; --card-bg: linear-gradient(to right, #40c9ff, #67A1FF)">
-            <h1 class="card-title">{{articleCount}} Articles</h1>
+            <h1 class="card-title">{{articleCount | number}} Articles</h1>
             <div class="card-icon-container">
                 <fa-icon class="card-icon-img" [icon]="icoNewspaper"></fa-icon>
             </div>
             <div class="card-subtext-container">
-                <p>{{articleCount}} articles allows your investigation to properly gauge media attention for any topic</p>
+                <p>{{articleCount | number}} articles allows your investigation to properly gauge media attention for any topic</p>
             </div>
         </div>
         <div class="card" style="--max-height: 15vh; --max-width: 30vw; --card-bg: linear-gradient(to right, #67A1FF, #8E79FF)">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faClock, faNewspaper, faRadio } from '@fortawesome/free-solid-svg-icons';
+import { GetDataService } from 'src/app/services/get-data/get-data.service';
 
 @Component({
   selector: 'app-home-page',
@@ -16,7 +17,7 @@ export class HomePageComponent implements OnInit {
   public icoPublisher = faRadio;
   public icoClock = faClock;
 
-  constructor() { }
+  constructor(private getCloudData: GetDataService) { }
 
   ngOnInit(): void {
     // Calculate how many days the program has been active
@@ -25,6 +26,11 @@ export class HomePageComponent implements OnInit {
     startDate.setFullYear(2021, 9, 15);
     let difference = today.getTime() - startDate.getTime();
     this.dayCount = Math.ceil(difference / (1000 * 3600 * 24));
+
+    this.getCloudData.getDBStats().subscribe((res: any)=>{
+      this.publisherCount = res["outlets"];
+      this.articleCount = res["articles"];
+    });
   }
 
 }
