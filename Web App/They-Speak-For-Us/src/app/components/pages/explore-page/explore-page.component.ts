@@ -52,7 +52,7 @@ export class ExplorePageComponent implements OnInit {
   ngOnInit(): void {
     // Set generic start and end dates
     if(localStorage.getItem("tsfuUserData") == null){
-      this.router.navigateByUrl("They-Speak-for-Us/signin");
+      this.router.navigateByUrl("/They-Speak-for-Us/signin");
     }else{
       this.userCredentials = JSON.parse(localStorage.getItem("tsfuUserData") as string);
     }
