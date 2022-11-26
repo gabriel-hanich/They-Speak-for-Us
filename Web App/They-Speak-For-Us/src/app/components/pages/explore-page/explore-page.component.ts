@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { faCaretDown, faPencil } from '@fortawesome/free-solid-svg-icons';
-import { Series } from 'src/types';
+import {FormGroup, FormControl} from '@angular/forms';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { GetDataService } from 'src/app/services/get-data/get-data.service';
+import { Series, GraphOptions, Point } from 'src/types';
 
 @Component({
   selector: 'app-explore-page',
@@ -8,40 +10,156 @@ import { Series } from 'src/types';
   styleUrls: ['./explore-page.component.scss']
 })
 export class ExplorePageComponent implements OnInit {
-  public seriesList: Series[] = [];
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
   public outletList: String[] = [];
   public dropdownIco = faCaretDown;
+  
+  public graphOptions: GraphOptions;
 
-  public chartOptions = {
-    theme: "dark1",
+  public mainChartOptions: any = {
+    theme: "dark2",
+    zoomEnabled: true,
+    exportEnabled: true,
     title: {
-      text: "Basic Column Chart in Angular",
+      text: "Loading...",
       fontFamily: "Manrope"
     },
-    data: [{
-      type: "column",
-      dataPoints: [
-        { label: "Apple",  y: 10  },
-        { label: "Orange", y: 15  },
-        { label: "Banana", y: 25  },
-        { label: "Mango",  y: 30  },
-        { label: "Grape",  y: 28  }
-      ]
-    }]
+    axisX: {
+      valueFormatString: "DD MMM YYYY"
+    },
+    toolTip: {
+      shared: true
+    },
+    data: []
   };
 
-  constructor() { }
+  private mainChart: any;
+  private staleData = true;
+
+  constructor(private getCloudData: GetDataService) { }
 
   ngOnInit(): void {
-    this.seriesList.push({"name": "Series 1", "color": "#ef233c", "keywordList": ["deez", "nuts"], "outletList": ["*"]})
-    this.seriesList.push({"name": "Series 2", "color": "#ef233c", "keywordList": ["deez", "nuts"], "outletList": ["*"]})
-    this.outletList = ["BBC News", "ABC News", "The Guardian", "Al Jazeera"]
+    // Set generic start and end dates
+    let startDate: Date = new Date();
+    startDate.setFullYear(2021, 9, 15);
+    let endDate: Date = new Date();
+
+    // TODO Delete
+    this.graphOptions = {
+      "title": "Series 1 vs Series 2",
+      "startDate": startDate,
+      "endDate": endDate,
+      "plotType": "count",
+      "seriesList": []
+    }
+    // Add testing series 
+    this.graphOptions.seriesList.push({"name": "republicans", "color": "#ef233c", "keywordList": ["donald", "trump"], "outlet": "all", "points": []})
+    this.graphOptions.seriesList.push({"name": "democrats", "color": "#c45ab3", "keywordList": ["joe", "biden"], "outlet": "all", "points": []})
+    this.outletList = ["BBC News", "ABC News", "The Guardian", "Al Jazeera"];
+    this.getData();
+
+    // Listen for changes to the start and end dates
+    this.range.valueChanges.subscribe(res =>{
+      if(res.start != null){
+        this.graphOptions.startDate = new Date(res.start);
+      } if(res.end != null){
+        this.graphOptions.endDate = new Date(res.end);
+      }
+      if(res.start != null || res.end != null){
+        this.renderChart();
+      }
+
+    });
   }
 
-  updateSetting(key: String, value: any, index: number){
-    console.log(key);
-    // @ts-ignore: Type String
-    this.seriesList[index][key] = value;
+  // Load the chart instance into the ts file
+  setChartInstance(chart: object, chartName: String){
+    if(chartName == "main"){
+      this.mainChart = chart;
+    }
   }
+
+  // Update a given setting for the graph 
+  updateSetting(key: String, value: any, seriesIndex: number | undefined, getNewData: boolean){
+    if(seriesIndex != undefined){
+      if(key === "keywordList"){
+        var newValue: String[] = [];
+        value.forEach((keyword: string)=>{
+          if(keyword.length != 0){
+            newValue.push(keyword.trim());
+          }
+        });
+        value = newValue;
+      }
+      // @ts-ignore: Type String
+      this.graphOptions.seriesList[seriesIndex][key] = value;
+    }else{
+      // @ts-ignore: Type String
+      this.graphOptions[key] = value
+    }
+    if(getNewData){
+      this.staleData = true
+    }    
+  }
+  
+  async getData(): Promise<void>{
+    console.log("GETTING DATA")
+    // Get data from the cloud
+    return new Promise((resolve, reject)=>{
+      this.getCloudData.getMediaData(this.graphOptions).subscribe((res: any)=>{
+        console.log(res);
+        if(res.sucess){
+          let i=0;
+          this.graphOptions.seriesList.forEach((series: Series)=>{
+            let seriesData = res["data"][series.name.toString()];
+            let cleanSeriesData: Point[] = [];
+            let dates = Object.keys(seriesData);
+            dates.forEach((date)=> cleanSeriesData.push({"date": new Date(date), "value": seriesData[date]}))
+
+            this.graphOptions["seriesList"][i]["points"] = cleanSeriesData;
+            i++;
+            this.staleData = false;
+            this.renderChart();
+            resolve();
+          });
+        }else{
+          reject();
+        }
+
+      })
+    })
+
+  }
+
+  updateChart():void{
+    if(this.staleData){
+      this.getData();
+    }else(this.renderChart());
+  }
+
+  renderChart():void{
+    this.mainChartOptions.title.text = this.graphOptions.title.toString();
+    this.mainChartOptions.data = [];
+    this.graphOptions.seriesList.forEach((series: Series)=>{
+      console.log(series);
+      let seriesData: any[] = [];
+      series.points.forEach((point: Point)=> seriesData.push({"x": new Date(point["date"]), "y": point["value"]}));
+      let seriesOptions = {
+        name: series.name,
+        type: "line",
+        color: series.color,
+        showInLegend: true,
+        dataPoints: seriesData
+      };
+      this.mainChartOptions.data.push(seriesOptions)
+    });
+
+    this.mainChart.render();
+  }
+
 
 }

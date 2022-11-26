@@ -12,6 +12,26 @@
     }
 }
 
+.render{
+    &-container{
+        width: 99.5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    &-button{
+        height: 60px;
+        width: 150px;
+        font-size: 1.15rem;
+        background-color: rgba($color: #fff, $alpha: 0.35);
+        color: #fff;
+        border: 1px #fff solid;
+        cursor: pointer;
+    }
+}
+
 .setup{
     &-container{
         flex: 0.3;
@@ -27,7 +47,6 @@
     &-form{
         width: 85%;
         margin: auto;
-        margin-top: 50px;
         display: flex;
         flex-direction: column;
         gap: 30px;
@@ -50,6 +69,7 @@
             height: fit-content;
             width: 100%;
             position: relative;
+            color: #fff;
 
             &-container{
                 width: 100%;
@@ -192,7 +212,7 @@
         width: 100%;
     }
     &-main{
-        background-color: rgba($color: #000000, $alpha: 0.35);
+        height: 100%;
     }
 }
 

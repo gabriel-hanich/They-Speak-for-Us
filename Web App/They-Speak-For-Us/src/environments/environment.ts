@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url: "https://ap-southeast-2.aws.data.mongodb-api.com/app/scraper-lyeyd/endpoint/getdata"
 };
 
 /*

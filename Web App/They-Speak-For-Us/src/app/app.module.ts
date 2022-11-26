@@ -18,7 +18,8 @@ import { MenuBarComponent } from './components/sub-components/menu-bar/menu-bar.
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FooterComponent } from './components/sub-components/footer/footer.component';
 import { ExplorePageComponent } from './components/pages/explore-page/explore-page.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,8 @@ import { ExplorePageComponent } from './components/pages/explore-page/explore-pa
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent],
   providers: [

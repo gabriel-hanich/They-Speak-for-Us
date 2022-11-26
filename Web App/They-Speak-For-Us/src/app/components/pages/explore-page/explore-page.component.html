@@ -1,28 +1,38 @@
 <div class="explore-container">
     <div class="graph-container">
-        <canvasjs-chart class="graph-main" [options]="chartOptions"></canvasjs-chart>  
+        <canvasjs-chart class="graph-main" [options]="mainChartOptions" (chartInstance)="setChartInstance($event, 'main')"></canvasjs-chart>  
     </div>
     <div class="setup-container">
         <h1 class="setup-title">Setup</h1>
+        <div class="render-container">
+            <button class="render-button" (click)="updateChart()">Update Chart</button>
+        </div>
         <form action="" class="setup-form">
             <div class="input-pair">
                 <p class="input-label">Title</p>
-                <input type="text" class="setup-input setup-input-text">
+                <input type="text" class="setup-input setup-input-text" value="{{graphOptions.title}}" #chartTitle (keyup)="updateSetting('title', chartTitle.value, undefined, false)">
+            </div>
+            <div class="input-pair">
+                <p class="input-label">Type</p>
+                <select class="input-dropdown" name="Chart Type" #chartType (change)="updateSetting('plotType', chartType.value, undefined, true)">
+                    <option class="input-dropdown-option underline" value="count">Daily Article Count</option>
+                    <option class="input-dropdown-option underline" value="sentiment">Average Daily Sentiment</option>
+                </select>
             </div>
             <div class="input-pair">
                 <p class="input-label">Dates</p>
                 <div class="setup-input setup-input-date-container">
                     <mat-form-field appearance="fill" class="setup-input-date">
-                        <mat-date-range-input [rangePicker]="picker">
-                          <input matStartDate placeholder="Start date">
-                          <input matEndDate placeholder="End date" class="setup-input-date-input">
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                          <input matStartDate placeholder="Start date" formControlName="start">
+                          <input matEndDate placeholder="End date" class="setup-input-date-input" formControlName="end">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matIconSuffix  [for]="picker" class="setup-input-date-icon"></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
                 </div>
             </div>
-            <div class="series-container series-show" *ngFor="let item of seriesList;let i=index;" #series>
+            <div class="series-container series-show" *ngFor="let item of graphOptions.seriesList;let i=index;" #series>
                 <div class="series-heading-container centered">
                     <fa-icon class="series-heading-item series-dropdown" [icon]="dropdownIco" #dropdownCaret (click)="series.classList.toggle('series-show');"></fa-icon>
                     <h2 class="series-heading-item">{{item["name"]}}</h2>
@@ -31,7 +41,7 @@
                 <div class="setup-form">
                     <div class="input-pair">
                         <p class="input-label">Title</p>
-                        <input type="text" class="setup-input setup-input-text" #titleInput (keyup)="updateSetting('name', titleInput.value, i)">
+                        <input type="text" class="setup-input setup-input-text" #titleInput (keyup)="updateSetting('name', titleInput.value, i, false)" [value]="item['name']">
                     </div>
                     <div class="input-pair">
                         <p class="input-label">Color</p>
@@ -41,46 +51,51 @@
                                 <div class="color-swatch" 
                                     style="--color: #ef233c" 
                                     [ngClass]="{'highlight': item['color'] == '#ef233c'}" 
-                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#ef233c', i);">
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#ef233c', i, false);">
                                 </div>
                                 <div class="color-swatch" 
                                     style="--color: #c45ab3" 
                                     [ngClass]="{'highlight': item['color'] == '#c45ab3'}" 
-                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#c45ab3', i);">
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#c45ab3', i, false);">
                                 </div>
                                 <div class="color-swatch" 
                                     style="--color: #241023" 
                                     [ngClass]="{'highlight': item['color'] == '#241023'}" 
-                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#241023', i);">
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#241023', i, false);">
                                 </div>
                                 <div class="color-swatch" 
                                     style="--color: #fff9f8" 
                                     [ngClass]="{'highlight': item['color'] == '#fff9f8'}" 
-                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#fff9f8', i);">
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#fff9f8', i, false);">
                                 </div>
                                 <div class="color-swatch" 
                                     style="--color: #ff5733" 
                                     [ngClass]="{'highlight': item['color'] == '#ff5733'}" 
-                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#ff5733', i);">
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#ff5733', i, false);">
                                 </div>
                                 <div class="color-swatch" 
                                     style="--color: #0c44ac" 
                                     [ngClass]="{'highlight': item['color'] == '#0c44ac'}" 
-                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#0c44ac', i);">
+                                    (click)="sample.classList.toggle('hidden'); options.classList.toggle('color-options-show'); updateSetting('color', '#0c44ac', i, false);">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="input-pair">
                         <p class="input-label">Outlets</p>
-                        <select class="input-dropdown" name="Outlets" [value]="'all'">
-                            <option class="input-dropdown-option underline" value="all">All Outlets</option>
-                            <option class="input-dropdown-option underline" value="outlet" *ngFor="let outlet of outletList">{{outlet}}</option>
+                        <select class="input-dropdown" name="Outlets"  #inputSelector (change)="updateSetting('outlet', inputSelector.value, i, true)">
+                            <option class="input-dropdown-option underline" [selected]="'all' === item['outlet']" value="all">All Outlets</option>
+                            <option class="input-dropdown-option underline" [selected]="outlet === item['outlet']" value="{{outlet}}" *ngFor="let outlet of outletList">{{outlet}}</option>
                         </select>
                     </div>
                     <div class="input-pair">
                         <p class="input-label">Keywords</p>
-                        <textarea type="text" class="setup-input setup-input-text" id="keywordInput" placeholder="Seperate by comma"></textarea>
+                        <textarea type="text" 
+                            class="setup-input setup-input-text"
+                            id="keywordInput" 
+                            placeholder="Seperate by comma"
+                            #keywordInput
+                            (keyup)="updateSetting('keywordList', keywordInput.value.trim().split(','), i, true)">{{item['keywordList']}}</textarea>
                     </div>
                 </div>
             </div>

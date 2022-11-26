@@ -1,4 +1,4 @@
-export interface GraphSettings{
+export interface GraphOptions{
     title: String;
     startDate: Date;
     endDate: Date;
@@ -10,5 +10,11 @@ export interface Series{
     name: String;
     color: String;
     keywordList: String[];
-    outletList: String[];
+    outlet: String;
+    points: Point[];
+}
+
+export interface Point{
+    date: Date;
+    value: number
 }
