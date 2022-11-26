@@ -8,7 +8,7 @@ import { faClock, faNewspaper, faRadio } from '@fortawesome/free-solid-svg-icons
 })
 export class HomePageComponent implements OnInit {
   public articleCount: number = 0;
-  public publisherCount: number = 0;
+  public publisherCount: number = 30;
   public dayCount: number = 0;
 
   // Icons
@@ -19,6 +19,12 @@ export class HomePageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    // Calculate how many days the program has been active
+    let today = new Date();
+    let startDate = new Date();
+    startDate.setFullYear(2021, 9, 15);
+    let difference = today.getTime() - startDate.getTime();
+    this.dayCount = Math.ceil(difference / (1000 * 3600 * 24));
   }
 
 }

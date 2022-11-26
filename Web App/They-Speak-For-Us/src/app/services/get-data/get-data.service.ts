@@ -11,10 +11,11 @@ export class GetDataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getMediaData(options: GraphOptions) :Observable<any>{
-    console.log(options);
+  public getMediaData(options: GraphOptions, userCredentials: any) :Observable<any>{
     // Prep packet before being sent
     let sendPackage: any = {
+      "username": userCredentials["username"],
+      "pin": userCredentials["pin"],
       "startDate": options["startDate"].toISOString(),
       "endDate": options["endDate"].toISOString(),
       "plotType": options.plotType,
@@ -28,11 +29,26 @@ export class GetDataService {
       });
     })
 
-    console.log(sendPackage);
-    return this.httpClient.post(environment.url, sendPackage, {
+    return this.httpClient.post(environment.url + "/getdata", sendPackage, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json; charset=utf-8'
       })
     })
+  }
+
+  public async getOutlets(): Promise<String[]>{
+    return new Promise<String[]>((resolve, reject)=>{
+      this.httpClient.get(environment.url + "/outlets").subscribe((res: any)=>{
+        let returnData: String[] = [];
+        res.forEach((outlet: any)=>{
+          returnData.push((outlet["outletName"]));
+        });
+        resolve(returnData);
+      });
+    });
+  }
+
+  public verifyUser(userName: string, pin: string): Observable<boolean>{
+    return this.httpClient.post<boolean>(environment.url + "/verify", {"username": userName, "pin": pin});
   }
 }

@@ -1,6 +1,10 @@
 <div class="explore-container">
     <div class="graph-container">
-        <canvasjs-chart class="graph-main" [options]="mainChartOptions" (chartInstance)="setChartInstance($event, 'main')"></canvasjs-chart>  
+        <canvasjs-chart class="graph-main" [options]="mainChartOptions" (chartInstance)="setChartInstance($event, 'main')" *ngIf="!loading"></canvasjs-chart>  
+        <div class="loading-container" *ngIf="loading">
+            <div class="loading-wheel"></div>
+            <p *ngIf="errorOccured">An ERROR occured whilst signing in, please sign-in <a href="signin" id="errorLink">Here</a></p>
+        </div>
     </div>
     <div class="setup-container">
         <h1 class="setup-title">Setup</h1>
@@ -24,8 +28,8 @@
                 <div class="setup-input setup-input-date-container">
                     <mat-form-field appearance="fill" class="setup-input-date">
                         <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                          <input matStartDate placeholder="Start date" formControlName="start">
-                          <input matEndDate placeholder="End date" class="setup-input-date-input" formControlName="end">
+                          <input matStartDate placeholder="Start date" formControlName="start" [value]="graphOptions.startDate">
+                          <input matEndDate placeholder="End date" class="setup-input-date-input" formControlName="end" [value]="graphOptions.endDate">
                         </mat-date-range-input>
                         <mat-datepicker-toggle matIconSuffix  [for]="picker" class="setup-input-date-icon"></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -37,6 +41,7 @@
                     <fa-icon class="series-heading-item series-dropdown" [icon]="dropdownIco" #dropdownCaret (click)="series.classList.toggle('series-show');"></fa-icon>
                     <h2 class="series-heading-item">{{item["name"]}}</h2>
                     <div class="series-heading-item series-colorIndicator" style="--bg-color: {{item['color']}}"></div>
+                    <fa-icon class="series-heading-item series-dropdown" [icon]="deleteIco" (click)="deleteSeries(i)"></fa-icon>
                 </div>
                 <div class="setup-form">
                     <div class="input-pair">
@@ -98,6 +103,9 @@
                             (keyup)="updateSetting('keywordList', keywordInput.value.trim().split(','), i, true)">{{item['keywordList']}}</textarea>
                     </div>
                 </div>
+            </div>
+            <div class="render-container">
+                <button class="render-button" (click)="addSeries(); $event.preventDefault();" >Add Series</button>
             </div>
         </form>
     </div>

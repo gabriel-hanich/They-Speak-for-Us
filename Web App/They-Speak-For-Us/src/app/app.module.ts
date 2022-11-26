@@ -20,6 +20,7 @@ import { FooterComponent } from './components/sub-components/footer/footer.compo
 import { ExplorePageComponent } from './components/pages/explore-page/explore-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SignInComponent } from './components/pages/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomePageComponent,
     MenuBarComponent,
     FooterComponent,
-    ExplorePageComponent
+    ExplorePageComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,

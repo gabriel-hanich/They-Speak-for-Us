@@ -1,0 +1,43 @@
+<div class="content-container heading-container">
+    <h1 class="heading-text">Enter your Access Code Below</h1>
+</div>
+
+<div class="input-container content-container" *ngIf="currentState == 'input'">
+    <form (submit)="verifyDetials(userNameInput.value, pinInput.value);$event.preventDefault();">
+        <div class="input-pair">
+            <p class="input-label">Username:</p>
+            <input type="text" class="input-area" #userNameInput>
+        </div>
+        <div class="input-pair">
+            <p class="input-label">Pin:</p>
+            <input type="text" class="input-area" #pinInput>
+        </div>
+        <div class="input-pair">
+            <button class="input-go">Go</button>
+        </div>
+    </form>
+</div>
+
+<div class="input-container content-container" *ngIf="currentState == 'loading'">
+    <div class="input-pair">
+        <h2>Loading...</h2>
+    </div>
+    <div class="input-pair">
+        <div class="loading-elem"></div>
+    </div>
+</div>
+
+<div class="content-container heading-container" *ngIf="currentState == 'verified'">
+    <h1 class="heading-text">Verified</h1>
+    <p class="heading-text">You're good to go!</p>
+</div>
+<div class="content-container heading-container" *ngIf="currentState == 'fail'">
+    <h1 class="heading-text">Oops,</h1>
+    <p class="heading-text">Unfortunately those details are incorrect</p>
+</div>
+
+
+<div class="content-container heading-container">
+    <h3>Why Do I need this?</h3>
+    <p class="whyText">Servers aren't free, and some way of stopping unecessary or malicious usage of server resources is required. Using a username and password means that easier control over the requests is possible</p>
+</div>
