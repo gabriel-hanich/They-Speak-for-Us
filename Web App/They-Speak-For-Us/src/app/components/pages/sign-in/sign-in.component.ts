@@ -22,7 +22,7 @@ export class SignInComponent implements OnInit {
         this.currentState = "verified";
         localStorage.setItem("tsfuUserData", JSON.stringify({"username": userName, "pin": pin})); // Record user data
         setTimeout(()=>{
-          this.router.navigateByUrl("/They-Speak-for-Us/explore");
+          this.router.navigateByUrl("They-Speak-for-Us/explore");
         }, 2500)
       }else{ // If they were wrong
         this.currentState = "fail";
