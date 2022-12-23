@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+
+html{
+  background: #1D2D45;
+  overflow-x: hidden;
+}
+
+body{
+  margin: 0px;
+  overflow-x: hidden;
+}
+
+*{
+  color: #F7FFF7
+}
+
+h1, h2, h3, h4, h5, h6, p, a, li, button{
+  font-family: 'Inter', sans-serif;
+}
+
+.frosted{
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideIn {
+  0%{
+    transform: rotate3d(1, 0, 0, -90deg);
+    transform-origin: top;
+  }
+  15%{
+    transform: rotate3d(1, 0, 0, 0deg);
+    transform-origin: top;
+  }
+  85%{
+    transform: rotate3d(1, 0, 0, 0deg);
+    transform-origin: top;
+
+  }
+  100%{
+    transform: rotate3d(1, 0, 0, -90deg);
+    transform-origin: top;
+
+  }
+}
+
+@keyframes spinWheel{
+  0%{
+    transform: rotate(0deg);
+  }
+  50%{
+    transform: rotate(360deg);
+  }
+  90%{
+    transform: rotate(0deg);
+  }
+}
