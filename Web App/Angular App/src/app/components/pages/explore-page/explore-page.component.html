@@ -3,13 +3,13 @@
         <canvasjs-chart class="graph-main" [options]="mainChartOptions" (chartInstance)="setChartInstance($event, 'main')" *ngIf="!loading"></canvasjs-chart>  
         <div class="loading-container" *ngIf="loading">
             <div class="loading-wheel"></div>
-            <p *ngIf="errorOccured">An ERROR occured whilst signing in, please sign-in <a href="signin" id="errorLink">Here</a></p>
+            <p *ngIf="errorOccured">An ERROR occured whilst signing in, please sign-in <a href="/They-Speak-for-Us/signin" id="errorLink">Here</a></p>
         </div>
     </div>
     <div class="setup-container">
         <h1 class="setup-title">Setup</h1>
         <div class="render-container">
-            <button class="render-button" (click)="updateChart()">Update Chart</button>
+            <button clss="render-button" (click)="updateChart()">Update Chart</button>
         </div>
         <form action="" class="setup-form">
             <div class="input-pair">
