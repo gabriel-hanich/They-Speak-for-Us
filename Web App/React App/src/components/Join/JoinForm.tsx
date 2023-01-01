@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import Field from "../items/Field";
+import Field from "../items/inputs/Field";
 import { useState } from "react";
-import StyleButton from "../items/StyleButton";
+import StyleButton from "../items/inputs/StyleButton";
 import testEmail, { createAccount } from "../../services/accounts";
 import LoadingWheel from "../items/LoadingWheel";
 import { BackendStatus } from "../../types";
+import { VerifyEmail } from "../../services/getData";
 
 const Container = styled.div`
     height: 100%;
@@ -13,6 +14,7 @@ const Container = styled.div`
     grid-template-areas: 
         "heading heading"
         "emailLabel emailInput"
+        "accessPinLabel accessPinInput"
         "passwordLabel passwordInput"
         "confirmPasswordLabel confirmPasswordInput"
         "goBtn goBtn"
@@ -25,12 +27,13 @@ const JoinForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
     const [status, setStatus] = useState("");
     const [errorText, setErrorText] = useState("");
     const [email, setEmail] = useState("");
+    const [accessPin, setAccessPin] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     
 
     const testDetails = ()=>{
-        if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){ // Ensure the inputted email is valid
+        if(!VerifyEmail(email)){ // Ensure the inputted email is valid
             setStatus("error");
             setErrorText("Your Email is invalid");
             document.getElementById("emailInput")!.style.background = "rgba(255, 0, 0, 0.45)";
@@ -66,12 +69,15 @@ const JoinForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
 
     const makeAccount = ()=>{
         console.log("HI");
-        createAccount(email, password).then((res: BackendStatus)=>{
-            console.log(res);
-            console.log(setUserKey);
-            setUserKey(res.comment);
+        createAccount(email, accessPin, password).then((res: BackendStatus)=>{
             if(res.success){
+                console.log(res);
+                console.log(setUserKey);
+                setUserKey(res.comment);
                 window.location.href = "/explore";
+            }else{
+                setStatus("error");
+                setErrorText(`${res.status} - ${res.comment}`);
             }
         })
     }
@@ -85,7 +91,13 @@ const JoinForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
                     <h2 style={{fontSize: "2rem"}}>Email: </h2>
                 </div>
                 <div style={{gridArea: "emailInput", height: "50%", width: "95%", margin: "auto"}}>
-                    <Field setVal={setEmail} onSubmit={()=> document.getElementById("passwordInput")?.focus()} id="emailInput"></Field>
+                    <Field setVal={setEmail} onSubmit={()=> document.getElementById("accessPinInput")?.focus()} id="emailInput"></Field>
+                </div>
+                <div style={{gridArea: "accessPinLabel", height: "100%", width: "100%", textAlign: "left", marginLeft: "15px"}}>
+                    <h2 style={{fontSize: "2rem"}}> Access Pin: </h2>
+                </div>
+                <div style={{gridArea: "accessPinInput", height: "50%", width: "95%", margin: "auto", marginTop: "15px"}}>
+                    <Field setVal={setAccessPin} onSubmit={()=> document.getElementById("passwordInput")?.focus()} id="accessPinInput"></Field>
                 </div>
                 <div style={{gridArea: "passwordLabel", height: "100%", width: "100%", textAlign: "left", marginLeft: "15px"}}>
                     <h2 style={{fontSize: "2rem"}}>Password: </h2>
@@ -110,11 +122,10 @@ const JoinForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
                     }
                     {
                         status === "error" ?
-                        <div style={{height: "100%", width: "fit-content", maxWidth: "100%", padding: "10px", margin: "auto", textAlign: "center", background: "rgba(0, 0, 0, 0.15)"}}>
+                        <div style={{height: "100%", width: "fit-content", maxWidth: "500px", padding: "10px", margin: "auto", textAlign: "center", background: "rgba(0, 0, 0, 0.15)"}}>
                             <p style={{fontSize: "1.5rem"}}>{errorText}</p>
                         </div>: <></>
                     }
-                    
                 </div>
         </Container>
     )

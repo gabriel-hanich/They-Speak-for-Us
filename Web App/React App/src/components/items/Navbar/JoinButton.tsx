@@ -1,9 +1,9 @@
-import StyleButton from "../StyleButton";
+import StyleButton from "../inputs/StyleButton";
 
 const JoinButton: React.FC<{}> = ({})=>{
     return (
         <a href="/join">
-            <StyleButton text="Join" onClick={()=> {}}></StyleButton>
+            <StyleButton text="Join" onClick={()=> console.log("clicked")}></StyleButton>
         </a>
     )
 }

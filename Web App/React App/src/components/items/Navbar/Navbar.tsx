@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import LoginButton from './LoginButton'
 import JoinButton from './JoinButton'
 import logo from "../../../imgs/logo.png";
-import StyleButton from '../StyleButton';
+import StyleButton from '../inputs/StyleButton';
 
 
 const Container = styled.div`
@@ -33,7 +33,7 @@ const NavBar: React.FC<{isSignedIn: boolean}> = ({isSignedIn})=>{
             <Container className='frosted'>
                 <div style={{height: "100%", width: "100%", gridArea: "logo", display: "flex", flexDirection: "row", alignItems: "center", gap: "15px"}}>
                     <a href="/">
-                        <img src={logo} style={{height: "75px", width: "auto", marginLeft: "15px"}}/>
+                        <img src={logo} alt="They Speak for Us Logo" style={{height: "75px", width: "auto", marginLeft: "15px"}}/>
                     </a>
                     <h1>They Speak for Us</h1>
                 </div>

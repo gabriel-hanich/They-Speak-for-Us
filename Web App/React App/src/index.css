@@ -22,6 +22,17 @@ h1, h2, h3, h4, h5, h6, p, a, li, button{
   background: rgba(255, 255, 255, 0.1);
 }
 
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 @keyframes slideIn {
   0%{
     transform: rotate3d(1, 0, 0, -90deg);

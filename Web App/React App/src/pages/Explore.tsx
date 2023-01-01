@@ -1,7 +1,10 @@
 import styled from "styled-components"
 import NavBar from "../components/items/Navbar/Navbar"
-import Profile from "../components/Explore/Profile"
-import Statistic from "../components/Explore/Statistic"
+import AccountWarning from "../components/Explore/AccountWarning"
+import QueryGenerator from "../components/Explore/QueryGenerator"
+import OutputGraph from "../components/Explore/OutputGraph"
+import { OutletQuery } from "../types"
+import { useEffect, useState } from "react"
 
 const Content = styled.div`
     height: fit-content;
@@ -12,7 +15,7 @@ const Content = styled.div`
     padding-bottom: 150px;
     display: flex;
     flex-direction: row;
-    gap: 0px;
+    gap: 15px;
     align-items: top;
     justify-content: left;
 `
@@ -20,61 +23,63 @@ const Content = styled.div`
 const LeftPane = styled.div`
     flex: 0.35;
     width: 100%;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    height: 80vh;
 `
 
-const ProfileContainer = styled.div`
-    flex: 0.75;
-`
 
-const NumberStats = styled.div`
-    flex: 0.25;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
-`
 
 const RightPane = styled.div`
-    flex: 0.6;
+    flex: 0.65;
     width: 100%;
     height: 90vh;
 `
 
 const Explore: React.FC<{userKey: string}> = ({userKey})=>{
-    const queryParams = new URLSearchParams(window.location.search);
+    const [query, setQuery] = useState<OutletQuery>();
+    
+    useEffect(()=>{
+        if(localStorage.getItem("graphData") != null){ // If existing graph data exists, read that 
+            let loadedData = JSON.parse(localStorage.getItem("graphData") as string);
+            let newData: OutletQuery = {
+                "title": loadedData["title"],
+                "startDate": new Date(loadedData["startDate"]),
+                "endDate": new Date(loadedData["endDate"]),
+                "topicList": loadedData["topicList"]
+            }
+            setQuery(newData);
+        }
+    }, []);
+
+    useEffect(()=>{
+        if(query !== undefined){ // Save the new query on change
+            let dataToLoad = {
+                "title": query["title"],
+                "startDate": query["startDate"],
+                "endDate": query["endDate"],
+                "topicList": query["topicList"]
+            }
+            localStorage.setItem("graphData", JSON.stringify(dataToLoad));
+        }
+    }, [query])
 
     return (
         <>
+            {
+                userKey === "" ? 
+                <AccountWarning></AccountWarning>
+                :
+                <></>
+            }
             <NavBar isSignedIn={userKey !== ""}></NavBar>
             <Content>
                 <LeftPane>
-                    <ProfileContainer>
-                        <Profile data={{
-                            "at": (queryParams.get("account") as string), 
-                            "name": "John Doe",
-                            "followCount": 100000,
-                            "followingCount": 75,
-                            "tweetCount": 100000,
-                            "imgLink": "https://picsum.photos/1920",
-                            }}></Profile>
-                    </ProfileContainer>
-                    <NumberStats>
-                        <div style={{height: "100%", width: "100%"}}>
-                            <Statistic label="Total Tweets" value={61}></Statistic>
-                        </div>    
-                        <div style={{height: "100%", width: "100%"}}>
-                            <Statistic label="Average Daily Tweets" value={64.5}></Statistic>
-                        </div>    
-                    </NumberStats>   
+                    <QueryGenerator query={query} setOutletQuery={setQuery}></QueryGenerator>
                 </LeftPane>          
-                <RightPane></RightPane>          
+                <RightPane>
+                    <div style={{height: "60%", width: "95%", margin: "auto"}}>
+                        <OutputGraph query={query}></OutputGraph>
+                    </div>
+                </RightPane>          
             </Content>
         </>
     )

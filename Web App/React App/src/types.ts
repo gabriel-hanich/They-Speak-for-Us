@@ -4,11 +4,32 @@ export interface BackendStatus{
     comment: string;
 }
 
-export interface ProfileData{
-    imgLink: string;
-    at: string;
+export interface OutletQuery{
+    title: string;
+    startDate: Date;
+    endDate: Date;
+    topicList: Topic[];
+}
+
+export interface Topic{
+    id: string;
+    title: string;
+    color: string;
+    keywords: string[];
+    outletList: OutletSelection[];
+}
+
+export interface OutletSelection{
     name: string;
-    followCount: number;
-    followingCount: number;
-    tweetCount: number;
+    selected: boolean;
+}
+
+export interface TopicVals{
+    id: string;
+    title: string;
+    color: string;
+    points: {
+        x: Date;
+        y: number;
+    }[];
 }

@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import CreateAccount from './pages/CreateAccount';
 import { useEffect, useState } from 'react';
 import Explore from './pages/Explore';
+import Login from './pages/Login';
 
 function App() {
   const [userKey, setUserKey] = useState("");
@@ -11,14 +12,12 @@ function App() {
   // Load user key
   useEffect(()=>{
     if(localStorage.getItem("userDetails") != null){
-      console.log("Loading Data")
       setUserKey(JSON.parse(localStorage.getItem("userDetails") as string)["key"]);
       setSignIn(true);
     }
   }, [])
 
   useEffect(()=>{
-    console.log("Saving");
     if(userKey !== ""){
       localStorage.setItem("userDetails", JSON.stringify({"key": userKey}));
     }
@@ -29,6 +28,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home isSignedIn={isSignedIn}></Home>}></Route>
         <Route path='/join' element={<CreateAccount setUserKey={setUserKey}></CreateAccount>}></Route>
+        <Route path='/login' element={<Login setUserKey={setUserKey}></Login>}></Route>
         <Route path='/explore' element={<Explore userKey={userKey}></Explore>}></Route>
       </Routes>
     </BrowserRouter>

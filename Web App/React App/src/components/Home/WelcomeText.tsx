@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import SearchBar from "../items/SearchBar";
-import StyleButton from "../items/StyleButton";
+import StyleButton from "../items/inputs/StyleButton";
 
 const nounList: string[] = ["News Media", "Trends", "Politics", "Legacy Media"]
 
@@ -36,7 +35,7 @@ const WelcomeText: React.FC<{isSignedIn: boolean}> = ({isSignedIn})=>{
 
 
     useEffect(()=>{
-        const newIntervalId = setInterval(() => {
+        setInterval(() => {
             setCount(prevCount => prevCount + 1);
         }, 5000);
     }, [])
