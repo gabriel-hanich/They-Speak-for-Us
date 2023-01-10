@@ -52,6 +52,10 @@ const TopicInput: React.FC<{startingVals: Topic, number: number, onTopicChange: 
         onTopicChange(returnData);
     }, [topicName, keywords, color, outletList]);
 
+    const updateKeywords = (val: string)=>{
+        setKeywords(val.split(","))
+    }
+
     return (
         <Container isActive={isExpanded}>
             <Container isActive={isExpanded} style={{textAlign: "left", display: "grid", gridTemplateColumns: "10% 80% 30%", height: "60px"}}>
@@ -68,7 +72,7 @@ const TopicInput: React.FC<{startingVals: Topic, number: number, onTopicChange: 
                 </div>
                 <p style={formLabel}>Keywords</p>
                 <div style={formInput}>
-                    <Field setVal={setKeywords} id={"keywordInput" + number} onSubmit={()=>console.log("submit")} initValue={keywords}></Field>
+                    <Field setVal={updateKeywords} id={"keywordInput" + number} onSubmit={()=>console.log("submit")} initValue={keywords}></Field>
                 </div>
                 <p style={formLabel}>Outlets</p>
                 <div style={{...formInput, marginTop: "10px"}}>

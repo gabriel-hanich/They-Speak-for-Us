@@ -9,8 +9,8 @@ export const Graph: React.FC<{data: TopicVals[], title: string}> = ({data, title
     const [plotData, setPlotData] = useState<any>();
     
     const options = {
-        theme: "dark1",
-        animaionEnabled: true,
+        theme: "dark2",
+        animationEnabled: true,
         zoomEnabled: true,
         height: 500,
         title: {
@@ -35,6 +35,7 @@ export const Graph: React.FC<{data: TopicVals[], title: string}> = ({data, title
         data.forEach((topic: TopicVals)=>{
             newData.push({
                 type: "line",
+                showInLegend: true, 
                 name: topic["title"],
                 dataPoints: topic["points"],
                 color: topic["color"]
@@ -45,7 +46,7 @@ export const Graph: React.FC<{data: TopicVals[], title: string}> = ({data, title
 
 
     return (
-        <div>
+        <div style={{"background": "#32373A", height: "100%", width: "100%"}}>
             <CanvasJSChart options={options} onRef={(ref: any) => setChart(ref)}></CanvasJSChart>
         </div>
     )

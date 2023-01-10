@@ -13,7 +13,7 @@ const Container = styled.div`
     background: rgba(0, 0, 0, 0.15);
     transition: all 0.5s ease;
     cursor: pointer;
-`
+    `
 
 const PageDimmer = styled.div`
     position: fixed;
@@ -24,18 +24,23 @@ const PageDimmer = styled.div`
     background: rgba(0, 0, 0, 0.75);
     display: grid;
     place-items: center;
-`
+    z-index: 9;
+    `
 
 const FormContainer = styled.div`
     padding: 20px;
     height: fit-content;
+    max-height: 80vh;
+    overflow-y: scroll;
     width: 30vw;
     min-width: 450px;
     background: #1D2D45;
+    z-index: 10;
 `
 
 const FormRow = styled.div`
-    height: 45px;
+    height: 55px;
+    margin-bottom: 10px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -53,7 +58,7 @@ const ButtonContainer = styled.div`
 
 const Checklist: React.FC<{promptLabel: string, initValueList: OutletSelection[], setValueList: any}> = ({promptLabel, setValueList, initValueList=[]})=>{
     const formLabel = {fontSize: "1.35rem", width: "100%", marginTop: "15px", marginLeft: "10px", color: "rgba(255, 255, 255, 0.85)"};
-    const formInput = {marginRight: "0px", height: "85%", background: "rgba(0, 0, 0, 0.35)", cursor: "pointer", flex: "0.7"}
+    const formInput = {marginRight: "0px", height: "85%", background: "rgba(0, 0, 0, 0.35)", cursor: "pointer", flex: "0.2"}
     
     const [label, setLabel] = useState(promptLabel);
     const [expanded, setExpanded] = useState(false);
@@ -129,9 +134,22 @@ const Checklist: React.FC<{promptLabel: string, initValueList: OutletSelection[]
                     <FormContainer>
                         <h2>{promptLabel}</h2>
                         {
+                            initValueList.length > 15 
+                            ?<ButtonContainer>
+                                <div style={{width: "20%", height: "55px"}}>
+                                    <QuietButton label={"Reset"} onClick={resetValues}></QuietButton>
+                                </div>
+                                <div style={{width: "20%", height: "55px"}}>
+                                    <StyleButton text={"Go"} onClick={submit}></StyleButton>
+                                </div>
+                            </ButtonContainer>
+                        : <></>
+                        }
+                        
+                        {
                             initValueList.map((item, index)=>(
                                 <FormRow key={index}>
-                                    <p style={{...formLabel, flex: "0.3"}}>{item["name"]}</p>
+                                    <p style={{...formLabel, flex: "0.8"}}>{item["name"]}</p>
                                     <input
                                         type="checkbox"
                                         className="checkListBox"

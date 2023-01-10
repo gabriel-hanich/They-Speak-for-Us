@@ -28,8 +28,10 @@ export interface TopicVals{
     id: string;
     title: string;
     color: string;
-    points: {
-        x: Date;
-        y: number;
-    }[];
+    points: Point[];
+}
+
+export interface Point{
+    x: Date;
+    y: number;
 }

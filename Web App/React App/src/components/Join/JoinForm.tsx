@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Field from "../items/inputs/Field";
 import { useState } from "react";
 import StyleButton from "../items/inputs/StyleButton";
-import testEmail, { createAccount } from "../../services/accounts";
+import { createAccount } from "../../services/accounts";
 import LoadingWheel from "../items/LoadingWheel";
 import { BackendStatus } from "../../types";
 import { VerifyEmail } from "../../services/getData";
@@ -49,22 +49,7 @@ const JoinForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
         }
         
         setStatus("loading")
-        testEmail(email).then((response: BackendStatus)=>{
-            if(response.status !== 200){
-                setStatus("error");
-                setErrorText(response.comment);
-                return;
-            }else{
-                if(response.success){
-                    makeAccount();
-                    return;
-                }else{
-                    setStatus("error");
-                    setErrorText("An account with this email already exists");
-                    return;
-                }
-            }
-        })
+        makeAccount();
     }
 
     const makeAccount = ()=>{
@@ -78,6 +63,10 @@ const JoinForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
             }else{
                 setStatus("error");
                 setErrorText(`${res.status} - ${res.comment}`);
+
+                if(res.status === 401){
+                    document.getElementById("accessPinInput")!.style.background = "rgba(255, 0, 0, 0.45)";
+                }
             }
         })
     }

@@ -3,8 +3,9 @@ import NavBar from "../components/items/Navbar/Navbar"
 import AccountWarning from "../components/Explore/AccountWarning"
 import QueryGenerator from "../components/Explore/QueryGenerator"
 import OutputGraph from "../components/Explore/OutputGraph"
-import { OutletQuery } from "../types"
+import { OutletQuery, TopicVals } from "../types"
 import { useEffect, useState } from "react"
+import StatisticBar from "../components/Explore/StatisticBar"
 
 const Content = styled.div`
     height: fit-content;
@@ -36,6 +37,8 @@ const RightPane = styled.div`
 
 const Explore: React.FC<{userKey: string}> = ({userKey})=>{
     const [query, setQuery] = useState<OutletQuery>();
+    const [reloadCount, setReloadCount] = useState<number>(0);
+    const [topicVals, setTopicVals] = useState<TopicVals[]>([]);
     
     useEffect(()=>{
         if(localStorage.getItem("graphData") != null){ // If existing graph data exists, read that 
@@ -47,6 +50,7 @@ const Explore: React.FC<{userKey: string}> = ({userKey})=>{
                 "topicList": loadedData["topicList"]
             }
             setQuery(newData);
+            setReloadCount(1);
         }
     }, []);
 
@@ -73,11 +77,14 @@ const Explore: React.FC<{userKey: string}> = ({userKey})=>{
             <NavBar isSignedIn={userKey !== ""}></NavBar>
             <Content>
                 <LeftPane>
-                    <QueryGenerator query={query} setOutletQuery={setQuery}></QueryGenerator>
+                    <QueryGenerator query={query} setOutletQuery={setQuery} reloadCount={reloadCount} setReloadCount={setReloadCount} plotData={topicVals}></QueryGenerator>
                 </LeftPane>          
                 <RightPane>
-                    <div style={{height: "60%", width: "95%", margin: "auto"}}>
-                        <OutputGraph query={query}></OutputGraph>
+                    <div style={{height: "60%", width: "95%", margin: "auto", "borderRadius": "35px", "overflow": "hidden"}} className="frosted">
+                        <OutputGraph query={query} userKey={userKey} reloadCount={reloadCount} setDataVals={setTopicVals}></OutputGraph>
+                    </div>
+                    <div style={{height: "26.5%", width: "95%", margin: "auto", marginTop: "20px"}}>
+                        <StatisticBar data={topicVals}></StatisticBar>
                     </div>
                 </RightPane>          
             </Content>

@@ -10,7 +10,7 @@ const Container = styled.div`
         "img img desc desc";
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    padding: 15px;
+    padding: 15px 0px;
 `
 
 const ImgContainer = styled.div`
@@ -36,7 +36,7 @@ const StoryThumbnail: React.FC<{imgUrl: string, title: string, date: Date, descr
     return (
         <Container className="frosted">
             <ImgContainer>
-                <a href={link}>
+                <a href={"stories" + link}>
                     <img src={imgUrl} alt="" style={{height: "100%", width: "100%", objectFit: "cover"}}/>
                 </a>
             </ImgContainer>
@@ -48,8 +48,8 @@ const StoryThumbnail: React.FC<{imgUrl: string, title: string, date: Date, descr
                 <h3>-</h3>
                 <h3>{date.toLocaleDateString()}</h3>
             </ByLineContainer>
-            <div style={{height: "100%", width: "100%", gridArea: "desc", marginLeft: "15px", marginTop: "5px"}}>
-                <p style={{fontSize: "1.35"}}>{description}</p>
+            <div style={{height: "100%", width: "65%", gridArea: "desc", marginLeft: "15px", marginTop: "5px"}}>
+                <p style={{fontSize: "1.25rem"}}>{description}</p>
             </div>
 
         </Container>
