@@ -82,17 +82,18 @@ const Story: React.FC<{isSignedIn: boolean}> = ({isSignedIn})=>{
                 <StoryText>Body Text</StoryText>
                 <StoryImageContainer alignment={"center"}>
                     <img style={ImageStyle} src="https://picsum.photos/1920/1080" alt="" />
-                    <StoryImageText>A really cool stock photto</StoryImageText>
+                    <StoryImageText>Stock Photo from Lorem Picsum</StoryImageText>
                 </StoryImageContainer>
-                <StoryContentSubHeading>Hello</StoryContentSubHeading>
+                <StoryText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum a eos molestias quisquam consequatur voluptas quia saepe ipsum totam, quasi voluptatibus nemo hic placeat deserunt tenetur temporibus dolorem? Aliquam libero excepturi voluptas, facere hic mollitia provident similique. Tempore, et enim sed similique maxime, maiores accusamus quod praesentium repudiandae ipsam rem?</StoryText>
+                <StoryContentHeading>Graph</StoryContentHeading>
                 <StoryGraphContainer>
                     {
                         accurateGraphData
-                        ?<Graph title="A really cool sample graph" data={graphData[0]}></Graph>
+                        ?<Graph title="Mar-A-Lago Coverage by Outlet" data={graphData[0]}></Graph>
                         : <></>
                     }
                 </StoryGraphContainer>
-                <StoryContentHeading>Hello world</StoryContentHeading>
+                <StoryText>Analysis of graph and data presented above</StoryText>
             </StoryContent>
         </>
     )

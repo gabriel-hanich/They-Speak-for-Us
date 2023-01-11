@@ -56,6 +56,7 @@ export const StoryImageContainer = styled.div<{alignment: string}>`
     display: grid;
     place-items: ${props => props.alignment};
     align-text: ${props => props.alignment};
+    margin-bottom: 35px;
 `
 
 export const StoryImageText = styled.p`
@@ -70,4 +71,5 @@ export const StoryGraphContainer = styled.div`
     padding: 50px 60px 100px 60px;
     border-radius: 50px;
     width: "fit-content";
+    margin-bottom: 35px;
 `
