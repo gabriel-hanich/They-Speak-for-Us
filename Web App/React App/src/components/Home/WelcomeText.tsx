@@ -50,11 +50,11 @@ const WelcomeText: React.FC<{isSignedIn: boolean}> = ({isSignedIn})=>{
                 <div style={{width: "fit-content", minWidth: "60%", height: "50px", margin: "auto", marginBottom: "15px"}}>
                     {
                         isSignedIn ? 
-                            <a href="/explore">
+                            <a href="/They-Speak-for-Us/#/explore">
                                 <StyleButton text={"Explore Our Data"} onClick={()=>console.log("bye")}></StyleButton>
                             </a>
                         :
-                            <a href="/join">
+                            <a href="/They-Speak-for-Us/#/join">
                                 <StyleButton text={"Make Account"} onClick={()=>console.log("bye")}></StyleButton>
                             </a>
 

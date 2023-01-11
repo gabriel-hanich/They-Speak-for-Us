@@ -50,7 +50,7 @@ const AccountWarning: React.FC<{}> = ()=>{
                         <JoinButton></JoinButton>
                     </div>
                 </ButtonContainer>
-                <a href="/" style={{fontSize: "1.1rem"}}>
+                <a href="/They-Speak-for-Us/#/" style={{fontSize: "1.1rem"}}>
                     Home
                 </a>
             </WarningContainer>

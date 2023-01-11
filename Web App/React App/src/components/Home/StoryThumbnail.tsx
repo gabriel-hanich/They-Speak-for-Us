@@ -36,7 +36,7 @@ const StoryThumbnail: React.FC<{imgUrl: string, title: string, date: Date, descr
     return (
         <Container className="frosted">
             <ImgContainer>
-                <a href={"stories" + link}>
+                <a href={link}>
                     <img src={imgUrl} alt="" style={{height: "100%", width: "100%", objectFit: "cover"}}/>
                 </a>
             </ImgContainer>

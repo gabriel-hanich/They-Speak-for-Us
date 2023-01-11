@@ -81,8 +81,8 @@ const Explainer: React.FC<{}> = ()=>{
                         title="How Mar-A-Lago Broke"
                         date = {new Date("2023-01-07T00:00:00+11:00")}
                         description="How did the press respond to the raid of Donald Trump's estate at Mar-A-Lago."
+                        link="/They-Speak-for-Us/#/stories/raid"
                         author="Gabriel H"
-                        link="/raid"
                     ></StoryThumbnail>
                 </div>
             </StoryContainer>

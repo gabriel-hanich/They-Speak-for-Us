@@ -25,15 +25,13 @@ function App() {
   }, [userKey])
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home isSignedIn={isSignedIn}></Home>}></Route>
-        <Route path='/join' element={<CreateAccount setUserKey={setUserKey}></CreateAccount>}></Route>
-        <Route path='/login' element={<Login setUserKey={setUserKey}></Login>}></Route>
-        <Route path='/explore' element={<Explore userKey={userKey}></Explore>}></Route>
-        <Route path='/stories/*' element={<Story isSignedIn={isSignedIn}></Story>}></Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Home isSignedIn={isSignedIn}></Home>}></Route>
+      <Route path='/join' element={<CreateAccount setUserKey={setUserKey}></CreateAccount>}></Route>
+      <Route path='/login' element={<Login setUserKey={setUserKey}></Login>}></Route>
+      <Route path='/explore' element={<Explore userKey={userKey}></Explore>}></Route>
+      <Route path='/stories/*' element={<Story isSignedIn={isSignedIn}></Story>}></Route>
+    </Routes>
   );
 }
 

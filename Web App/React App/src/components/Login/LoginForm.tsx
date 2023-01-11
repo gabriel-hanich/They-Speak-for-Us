@@ -36,7 +36,7 @@ const LoginForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
         setStatus("loading");
         loginAccount(email, password).then((res: BackendStatus)=>{
             if(res.success){
-                window.location.href = "/explore";
+                window.location.href = "/They-Speak-for-Us/#/explore";
                 setUserKey(res.comment);
             }else{
                 setStatus("error");

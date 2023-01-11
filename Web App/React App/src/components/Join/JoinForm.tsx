@@ -59,7 +59,7 @@ const JoinForm: React.FC<{setUserKey: any}> = ({setUserKey})=>{
                 console.log(res);
                 console.log(setUserKey);
                 setUserKey(res.comment);
-                window.location.href = "/explore";
+                window.location.href = "/They-Speak-for-Us/#/explore";
             }else{
                 setStatus("error");
                 setErrorText(`${res.status} - ${res.comment}`);

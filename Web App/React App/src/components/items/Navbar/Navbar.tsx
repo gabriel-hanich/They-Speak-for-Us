@@ -32,7 +32,7 @@ const NavBar: React.FC<{isSignedIn: boolean}> = ({isSignedIn})=>{
         <div style={{overflowX: "hidden"}}>
             <Container className='frosted'>
                 <div style={{height: "100%", width: "100%", gridArea: "logo", display: "flex", flexDirection: "row", alignItems: "center", gap: "15px"}}>
-                    <a href="/">
+                    <a href="/They-Speak-for-Us/#/">
                         <img src={logo} alt="They Speak for Us Logo" style={{height: "75px", width: "auto", marginLeft: "15px"}}/>
                     </a>
                     <h1>They Speak for Us</h1>
