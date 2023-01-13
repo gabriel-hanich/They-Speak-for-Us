@@ -34,16 +34,22 @@ export const StoryContent = styled.div`
 `
 
 export const StoryContentHeading = styled.h1`
-    font-size: 2rem;
+    font-size: 2.5rem;
     text-align: center;
 `
 
 export const StoryContentSubHeading = styled.h2`
     font-size: 1.75rem;
+    font-weight: 600;
+    border-bottom: 2px #fff solid;
 `
 
 export const StoryText = styled.p`
-    font-size: 1.5rem;
+    font-size: 1.15rem;
+    max-width: 750px;
+    margin: auto;
+    margin-bottom: 15px;
+    font-weight: 200;
 `
 
 export const StoryImageContainer = styled.div<{alignment: string}>`
@@ -66,10 +72,37 @@ export const StoryImageText = styled.p`
 `
 
 export const StoryGraphContainer = styled.div`
-    height: "350px";
+    margin-top: 15px;
     background-color: rgba(0, 0, 0, 0.25);
     padding: 50px 60px 100px 60px;
     border-radius: 50px;
-    width: "fit-content";
     margin-bottom: 35px;
+`
+
+export const StyledTable = styled.table`
+    width: 100%;
+    height: fit-content;
+    table-layout: fixed;
+    background: rgba(0, 0, 0, 0.25);
+  
+    td,
+    th {
+        border: none;
+        margin: 0px;
+    }
+
+    td {
+        padding: 5px 10px;
+        font-size: 1.5rem;
+    }
+
+  tbody tr {
+    :nth-of-type(even) {
+        background: rgba(255, 255, 255, 0.15);
+    }
+  }
+  thead > tr {
+    background: rgba(0, 0, 0, 0.25);
+  }
+
 `
