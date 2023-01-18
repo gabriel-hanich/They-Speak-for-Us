@@ -58,7 +58,7 @@ const TopicInput: React.FC<{startingVals: Topic, number: number, onTopicChange: 
 
     return (
         <Container isActive={isExpanded}>
-            <Container isActive={isExpanded} style={{textAlign: "left", display: "grid", gridTemplateColumns: "10% 80% 30%", height: "60px"}}>
+            <Container isActive={isExpanded} style={{textAlign: "left", display: "grid", gridTemplateColumns: "10% 70% 40%", height: "60px"}}>
                 <FaCaretDown style={{height: "50%", width: "auto", cursor: "pointer", marginTop: "10px"}} onClick={()=>setIsExpanded(!isExpanded)}></FaCaretDown>
                 <h1 style={{marginTop: "10px"}}>{topicName === "" ? "Topic" : topicName}</h1>
                 <div style={{marginTop: "5px"}}>

@@ -20,6 +20,9 @@ const StatContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
+    @media (max-height: 1000px) {
+        flex-wrap: wrap;
+    }
     gap: 25px;
 `
 

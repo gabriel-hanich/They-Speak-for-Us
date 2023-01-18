@@ -48,7 +48,7 @@ const TopicAdder = styled.div`
 `
 
 const QueryGenerator: React.FC<{query: OutletQuery | undefined, setOutletQuery: any, reloadCount: number, setReloadCount: any, plotData: TopicVals[]}> = ({query, setOutletQuery: setQuery, reloadCount, setReloadCount, plotData})=>{
-    const formLabel = {fontSize: "1.5rem", width: "100%", marginTop: "15px", marginLeft: "10px", color: "rgba(255, 255, 255, 0.55)"};
+    const formLabel = {fontSize: "1.15rem", width: "100%", marginTop: "15px", marginLeft: "10px", color: "rgba(255, 255, 255, 0.55)"};
     const formInput = {height: "35px", width: "100%", marginTop: "15px"};
 
     const [chartTitle, setChartTitle] = useState("");
@@ -127,10 +127,10 @@ const QueryGenerator: React.FC<{query: OutletQuery | undefined, setOutletQuery: 
                 hasLoadedData ? 
                 <>
                     <TopicAdder style={{"marginTop": "30px"}}>
-                        <div style={{height: "80%", width: "30%", minWidth: "280px"}}>
-                            <QuietButton label="Reload Chart" onClick={()=> setReloadCount(reloadCount+1)}></QuietButton>
+                        <div style={{height: "80%", width: "30%", minWidth: "180px"}}>
+                            <QuietButton label="Reload" onClick={()=> setReloadCount(reloadCount+1)}></QuietButton>
                         </div>
-                        <div style={{height: "80%", width: "30%", minWidth: "280px"}}>
+                        <div style={{height: "80%", width: "30%", minWidth: "180px"}}>
                             <Downloader plotData={plotData}></Downloader>
                         </div>
                     </TopicAdder>

@@ -32,7 +32,7 @@ const Downloader: React.FC<{plotData: TopicVals[]}> = ({plotData})=>{
 
     return (
         <Container>
-            <QuietButton label="Download Data" onClick={generateCSVData}></QuietButton>
+            <QuietButton label="Download " onClick={generateCSVData}></QuietButton>
         </Container>
     )
 }

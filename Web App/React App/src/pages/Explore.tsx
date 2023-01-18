@@ -19,12 +19,22 @@ const Content = styled.div`
     gap: 15px;
     align-items: top;
     justify-content: left;
+
+    @media (max-height: 1000px) {
+        margin: 0px;
+        margin-top: 10px;
+        height: 150vh;
+    }
 `
 
 const LeftPane = styled.div`
     flex: 0.35;
     width: 100%;
-    height: 80vh;
+    height: 100%;
+    
+    @media (max-height: 1000px) {
+        flex: 0.35;
+    }
 `
 
 
@@ -32,7 +42,10 @@ const LeftPane = styled.div`
 const RightPane = styled.div`
     flex: 0.65;
     width: 100%;
-    height: 90vh;
+    height: 100%;
+    @media (max-height: 1000px) {
+        flex: 0.65;
+    }
 `
 
 const Explore: React.FC<{userKey: string}> = ({userKey})=>{
