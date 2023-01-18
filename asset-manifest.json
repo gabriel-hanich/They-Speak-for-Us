@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/They-Speak-for-Us/static/css/main.8d4b71fe.css",
+    "main.js": "/They-Speak-for-Us/static/js/main.b19e8379.js",
+    "static/js/787.3a19859f.chunk.js": "/They-Speak-for-Us/static/js/787.3a19859f.chunk.js",
+    "static/media/logo.png": "/They-Speak-for-Us/static/media/logo.a4a47a0cfad2a0231720.png",
+    "index.html": "/They-Speak-for-Us/index.html",
+    "main.8d4b71fe.css.map": "/They-Speak-for-Us/static/css/main.8d4b71fe.css.map",
+    "main.b19e8379.js.map": "/They-Speak-for-Us/static/js/main.b19e8379.js.map",
+    "787.3a19859f.chunk.js.map": "/They-Speak-for-Us/static/js/787.3a19859f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8d4b71fe.css",
+    "static/js/main.b19e8379.js"
+  ]
+}
