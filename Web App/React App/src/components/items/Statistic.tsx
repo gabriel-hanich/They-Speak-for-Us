@@ -8,6 +8,9 @@ const Container = styled.div`
     display: grid;
     grid-template-rows: 1fr 1.1fr;
     justify-content: center;
+    @media (max-height: 1000px) {
+        max-height: 120px;
+    }
 `
 
 const Labeltext = styled.h2`
@@ -17,6 +20,9 @@ const Labeltext = styled.h2`
     margin: 0px;
     color: #fff;
     filter: opacity(0.35);
+    @media (max-height: 1000px) {
+        font-size: 1.25rem;
+    }
 `
 
 const ValueText = styled.h1`
@@ -26,6 +32,9 @@ const ValueText = styled.h1`
     margin: 0;
     color: ${props => props.color};
     filter: opacity(1);
+    @media (max-height: 1000px) {
+        font-size: 3rem;
+    }
    
 `
 

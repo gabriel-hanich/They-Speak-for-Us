@@ -17,6 +17,9 @@ const Button = styled.button`
         color: #fff;
         background-position: 50% 0%;
     }
+    @media (max-height: 1000px) {
+        font-size: 1.5rem;
+    }
 `
 const StyleButton: React.FC<{text: String, onClick: any}> = ({text, onClick})=>{
     return (

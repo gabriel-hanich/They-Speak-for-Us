@@ -13,6 +13,9 @@ const Button = styled.button`
     &:hover{
         background: rgba(0, 0, 0, 0.25);
     }
+    @media (max-height: 1000px) {
+        font-size: 1.5rem;
+    }
 `
 
 const QuietButton: React.FC<{onClick?: any, label: string}> = ({onClick, label})=>{
