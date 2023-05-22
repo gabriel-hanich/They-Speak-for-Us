@@ -1,0 +1,66 @@
+{
+    "count": 28,
+    "ABC News": {
+        "Government For": 7,
+        "Government Against": 2,
+        "Individual For": 1,
+        "Individual Against": 1,
+        "None For": 3,
+        "None Against": 2,
+        "NA": 1
+    },
+    "Al Arabiya": {
+        "Government For": 0,
+        "Government Against": 1,
+        "Individual For": 0,
+        "Individual Against": 0,
+        "None For": 0,
+        "None Against": 0,
+        "NA": 0
+    },
+    "Alja Zeera": {
+        "Government For": 1,
+        "Government Against": 0,
+        "Individual For": 0,
+        "Individual Against": 0,
+        "None For": 0,
+        "None Against": 0,
+        "NA": 0
+    },
+    "BBC News": {
+        "Government For": 2,
+        "Government Against": 1,
+        "Individual For": 0,
+        "Individual Against": 0,
+        "None For": 0,
+        "None Against": 0,
+        "NA": 0
+    },
+    "DW News": {
+        "Government For": 0,
+        "Government Against": 0,
+        "Individual For": 0,
+        "Individual Against": 0,
+        "None For": 0,
+        "None Against": 0,
+        "NA": 0
+    },
+    "Islamic Republic News Agency": {
+        "Government For": 0,
+        "Government Against": 0,
+        "Individual For": 0,
+        "Individual Against": 0,
+        "None For": 0,
+        "None Against": 0,
+        "NA": 0
+    },
+    "Russia Today": {
+        "Government For": 2,
+        "Government Against": 1,
+        "Individual For": 0,
+        "Individual Against": 3,
+        "None For": 0,
+        "None Against": 0,
+        "NA": 0
+    }
+}
